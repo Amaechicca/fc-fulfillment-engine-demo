@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Founders Club HQ — Member Fulfillment</title>
+<style>
+:root{
+  --sidebar:#1A3A26;
+  --sidebar-active:#14241A;
+  --sidebar-text:#D8E3DB;
+  --sidebar-muted:#8FA595;
+  --page:#EDF7ED;
+  --card:#FFFFFF;
+  --border:#DCE2DD;
+  --border-soft:#E7EDE8;
+  --ink:#12211a;
+  --muted:#5D6B62;
+  --faint:#89948B;
+  --green:#26633D;
+  --green-dk:#1A3A26;
+  --green-deep:#122B1C;
+  --green-lt:#92BF9A;
+  --green-tint:#EAF3EC;
+  --green-tint2:#F1F7F2;
+  --amber:#E17100;
+  --amber-tint:#FDF2E5;
+  --amber-border:#F3D9B7;
+  --blue:#41648B;
+  --blue-tint:#EFF3F8;
+  --blue-border:#D3DEE9;
+  --grey-track:#D3D5D3;
+  --radius:14px;
+  --radius-sm:9px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,"Helvetica Neue",Arial,sans-serif;
+  background:var(--page);color:var(--ink);font-size:14px;line-height:1.5;
+}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:none}
+::selection{background:#C9E3D2}
+
+/* ───────── layout ───────── */
+.app{display:flex;min-height:100vh}
+
+/* ───────── sidebar ───────── */
+.sidebar{
+  width:258px;flex:0 0 258px;background:var(--sidebar);color:var(--sidebar-text);
+  display:flex;flex-direction:column;position:sticky;top:0;height:100vh;
+  background-image:radial-gradient(120% 60% at 20% 90%, rgba(255,255,255,.045), transparent 60%);
+}
+.logo{display:flex;align-items:center;gap:11px;padding:20px 18px 22px}
+.seal{width:34px;height:34px;border-radius:50%;border:1.5px solid #6E8F79;
+  display:flex;align-items:center;justify-content:center;flex:0 0 34px;position:relative}
+.seal::after{content:"";position:absolute;inset:3px;border-radius:50%;border:1px solid rgba(160,190,170,.45)}
+.seal span{font-family:Georgia,serif;font-size:13px;font-weight:700;color:#E4EEE7;letter-spacing:-.04em}
+.logo .nm{font-size:14.5px;font-weight:700;color:#fff;line-height:1.15}
+.logo .sub{font-size:9.5px;letter-spacing:.16em;color:var(--sidebar-muted);text-transform:uppercase;margin-top:2px}
+
+.navgroup{margin-top:4px}
+.navlabel{font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:#7E9587;
+  font-weight:600;padding:14px 18px 8px}
+.navitem{display:flex;align-items:center;gap:12px;padding:9px 14px;margin:1px 10px;border-radius:9px;
+  color:#CBDACF;font-size:14px;transition:background .12s,color .12s;width:calc(100% - 20px);text-align:left}
+.navitem svg{width:17px;height:17px;flex:0 0 17px;opacity:.85}
+.navitem:hover{background:rgba(255,255,255,.055);color:#fff}
+.navitem.active{background:var(--sidebar-active);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
+.navitem.active svg{opacity:1}
+.navitem .pill{margin-left:auto;background:var(--green-lt);color:#12301F;font-size:10.5px;font-weight:700;
+  border-radius:20px;padding:1px 7px;line-height:1.6}
+
+.sidefoot{margin-top:auto;padding:16px 18px 18px}
+.who{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+.avatar{width:34px;height:34px;border-radius:50%;background:#0F2417;border:1px solid rgba(255,255,255,.12);
+  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#D8E3DB;flex:0 0 34px}
+.who .n{font-size:13px;color:#fff;font-weight:500;line-height:1.2}
+.who .r{font-size:11px;color:var(--sidebar-muted)}
+.signout{display:flex;align-items:center;gap:11px;color:#B9CCBF;font-size:13.5px;padding:4px 0}
+.signout:hover{color:#fff}
+.signout svg{width:16px;height:16px}
+
+/* ───────── main ───────── */
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 30px;
+  position:sticky;top:0;background:var(--page);z-index:20}
+.crumbs{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--muted)}
+.crumbs svg{width:16px;height:16px}
+.crumbs .sep{color:#A9B6AC}
+.crumbs .cur{color:var(--ink);font-weight:500}
+.bell{position:relative;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.bell:hover{background:#E2EFE3}
+.bell svg{width:19px;height:19px;color:var(--muted)}
+.bell .dot{position:absolute;top:2px;right:2px;background:var(--green);color:#fff;font-size:9.5px;font-weight:700;
+  min-width:16px;height:16px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  border:2px solid var(--page)}
+
+.content{padding:6px 30px 44px;display:flex;flex-direction:column;gap:20px;max-width:1560px;width:100%}
+
+.pagehead{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:8px 0 2px}
+h1{font-size:29px;font-weight:600;letter-spacing:-.02em}
+.headright{display:flex;align-items:center;gap:14px}
+.seg{display:flex;background:#fff;border:1px solid var(--border);border-radius:10px;padding:3px;gap:2px}
+.seg button{font-size:13px;font-weight:500;padding:6px 15px;border-radius:7px;color:var(--muted)}
+.seg button.on{background:var(--green-dk);color:#fff}
+.asof{font-size:13px;color:var(--faint)}
+
+/* cards */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px}
+.cardhead{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.cardtitle{font-size:19px;font-weight:600;letter-spacing:-.01em}
+.cardtitle span{font-size:13px;font-weight:400;color:var(--faint);margin-left:8px}
+
+/* metric strip */
+.strip{display:grid;grid-template-columns:repeat(5,1fr);background:var(--green-dk);border-radius:11px;overflow:hidden}
+.strip button{padding:22px 24px;text-align:left;position:relative;transition:background .14s}
+.strip button + button{box-shadow:inset 1px 0 0 rgba(255,255,255,.09)}
+.strip button:hover{background:rgba(255,255,255,.05)}
+.strip button.on{background:rgba(255,255,255,.09)}
+.strip .num{font-size:34px;font-weight:600;color:#fff;letter-spacing:-.02em;line-height:1.05;
+  font-variant-numeric:tabular-nums}
+.strip .num.warn{color:#F0B364}
+.strip .lbl{font-size:13px;color:#B7CBBE;margin-top:6px}
+.strip button.on::after{content:"";position:absolute;left:24px;right:24px;bottom:0;height:2px;background:var(--green-lt)}
+
+.rule{display:flex;align-items:center;gap:14px;margin:20px 0 10px}
+.rule .t{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600;white-space:nowrap}
+.rule .l{flex:1;height:1px;background:var(--border-soft)}
+
+.pipe{display:flex;height:15px;border-radius:4px;overflow:hidden;background:var(--grey-track)}
+.pipe div{transition:flex-basis .3s}
+.legend{display:flex;flex-wrap:wrap;gap:20px;margin-top:12px}
+.legend .li{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted)}
+.legend .sw{width:9px;height:9px;border-radius:50%}
+.legend b{color:var(--ink);font-weight:600}
+.legend .pc{color:var(--faint)}
+.note{font-size:13px;color:var(--muted);margin-top:16px}
+
+/* filters */
+.filters{display:grid;grid-template-columns:minmax(200px,1.5fr) repeat(5,minmax(120px,1fr));gap:10px;margin-bottom:16px}
+.fieldwrap{position:relative;display:flex;align-items:center}
+.fieldwrap svg{position:absolute;left:11px;width:15px;height:15px;color:var(--faint);pointer-events:none}
+input[type=search],select{
+  width:100%;border:1px solid var(--border);background:#fff;border-radius:9px;
+  padding:9px 12px;font-size:13.5px;color:var(--ink);appearance:none;transition:border-color .12s,box-shadow .12s}
+input[type=search]{padding-left:33px}
+select{padding-right:30px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2389948B' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 9px center;background-size:15px;cursor:pointer}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(38,99,61,.11)}
+
+/* table */
+.tablewrap{border:1px solid var(--border-soft);border-radius:11px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+thead th{background:#FAFCFA;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);
+  font-weight:600;text-align:left;padding:11px 16px;border-bottom:1px solid var(--border-soft);white-space:nowrap}
+thead th.r{text-align:right}
+tbody td{padding:13px 16px;border-bottom:1px solid #EEF3EF;font-size:13.5px;vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr{cursor:pointer;transition:background .1s}
+tbody tr:hover{background:#F7FBF8}
+td.member{font-weight:600}
+td.member .rg{display:block;font-size:11.5px;font-weight:400;color:var(--faint);margin-top:1px}
+td.muted{color:var(--muted)}
+td.r{text-align:right}
+.reqcount{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;
+  border-radius:6px;background:var(--green-tint2);border:1px solid var(--border-soft);
+  font-size:12px;font-weight:600;color:var(--green)}
+.reviewbtn{border:1px solid var(--border);border-radius:8px;padding:6px 13px;font-size:12.5px;font-weight:600;
+  color:var(--green);background:#fff;white-space:nowrap;transition:.12s}
+.reviewbtn:hover{background:var(--green-dk);border-color:var(--green-dk);color:#fff}
+.empty{padding:44px;text-align:center;color:var(--faint);font-size:14px}
+
+/* chips */
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;
+  border-radius:20px;padding:3px 10px;white-space:nowrap;border:1px solid transparent}
+.chip .d{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.85}
+.s-new{background:#F2F5F2;color:#5D6B62;border-color:#E2E8E3}
+.s-ready{background:var(--green-tint);color:#26633D;border-color:#C6DFCD}
+.s-needs{background:var(--amber-tint);color:#B45E06;border-color:var(--amber-border)}
+.s-approved{background:#DFEEE4;color:#1B5133;border-color:#B9D8C3}
+.s-sent{background:var(--green);color:#fff;border-color:var(--green)}
+.s-progress{background:var(--blue-tint);color:var(--blue);border-color:var(--blue-border)}
+.s-completed{background:var(--green-deep);color:#fff;border-color:var(--green-deep)}
+
+/* ───────── drawer ───────── */
+.scrim{position:fixed;inset:0;background:rgba(14,30,20,.4);opacity:0;pointer-events:none;
+  transition:opacity .22s;z-index:60;backdrop-filter:blur(1.5px)}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100vh;width:min(680px,94vw);background:var(--page);
+  z-index:70;transform:translateX(100%);transition:transform .26s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;box-shadow:-18px 0 46px -22px rgba(10,30,18,.42)}
+.drawer.on{transform:translateX(0)}
+.dhead{background:#fff;border-bottom:1px solid var(--border);padding:18px 24px;display:flex;
+  align-items:flex-start;justify-content:space-between;gap:16px}
+.dhead h2{font-size:21px;font-weight:600;letter-spacing:-.01em}
+.dhead .meta{font-size:13px;color:var(--muted);margin-top:4px}
+.xbtn{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--border);background:#fff;color:var(--muted);flex:0 0 34px}
+.xbtn:hover{background:#F2F7F3;color:var(--ink)}
+.xbtn svg{width:17px;height:17px}
+.dbody{flex:1;overflow-y:auto;padding:18px 24px 24px;display:flex;flex-direction:column;gap:14px}
+.dfoot{background:#fff;border-top:1px solid var(--border);padding:13px 20px;display:flex;gap:7px;flex-wrap:wrap}
+.dfoot .btn{padding:9px 12px;font-size:12.5px;flex:1 1 auto;justify-content:center}
+
+.sec{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 18px}
+.sec > h3{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);
+  font-weight:600;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.kv{display:grid;grid-template-columns:118px 1fr;gap:6px 14px;font-size:13.5px}
+.kv .k{color:var(--faint)}
+.summary{font-size:13.5px;color:var(--muted);line-height:1.55;margin-top:13px;padding-top:13px;
+  border-top:1px solid var(--border-soft)}
+.summary b{color:var(--ink);font-weight:600}
+
+.btn{border-radius:9px;padding:9px 15px;font-size:13px;font-weight:600;border:1px solid var(--border);
+  background:#fff;color:var(--ink);transition:.12s;display:inline-flex;align-items:center;gap:7px}
+.btn svg{width:15px;height:15px}
+.btn:hover{background:#F4F9F5}
+.btn.primary{background:var(--green-dk);border-color:var(--green-dk);color:#fff}
+.btn.primary:hover{background:#12301F}
+.btn.amber{background:var(--amber-tint);border-color:var(--amber-border);color:#B45E06}
+.btn.amber:hover{background:#FBE9D5}
+.btn.ghost{background:#fff}
+.btn[disabled]{opacity:.42;cursor:not-allowed}
+.btn.sm{padding:6px 11px;font-size:12px}
+
+/* checklist */
+.checkrow{display:flex;align-items:flex-start;gap:11px;padding:10px 0;border-top:1px solid var(--border-soft)}
+.checkrow:first-of-type{border-top:none;padding-top:0}
+.cbox{width:18px;height:18px;flex:0 0 18px;border:1.5px solid #BFCCC3;border-radius:5px;background:#fff;
+  display:flex;align-items:center;justify-content:center;margin-top:1px;transition:.12s}
+.cbox svg{width:12px;height:12px;color:#fff;opacity:0}
+.cbox.on{background:var(--green);border-color:var(--green)}
+.cbox.on svg{opacity:1}
+.checkrow .txt{flex:1;font-size:13.5px;line-height:1.45}
+.checkrow.done .txt{color:var(--faint);text-decoration:line-through}
+.checkrow .sub{font-size:12px;color:var(--faint);margin-top:2px}
+
+/* editor */
+textarea{width:100%;border:1px solid var(--border);border-radius:10px;padding:13px 15px;font-size:13.5px;
+  line-height:1.6;resize:vertical;min-height:250px;background:#FCFDFC;font-family:inherit}
+.editnote{font-size:11.5px;color:var(--faint);margin-top:8px;display:flex;justify-content:space-between;gap:12px}
+
+/* event card */
+.event{border:1px solid var(--border-soft);border-radius:11px;padding:14px 16px;background:var(--green-tint2);
+  display:flex;align-items:flex-start;gap:14px}
+.event .cal{width:44px;flex:0 0 44px;border-radius:9px;background:#fff;border:1px solid var(--border);
+  text-align:center;overflow:hidden}
+.event .cal .m{background:var(--green-dk);color:#fff;font-size:9px;letter-spacing:.08em;font-weight:700;padding:3px 0}
+.event .cal .d{font-size:16px;font-weight:700;padding:4px 0;color:var(--ink)}
+.event .nm{font-size:14.5px;font-weight:600}
+.event .dt{font-size:12.5px;color:var(--muted);margin-top:2px}
+.verified{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:#1B5133;
+  background:#DFEEE4;border:1px solid #B9D8C3;border-radius:20px;padding:2px 9px;margin-top:8px}
+.verified svg{width:12px;height:12px}
+
+/* connections */
+.conn{border:1px solid var(--border-soft);border-radius:11px;padding:14px 16px;transition:.15s}
+.conn + .conn{margin-top:10px}
+.conn.approved{border-color:#B9D8C3;background:#F6FBF7}
+.conn.rejected{opacity:.5}
+.conn .top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.conn .nm{font-size:14.5px;font-weight:600}
+.conn .co{font-size:12.5px;color:var(--muted);margin-top:1px}
+.conn .facts{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.tag{font-size:11.5px;background:#F4F7F4;border:1px solid var(--border-soft);border-radius:6px;
+  padding:2px 8px;color:var(--muted)}
+.conn .why{font-size:13px;color:var(--muted);line-height:1.5;margin-top:9px}
+.conn .why b{color:var(--ink);font-weight:600}
+.conn .acts{display:flex;gap:7px;margin-top:11px;align-items:center;flex-wrap:wrap}
+.conn .state{font-size:12px;font-weight:600;color:#1B5133}
+.conn .state.rej{color:#8C4030}
+.permnote{font-size:12px;color:#B45E06;background:var(--amber-tint);border:1px solid var(--amber-border);
+  border-radius:9px;padding:9px 12px;margin-top:12px;line-height:1.45}
+
+/* sender */
+.radio{display:flex;align-items:flex-start;gap:11px;border:1px solid var(--border-soft);border-radius:10px;
+  padding:12px 14px;cursor:pointer;transition:.12s}
+.radio + .radio{margin-top:9px}
+.radio:hover{background:#FAFCFA}
+.radio.on{border-color:var(--green);background:var(--green-tint)}
+.radio.disabled{opacity:.45;cursor:not-allowed}
+.dot{width:17px;height:17px;flex:0 0 17px;border-radius:50%;border:1.5px solid #BFCCC3;background:#fff;
+  margin-top:1px;display:flex;align-items:center;justify-content:center}
+.radio.on .dot{border-color:var(--green)}
+.radio.on .dot::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--green)}
+.radio .t{font-size:13.5px;font-weight:600;display:block}
+.radio .s{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.45;display:block}
+
+/* safety */
+.lockbar{background:var(--amber-tint);border:1px solid var(--amber-border);border-radius:12px;padding:14px 16px;
+  display:flex;gap:12px;align-items:flex-start}
+.lockbar svg{width:19px;height:19px;color:var(--amber);flex:0 0 19px;margin-top:1px}
+.lockbar .t{font-size:13.5px;font-weight:700;color:#8A4B05}
+.lockbar .s{font-size:12.5px;color:#8A4B05;opacity:.9;line-height:1.5;margin-top:3px}
+.lockbar ul{margin-top:7px;padding-left:16px}
+.lockbar li{font-size:12.5px;color:#8A4B05;line-height:1.55}
+
+/* toast */
+.toast{position:fixed;bottom:84px;left:50%;transform:translate(-50%,20px);background:var(--green-deep);
+  color:#fff;border-radius:11px;padding:13px 20px;font-size:13.5px;font-weight:500;z-index:90;
+  opacity:0;pointer-events:none;transition:.25s;display:flex;align-items:center;gap:10px;
+  box-shadow:0 14px 34px -14px rgba(10,30,18,.6);max-width:min(560px,92vw)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.toast svg{width:17px;height:17px;color:var(--green-lt);flex:0 0 17px}
+.toast.warn{background:#7A3F06}
+.toast.warn svg{color:#F0B364}
+
+/* responsive */
+@media (max-width:1180px){
+  .filters{grid-template-columns:repeat(3,1fr)}
+  .strip{grid-template-columns:repeat(3,1fr)}
+  .strip button:nth-child(n+4){box-shadow:inset 0 1px 0 rgba(255,255,255,.09)}
+}
+@media (max-width:900px){
+  .sidebar{display:none}
+  .content,.topbar{padding-left:18px;padding-right:18px}
+  .strip{grid-template-columns:repeat(2,1fr)}
+  .filters{grid-template-columns:1fr 1fr}
+  .tablewrap{overflow-x:auto}
+  table{min-width:900px}
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="seal"><span>FC</span></div>
+      <div>
+        <div class="nm">Founders Club</div>
+        <div class="sub">Sales</div>
+      </div>
+    </div>
+
+    <div class="navgroup">
+      <div class="navlabel">Sales</div>
+      <button class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>Performance</button>
+      <button class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4v16h16v-7"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>Call Prep</button>
+      <button class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 13l2 2 4-4"/></svg>EOD Report</button>
+      <button class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M8 11h8M8 15h5"/></svg>EOD Review</button>
+      <button class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.5 9.5a2.5 2.5 0 0 0-2.5-1.5c-1.4 0-2.5.8-2.5 2s1.1 2 2.5 2 2.5.8 2.5 2-1.1 2-2.5 2a2.5 2.5 0 0 1-2.5-1.5"/><path d="M12 6.5v11"/></svg>Commissions</button>
+    </div>
+
+    <div class="navgroup">
+      <div class="navlabel">Community</div>
+      <button class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>Community</button>
+      <button class="navitem active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>Member Fulfillment<span class="pill" id="navPill">4</span></button>
+      <button class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>City Growth</button>
+      <button class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h14l-3-3"/><path d="M21 16H7l3 3"/></svg>Renewals</button>
+      <button class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>Onboarding</button>
+      <button class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Masterminds</button>
+    </div>
+
+    <div class="navgroup">
+      <div class="navlabel">Billing</div>
+      <button class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 8v8M10 10h3a1.5 1.5 0 0 1 0 3h-2a1.5 1.5 0 0 0 0 3h3"/></svg>Payment Link</button>
+    </div>
+
+    <div class="sidefoot">
+      <div class="who">
+        <div class="avatar">CA</div>
+        <div>
+          <div class="n">Chauncey Amaechi</div>
+          <div class="r">Admin</div>
+        </div>
+      </div>
+      <button class="signout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>Sign out</button>
+    </div>
+  </aside>
+
+  <!-- ══════════ MAIN ══════════ -->
+  <div class="main">
+    <div class="topbar">
+      <div class="crumbs">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+        <span class="sep">›</span>
+        <span>Community</span>
+        <span class="sep">›</span>
+        <span class="cur">Member Fulfillment</span>
+      </div>
+      <button class="bell" title="Notifications">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        <span class="dot" id="bellCount">4</span>
+      </button>
+    </div>
+
+    <div class="content">
+
+      <div class="pagehead">
+        <h1>Member Fulfillment</h1>
+        <div class="headright">
+          <div class="seg" id="scopeSeg">
+            <button class="on" data-scope="all">All Calls</button>
+            <button data-scope="mine">My Queue</button>
+          </div>
+          <span class="asof" id="asof">as of 09:14:02 ET</span>
+        </div>
+      </div>
+
+      <!-- summary -->
+      <div class="card">
+        <div class="strip" id="strip">
+          <button data-status="New"><div class="num" id="mNew">0</div><div class="lbl">New calls</div></button>
+          <button data-status="Ready for Review"><div class="num" id="mReady">0</div><div class="lbl">Ready for review</div></button>
+          <button data-status="Needs RD"><div class="num warn" id="mNeeds">0</div><div class="lbl">Needs RD</div></button>
+          <button data-status="In Progress"><div class="num" id="mProg">0</div><div class="lbl">In progress</div></button>
+          <button data-status="Completed"><div class="num" id="mDone">0</div><div class="lbl">Completed this week</div></button>
+        </div>
+
+        <div class="rule"><span class="t">Fulfillment pipeline</span><span class="l"></span></div>
+        <div class="pipe" id="pipe"></div>
+        <div class="legend" id="legend"></div>
+        <p class="note" id="pipeNote"></p>
+      </div>
+
+      <!-- queue -->
+      <div class="card">
+        <div class="cardhead">
+          <div class="cardtitle">Fulfillment Queue <span id="queueCount"></span></div>
+          <button class="btn ghost" id="clearBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+            Clear filters
+          </button>
+        </div>
+
+        <div class="filters">
+          <div class="fieldwrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.2-4.2"/></svg>
+            <input type="search" id="fSearch" placeholder="Search by member…" autocomplete="off">
+          </div>
+          <select id="fRd"><option value="">All Regional Directors</option></select>
+          <select id="fRegion"><option value="">All Regions</option></select>
+          <select id="fType"><option value="">All Call Types</option></select>
+          <select id="fStatus"><option value="">All Statuses</option></select>
+          <select id="fDate">
+            <option value="">Any call date</option>
+            <option value="3">Last 3 days</option>
+            <option value="7">Last 7 days</option>
+            <option value="14">Last 14 days</option>
+          </select>
+        </div>
+
+        <div class="tablewrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Member</th><th>Regional Director</th><th>Call Type</th><th>Call Date</th>
+                <th>Requests</th><th>Owner</th><th>Due Date</th><th>Status</th><th class="r"></th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+          <div class="empty" id="emptyRow" style="display:none">No calls match these filters.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ DRAWER ══════════ -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="dhead">
+    <div>
+      <h2 id="dName">—</h2>
+      <div class="meta" id="dMeta">—</div>
+    </div>
+    <button class="xbtn" id="dClose" title="Close (Esc)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="dbody" id="dBody"></div>
+  <div class="dfoot" id="dFoot"></div>
+</aside>
+
+<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span id="toastText"></span></div>
+
+<script>
+"use strict";
+
+/* ─────────── reference data ─────────── */
+const STATUSES = ["New","Ready for Review","Needs RD","Approved","Sent","In Progress","Completed"];
+const STATUS_CLASS = {
+  "New":"s-new","Ready for Review":"s-ready","Needs RD":"s-needs","Approved":"s-approved",
+  "Sent":"s-sent","In Progress":"s-progress","Completed":"s-completed"
+};
+const STATUS_COLOR = {
+  "New":"#C3CDC6","Ready for Review":"#92BF9A","Needs RD":"#DB8B2E","Approved":"#4E8A65",
+  "Sent":"#26633D","In Progress":"#7E9DBE","Completed":"#122B1C"
+};
+const CALL_TYPES = ["Onboarding","Member Support","Renewal","Cancellation","Check-In"];
+const RDS = ["Chauncey Amaechi","Nick Alvarez","Sydney Brooks","Marcus Hale"];
+const REGIONS = ["Northeast","Southeast","Midwest","West","Texas"];
+const COORD = "Alina Cruz";
+
+const CONNECTIONS_ACQ = [
+  { name:"Marcus Trellis", company:"Trellis Holdings", industry:"Manufacturing Roll-Ups",
+    revenue:"$25M–$50M", location:"Charlotte, NC",
+    why:"Closed six acquisitions in four years and regularly walks founders through LOI to close.",
+    prior:"No previous introduction" },
+  { name:"Devon Ashby", company:"Northbound Capital", industry:"Search Fund / SMB Acquisitions",
+    revenue:"$10M–$25M", location:"Austin, TX",
+    why:"Bought and integrated three service businesses; strong on seller-financing structures.",
+    prior:"Introduced Mar 2026 (different context)" },
+  { name:"Renee Castellanos", company:"Castellanos Group", industry:"Healthcare Services",
+    revenue:"$50M–$100M", location:"Miami, FL",
+    why:"Runs an acquisition-led growth model and is based near the retreat location.",
+    prior:"No previous introduction" }
+];
+const CONNECTIONS_GEN = [
+  { name:"Priyanka Shah", company:"Lumen Labs", industry:"Consumer Products",
+    revenue:"$10M–$25M", location:"Denver, CO",
+    why:"Scaled a DTC brand through the same retail transition the member described.",
+    prior:"No previous introduction" },
+  { name:"Andre Boucher", company:"Meridian Field", industry:"Field Services",
+    revenue:"$25M–$50M", location:"Nashville, TN",
+    why:"Built the operator bench the member said they are missing this year.",
+    prior:"No previous introduction" }
+];
+
+const RETREAT = { name:"St. Regis Cap Cana Retreat", month:"DEC", day:"9", dates:"December 9–13, 2026",
+  link:"app.foundersclub.com/events/cap-cana-2026", verified:true };
+
+const JORDAN_DRAFT =
+`Hi Jordan,
+
+It was great speaking with you today. Based on our conversation, I've included the details for the St. Regis Cap Cana retreat below and identified several members who may be valuable connections based on your interest in acquisitions.
+
+St. Regis Cap Cana Retreat
+December 9–13, 2026
+View Event Details
+
+I'm also working on connecting you with the members listed below and will keep you updated as those introductions are confirmed.
+
+Best,
+Chauncey`;
+
+function genericDraft(first, rd, type){
+  const opener = {
+    "Onboarding":"Great to get you officially started today.",
+    "Member Support":"It was great speaking with you today.",
+    "Renewal":"Appreciate you making the time today.",
+    "Cancellation":"Thanks for being straight with me today.",
+    "Check-In":"Good catching up today."
+  }[type];
+  return `Hi ${first},
+
+${opener} Here is everything we covered, along with what I'm putting in motion on your end.
+
+I'll follow up as each item is confirmed so nothing sits open.
+
+Best,
+${rd.split(" ")[0]}`;
+}
+
+/* ─────────── the queue ─────────── */
+let ROWS = [
+  { id:1, member:"Jordan Reyes", first:"Jordan", rd:"Chauncey Amaechi", region:"Northeast",
+    type:"Member Support", date:"2026-08-21", due:"2026-08-28", owner:COORD, status:"Ready for Review",
+    flags:[], sender:"coordinator",
+    summary:"Jordan is heads-down on an acquisition-led growth plan for next year and asked for two things: retreat details for December, and warm introductions to members who have actually bought companies. He committed to reviewing intros before Friday.",
+    requests:[
+      { t:"Send information about the St. Regis Cap Cana retreat", s:"Ready", done:false },
+      { t:"Find two or three members experienced in acquisitions", s:"Awaiting permission", done:false },
+      { t:"Follow up by Friday", s:"Scheduled", done:false }
+    ],
+    draft:JORDAN_DRAFT, event:RETREAT, connections:CONNECTIONS_ACQ.map(c=>({...c,state:null})),
+    tasks:[
+      { t:"Send retreat information", owner:COORD, due:"Aug 26", s:"Pending", done:false },
+      { t:"Request permission from Marcus Trellis", owner:COORD, due:"Aug 26", s:"Pending", done:false },
+      { t:"Request permission from Devon Ashby", owner:COORD, due:"Aug 26", s:"Pending", done:false },
+      { t:"Review Renee Castellanos", owner:"Chauncey Amaechi", due:"Aug 27", s:"Needs RD", done:false },
+      { t:"Follow up with member by Friday", owner:COORD, due:"Aug 28", s:"Pending", done:false }
+    ]},
+
+  { id:2, member:"Priya Raman", first:"Priya", rd:"Sydney Brooks", region:"West",
+    type:"Onboarding", date:"2026-08-21", due:"2026-08-27", owner:COORD, status:"New",
+    flags:[], sender:"coordinator",
+    summary:"First call after joining. Priya wants a West Coast mastermind that meets in the evening, an intro to two operators in consumer products, and the member handbook resent to her work address.",
+    requests:[
+      { t:"Move to an evening West Coast mastermind", s:"Ready", done:false },
+      { t:"Introduce two consumer-products operators", s:"Awaiting permission", done:false },
+      { t:"Resend member handbook to work email", s:"Ready", done:false },
+      { t:"Add to the October Napa dinner list", s:"Ready", done:false }
+    ],
+    draft:genericDraft("Priya","Sydney Brooks","Onboarding"), event:null,
+    connections:CONNECTIONS_GEN.map(c=>({...c,state:null})),
+    tasks:[
+      { t:"Submit mastermind change request", owner:COORD, due:"Aug 25", s:"Pending", done:false },
+      { t:"Request permission from Priyanka Shah", owner:COORD, due:"Aug 26", s:"Pending", done:false },
+      { t:"Resend handbook to work address", owner:COORD, due:"Aug 25", s:"Pending", done:false },
+      { t:"Add to Napa dinner invite list", owner:COORD, due:"Aug 27", s:"Pending", done:false }
+    ]},
+
+  { id:3, member:"Dominic Vance", first:"Dominic", rd:"Marcus Hale", region:"Southeast",
+    type:"Cancellation", date:"2026-08-20", due:"2026-08-25", owner:"Marcus Hale", status:"Needs RD",
+    flags:["Cancellation request","Refund discussed"], sender:"rd",
+    summary:"Dominic asked to cancel at renewal and raised a partial refund for the months he was traveling. He was not upset, but this is a retention conversation, not a fulfillment task.",
+    requests:[
+      { t:"Cancellation requested at renewal date", s:"Needs RD", done:false },
+      { t:"Partial refund discussed on the call", s:"Needs RD", done:false }
+    ],
+    draft:`Hi Dominic,\n\nThanks for being straight with me today. I want to make sure I understand what changed before anything is processed on your account.\n\nGive me a day to look at this properly and I'll come back with something concrete.\n\nBest,\nMarcus`,
+    event:null, connections:[],
+    tasks:[
+      { t:"RD call before any cancellation is processed", owner:"Marcus Hale", due:"Aug 25", s:"Needs RD", done:false },
+      { t:"Do not action refund without RD decision", owner:"Marcus Hale", due:"Aug 25", s:"Needs RD", done:false }
+    ]},
+
+  { id:4, member:"Elena Marchetti", first:"Elena", rd:"Chauncey Amaechi", region:"Northeast",
+    type:"Renewal", date:"2026-08-20", due:"2026-08-26", owner:"Chauncey Amaechi", status:"Needs RD",
+    flags:["Renewal offer discussed"], sender:"rd",
+    summary:"Elena renews in six weeks and asked whether a multi-year rate is available. She also wants two dinners on her calendar before the end of the year.",
+    requests:[
+      { t:"Multi-year renewal pricing question", s:"Needs RD", done:false },
+      { t:"Add to two Q4 regional dinners", s:"Ready", done:false },
+      { t:"Send Q4 event calendar", s:"Ready", done:false }
+    ],
+    draft:`Hi Elena,\n\nAppreciate you making the time today. I'm pulling the Q4 dinner calendar for you now.\n\nOn the pricing question — I want to give you a real answer rather than a guess, so let me confirm and come straight back to you.\n\nBest,\nChauncey`,
+    event:null, connections:[],
+    tasks:[
+      { t:"RD to confirm multi-year pricing", owner:"Chauncey Amaechi", due:"Aug 26", s:"Needs RD", done:false },
+      { t:"Add to Q4 dinner lists (Boston, NYC)", owner:COORD, due:"Aug 27", s:"Pending", done:false },
+      { t:"Send Q4 event calendar", owner:COORD, due:"Aug 26", s:"Pending", done:false }
+    ]},
+
+  { id:5, member:"Tobias Lund", first:"Tobias", rd:"Nick Alvarez", region:"Midwest",
+    type:"Check-In", date:"2026-08-19", due:"2026-08-26", owner:COORD, status:"Approved",
+    flags:[], sender:"coordinator",
+    summary:"Quarterly check-in. Tobias is happy, wants more hiring-focused conversation in his mastermind, and asked which fall events are within driving distance of Chicago.",
+    requests:[
+      { t:"Flag hiring as a mastermind topic", s:"Ready", done:false },
+      { t:"Send fall events within driving distance", s:"Ready", done:false }
+    ],
+    draft:genericDraft("Tobias","Nick Alvarez","Check-In"), event:null, connections:[],
+    tasks:[
+      { t:"Note hiring topic for mastermind host", owner:COORD, due:"Aug 25", s:"Pending", done:false },
+      { t:"Send Midwest fall event list", owner:COORD, due:"Aug 26", s:"Pending", done:false }
+    ]},
+
+  { id:6, member:"Amara Osei", first:"Amara", rd:"Sydney Brooks", region:"West",
+    type:"Member Support", date:"2026-08-19", due:"2026-08-25", owner:COORD, status:"Sent",
+    flags:[], sender:"coordinator",
+    summary:"Amara needed her Slack access restored, wanted the partner perks list, and asked to be considered for the founder panel in November.",
+    requests:[
+      { t:"Restore Slack workspace access", s:"Completed", done:true },
+      { t:"Send partner perks list", s:"Completed", done:true },
+      { t:"Nominate for November founder panel", s:"In progress", done:false }
+    ],
+    draft:genericDraft("Amara","Sydney Brooks","Member Support"), event:null, connections:[],
+    tasks:[
+      { t:"Restore Slack access", owner:COORD, due:"Aug 21", s:"Completed", done:true },
+      { t:"Send partner perks list", owner:COORD, due:"Aug 22", s:"Completed", done:true },
+      { t:"Submit panel nomination", owner:COORD, due:"Aug 25", s:"Pending", done:false }
+    ]},
+
+  { id:7, member:"Rafael Duarte", first:"Rafael", rd:"Marcus Hale", region:"Texas",
+    type:"Onboarding", date:"2026-08-18", due:"2026-08-24", owner:COORD, status:"In Progress",
+    flags:[], sender:"coordinator",
+    summary:"Rafael joined two weeks ago and is moving fast. He asked for a Texas mastermind seat, two operator intros, the app walkthrough, and the Austin dinner invite.",
+    requests:[
+      { t:"Confirm Texas mastermind seat", s:"In progress", done:false },
+      { t:"Introduce two Texas operators", s:"Awaiting permission", done:false },
+      { t:"Send app walkthrough", s:"Completed", done:true },
+      { t:"Add to Austin dinner", s:"Ready", done:false },
+      { t:"Share partner perks", s:"Ready", done:false }
+    ],
+    draft:genericDraft("Rafael","Marcus Hale","Onboarding"), event:null,
+    connections:CONNECTIONS_GEN.map(c=>({...c,state:null})),
+    tasks:[
+      { t:"Confirm mastermind seat with host", owner:COORD, due:"Aug 24", s:"Pending", done:false },
+      { t:"Request permission from Andre Boucher", owner:COORD, due:"Aug 24", s:"Pending", done:false },
+      { t:"Send app walkthrough", owner:COORD, due:"Aug 20", s:"Completed", done:true },
+      { t:"Add to Austin dinner list", owner:COORD, due:"Aug 24", s:"Pending", done:false }
+    ]},
+
+  { id:8, member:"Katherine Wu", first:"Katherine", rd:"Nick Alvarez", region:"Midwest",
+    type:"Member Support", date:"2026-08-18", due:"2026-08-24", owner:COORD, status:"Completed",
+    flags:[], sender:"coordinator",
+    summary:"Katherine asked for her billing contact to be updated and for a copy of the mastermind schedule through year end. Both were handled the same day.",
+    requests:[
+      { t:"Update billing contact", s:"Completed", done:true },
+      { t:"Send mastermind schedule", s:"Completed", done:true }
+    ],
+    draft:genericDraft("Katherine","Nick Alvarez","Member Support"), event:null, connections:[],
+    tasks:[
+      { t:"Update billing contact in MCP", owner:COORD, due:"Aug 19", s:"Completed", done:true },
+      { t:"Send mastermind schedule", owner:COORD, due:"Aug 19", s:"Completed", done:true }
+    ]},
+
+  { id:9, member:"Sam Okafor", first:"Sam", rd:"Chauncey Amaechi", region:"Northeast",
+    type:"Check-In", date:"2026-08-17", due:"2026-08-24", owner:COORD, status:"Completed",
+    flags:[], sender:"coordinator",
+    summary:"Short check-in. Sam is in a good place and only asked to be kept in the loop on the Boston dinner.",
+    requests:[ { t:"Add to Boston dinner list", s:"Completed", done:true } ],
+    draft:genericDraft("Sam","Chauncey Amaechi","Check-In"), event:null, connections:[],
+    tasks:[ { t:"Add to Boston dinner list", owner:COORD, due:"Aug 20", s:"Completed", done:true } ]},
+
+  { id:10, member:"Bianca Ferro", first:"Bianca", rd:"Sydney Brooks", region:"West",
+    type:"Renewal", date:"2026-08-17", due:"2026-08-25", owner:"Sydney Brooks", status:"Needs RD",
+    flags:["Renewal offer discussed","Serious complaint raised"],
+    sender:"rd",
+    summary:"Bianca renews next month and raised that two intro requests from the spring were never completed. She asked what the renewal would cost if she downgraded.",
+    requests:[
+      { t:"Unresolved complaint about missed introductions", s:"Needs RD", done:false },
+      { t:"Downgrade pricing question", s:"Needs RD", done:false },
+      { t:"Reissue the two spring introductions", s:"Ready", done:false }
+    ],
+    draft:`Hi Bianca,\n\nThank you for telling me directly — the two introductions from the spring should not have gone quiet, and that is on us.\n\nI'd like fifteen minutes this week before we talk about anything else.\n\nBest,\nSydney`,
+    event:null, connections:[],
+    tasks:[
+      { t:"RD call before any renewal discussion", owner:"Sydney Brooks", due:"Aug 25", s:"Needs RD", done:false },
+      { t:"Pull history on the two spring intros", owner:COORD, due:"Aug 24", s:"Pending", done:false }
+    ]},
+
+  { id:11, member:"Grant Whitaker", first:"Grant", rd:"Marcus Hale", region:"Southeast",
+    type:"Member Support", date:"2026-08-22", due:"2026-08-29", owner:COORD, status:"New",
+    flags:["Member record incomplete — no verified email on file"], sender:"rd",
+    summary:"Grant asked for three introductions in commercial real estate and a seat at the Miami dinner. The MCP record has no verified email address, so nothing can be sent until that is corrected.",
+    requests:[
+      { t:"Introduce three commercial real estate members", s:"Blocked — missing contact", done:false },
+      { t:"Add to Miami dinner", s:"Blocked — missing contact", done:false },
+      { t:"Confirm preferred email address", s:"Needs RD", done:false }
+    ],
+    draft:`Hi Grant,\n\nGreat speaking today. Before I send anything over, I want to confirm the best email address for you — the one we have on file is bouncing.\n\nBest,\nMarcus`,
+    event:null, connections:[],
+    tasks:[
+      { t:"Confirm verified email with member", owner:"Marcus Hale", due:"Aug 26", s:"Needs RD", done:false },
+      { t:"Hold introductions until contact is verified", owner:COORD, due:"Aug 29", s:"Blocked", done:false }
+    ]},
+
+  { id:12, member:"Noor Haddad", first:"Noor", rd:"Nick Alvarez", region:"Midwest",
+    type:"Onboarding", date:"2026-08-22", due:"2026-08-29", owner:COORD, status:"New",
+    flags:[], sender:"coordinator",
+    summary:"Noor completed onboarding and asked for a mastermind that skews toward services businesses, the Chicago dinner date, and an intro to anyone doing franchise development.",
+    requests:[
+      { t:"Match to a services-focused mastermind", s:"Ready", done:false },
+      { t:"Send Chicago dinner date", s:"Ready", done:false },
+      { t:"Find a franchise development connection", s:"Awaiting permission", done:false }
+    ],
+    draft:genericDraft("Noor","Nick Alvarez","Onboarding"), event:null,
+    connections:CONNECTIONS_GEN.map(c=>({...c,state:null})),
+    tasks:[
+      { t:"Submit mastermind match request", owner:COORD, due:"Aug 27", s:"Pending", done:false },
+      { t:"Send Chicago dinner date", owner:COORD, due:"Aug 26", s:"Pending", done:false },
+      { t:"Search MCP for franchise operators", owner:COORD, due:"Aug 28", s:"Pending", done:false }
+    ]},
+
+  { id:13, member:"Leo Kaminski", first:"Leo", rd:"Chauncey Amaechi", region:"Northeast",
+    type:"Member Support", date:"2026-08-20", due:"2026-08-27", owner:COORD, status:"In Progress",
+    flags:["Mastermind change not yet confirmed by host"], sender:"rd",
+    summary:"Leo wants to move out of his Tuesday mastermind into the Thursday operator group. The host has not confirmed the seat, so the change cannot be communicated as done.",
+    requests:[
+      { t:"Move from Tuesday to Thursday mastermind", s:"Needs RD", done:false },
+      { t:"Send Thursday group format", s:"Ready", done:false }
+    ],
+    draft:`Hi Leo,\n\nGood speaking today. I've put in the request to move you into the Thursday operator group and I'll confirm the moment the host comes back to me.\n\nI'll hold off on the calendar update until that's locked.\n\nBest,\nChauncey`,
+    event:null, connections:[],
+    tasks:[
+      { t:"Await host confirmation on Thursday seat", owner:"Chauncey Amaechi", due:"Aug 26", s:"Needs RD", done:false },
+      { t:"Send Thursday group format", owner:COORD, due:"Aug 27", s:"Pending", done:false }
+    ]}
+];
+
+/* ─────────── helpers ─────────── */
+const $ = s => document.querySelector(s);
+const el = (t,c,h) => { const n=document.createElement(t); if(c)n.className=c; if(h!=null)n.innerHTML=h; return n; };
+const esc = s => String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+const fmtDate = iso => new Date(iso+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+const chip = s => `<span class="chip ${STATUS_CLASS[s]}"><span class="d"></span>${s}</span>`;
+const TASK_CLASS = { "Pending":"s-new", "In progress":"s-progress", "Permission requested":"s-needs",
+  "Needs RD":"s-needs", "Blocked":"s-needs", "Completed":"s-completed" };
+const tchip = s => `<span class="chip ${TASK_CLASS[s]||"s-new"}"><span class="d"></span>${s}</span>`;
+const TODAY = new Date("2026-08-24T12:00:00");
+
+let filters = { q:"", rd:"", region:"", type:"", status:"", days:"", scope:"all" };
+let openId = null;
+
+function toast(msg, warn){
+  const t=$("#toast");
+  $("#toastText").textContent = msg;
+  t.classList.toggle("warn", !!warn);
+  t.classList.add("on");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(()=>t.classList.remove("on"), 3400);
+}
+
+/* ─────────── filters + table ─────────── */
+function visibleRows(){
+  return ROWS.filter(r=>{
+    if(filters.q && !r.member.toLowerCase().includes(filters.q.toLowerCase())) return false;
+    if(filters.rd && r.rd !== filters.rd) return false;
+    if(filters.region && r.region !== filters.region) return false;
+    if(filters.type && r.type !== filters.type) return false;
+    if(filters.status && r.status !== filters.status) return false;
+    if(filters.scope === "mine" && r.owner !== COORD) return false;
+    if(filters.days){
+      const diff = (TODAY - new Date(r.date+"T12:00:00")) / 86400000;
+      if(diff > Number(filters.days)) return false;
+    }
+    return true;
+  });
+}
+
+function renderTable(){
+  const rows = visibleRows();
+  const tb = $("#tbody");
+  tb.innerHTML = "";
+  rows.forEach(r=>{
+    const tr = el("tr");
+    tr.dataset.id = r.id;
+    tr.innerHTML = `
+      <td class="member">${esc(r.member)}<span class="rg">${esc(r.region)}</span></td>
+      <td class="muted">${esc(r.rd)}</td>
+      <td class="muted">${esc(r.type)}</td>
+      <td class="muted">${fmtDate(r.date)}</td>
+      <td><span class="reqcount">${r.requests.length}</span></td>
+      <td class="muted">${esc(r.owner)}</td>
+      <td class="muted">${fmtDate(r.due)}</td>
+      <td>${chip(r.status)}</td>
+      <td class="r"><button class="reviewbtn">Review</button></td>`;
+    tr.addEventListener("click", ()=>openDrawer(r.id));
+    tb.appendChild(tr);
+  });
+  $("#emptyRow").style.display = rows.length ? "none" : "block";
+  $("#queueCount").textContent = rows.length === ROWS.length
+    ? `${ROWS.length} calls`
+    : `${rows.length} of ${ROWS.length} calls`;
+}
+
+function renderSummary(){
+  const c = s => ROWS.filter(r=>r.status===s).length;
+  $("#mNew").textContent   = c("New");
+  $("#mReady").textContent = c("Ready for Review");
+  $("#mNeeds").textContent = c("Needs RD");
+  $("#mProg").textContent  = c("In Progress");
+  $("#mDone").textContent  = c("Completed");
+
+  const attention = c("New") + c("Needs RD");
+  $("#navPill").textContent = attention;
+  $("#bellCount").textContent = attention;
+
+  // pipeline bar
+  const pipe = $("#pipe"), legend = $("#legend");
+  pipe.innerHTML = ""; legend.innerHTML = "";
+  const total = ROWS.length;
+  STATUSES.forEach(s=>{
+    const n = c(s);
+    if(!n) return;
+    const seg = el("div");
+    seg.style.flex = `0 0 ${(n/total*100).toFixed(2)}%`;
+    seg.style.background = STATUS_COLOR[s];
+    seg.title = `${s}: ${n}`;
+    pipe.appendChild(seg);
+
+    const li = el("div","li");
+    li.innerHTML = `<span class="sw" style="background:${STATUS_COLOR[s]}"></span>${s} <b>${n}</b> <span class="pc">${Math.round(n/total*100)}%</span>`;
+    legend.appendChild(li);
+  });
+  const needsRd = c("Needs RD");
+  $("#pipeNote").textContent =
+    `${total} calls in the fulfillment window · ${needsRd} ${needsRd===1?"item":"items"} held for Regional Director decision · coordinator can send the rest.`;
+
+  // active metric highlight
+  document.querySelectorAll("#strip button").forEach(b=>{
+    b.classList.toggle("on", filters.status === b.dataset.status);
+  });
+}
+
+function refresh(){ renderTable(); renderSummary(); }
+
+/* ─────────── drawer ─────────── */
+function row(id){ return ROWS.find(r=>r.id===id); }
+
+function openDrawer(id){
+  openId = id;
+  const r = row(id);
+  $("#dName").textContent = r.member;
+  $("#dMeta").innerHTML =
+    `${esc(r.rd)} · ${esc(r.region)} · ${esc(r.type)} · ${fmtDate(r.date)} &nbsp;${chip(r.status)}`;
+  renderDrawer();
+  $("#drawer").classList.add("on");
+  $("#drawer").setAttribute("aria-hidden","false");
+  $("#scrim").classList.add("on");
+  $("#dBody").scrollTop = 0;
+}
+function closeDrawer(){
+  openId = null;
+  $("#drawer").classList.remove("on");
+  $("#drawer").setAttribute("aria-hidden","true");
+  $("#scrim").classList.remove("on");
+}
+
+function renderDrawer(){
+  const r = row(openId);
+  if(!r) return;
+  const locked = r.flags.length > 0;
+  const body = $("#dBody");
+  body.innerHTML = "";
+
+  /* safety lock */
+  if(locked){
+    const b = el("div","lockbar");
+    b.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      <div>
+        <div class="t">Needs Regional Director — this call cannot be sent by the Coordinator</div>
+        <div class="s">The agent flagged content that requires relationship knowledge or a decision:</div>
+        <ul>${r.flags.map(f=>`<li>${esc(f)}</li>`).join("")}</ul>
+      </div>`;
+    body.appendChild(b);
+  }
+
+  /* call information */
+  const info = el("div","sec");
+  info.innerHTML = `
+    <h3>Call Information
+      <button class="btn sm ghost" id="fathomBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9z"/></svg>
+        Fathom Recording
+      </button>
+    </h3>
+    <div class="kv">
+      <div class="k">Member</div><div>${esc(r.member)}</div>
+      <div class="k">Regional Director</div><div>${esc(r.rd)}</div>
+      <div class="k">Call date &amp; type</div><div>${fmtDate(r.date)} · ${esc(r.type)}</div>
+      <div class="k">Fulfillment owner</div><div>${esc(r.owner)} · due ${fmtDate(r.due)}</div>
+    </div>
+    <div class="summary"><b>AI call summary.</b> ${esc(r.summary)}</div>`;
+  body.appendChild(info);
+  info.querySelector("#fathomBtn").addEventListener("click", e=>{
+    e.stopPropagation();
+    toast("Opening the Fathom recording for " + r.member + " — 34:12.");
+  });
+
+  /* requests found */
+  const reqs = el("div","sec");
+  reqs.innerHTML = `<h3>Requests Found <span style="color:var(--faint);font-weight:500;text-transform:none;letter-spacing:0;font-size:12px">${r.requests.length} identified</span></h3>`;
+  r.requests.forEach((q,i)=>{
+    const cr = el("div","checkrow" + (q.done ? " done":""));
+    cr.innerHTML = `
+      <div class="cbox ${q.done?"on":""}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <div class="txt">${esc(q.t)}<div class="sub">${esc(q.s)}</div></div>`;
+    cr.addEventListener("click", ()=>{
+      q.done = !q.done;
+      if(q.done && q.s !== "Needs RD" && !q.s.startsWith("Blocked")) q.s = "Confirmed by Coordinator";
+      renderDrawer();
+    });
+    reqs.appendChild(cr);
+  });
+  body.appendChild(reqs);
+
+  /* drafted follow-up */
+  const draft = el("div","sec");
+  draft.innerHTML = `
+    <h3>Drafted Member Follow-Up <span style="color:var(--faint);font-weight:500;text-transform:none;letter-spacing:0;font-size:12px">Editable</span></h3>
+    <textarea id="draftBox" spellcheck="false"></textarea>
+    <div class="editnote"><span id="draftState">Prepared by the Member Fulfillment Agent</span><span id="draftCount"></span></div>`;
+  body.appendChild(draft);
+  const box = draft.querySelector("#draftBox");
+  box.value = r.draft;
+  const count = draft.querySelector("#draftCount");
+  const setCount = ()=> count.textContent = box.value.trim().split(/\s+/).filter(Boolean).length + " words";
+  setCount();
+  box.addEventListener("input", ()=>{
+    r.draft = box.value;
+    draft.querySelector("#draftState").textContent = "Edited by " + COORD + " — unsaved";
+    setCount();
+  });
+
+  /* event */
+  if(r.event){
+    const ev = el("div","sec");
+    ev.innerHTML = `
+      <h3>Event Recommendation</h3>
+      <div class="event">
+        <div class="cal"><div class="m">${r.event.month}</div><div class="d">${r.event.day}</div></div>
+        <div style="flex:1">
+          <div class="nm">${esc(r.event.name)}</div>
+          <div class="dt">${esc(r.event.dates)}</div>
+          <div class="dt" style="margin-top:4px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px">${esc(r.event.link)}</div>
+          <span class="verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Link verified in the Founders Club app</span>
+        </div>
+        <button class="btn sm ghost" id="evBtn">Open</button>
+      </div>`;
+    body.appendChild(ev);
+    ev.querySelector("#evBtn").addEventListener("click", e=>{
+      e.stopPropagation(); toast("Opening the verified event page in the Founders Club app.");
+    });
+  }
+
+  /* connections */
+  if(r.connections.length){
+    const cs = el("div","sec");
+    cs.innerHTML = `<h3>Curated Connections <span style="color:var(--faint);font-weight:500;text-transform:none;letter-spacing:0;font-size:12px">${r.connections.length} suggested from the MCP</span></h3>`;
+    r.connections.forEach((c,i)=>{
+      const card = el("div","conn" + (c.state==="approved" ? " approved" : c.state==="rejected" ? " rejected" : ""));
+      card.innerHTML = `
+        <div class="top">
+          <div>
+            <div class="nm">${esc(c.name)}</div>
+            <div class="co">${esc(c.company)}</div>
+          </div>
+          ${c.state==="approved" ? `<span class="chip s-needs"><span class="d"></span>Permission requested</span>` : ""}
+          ${c.state==="rejected" ? `<span class="chip s-new"><span class="d"></span>Rejected</span>` : ""}
+        </div>
+        <div class="facts">
+          <span class="tag">${esc(c.industry)}</span>
+          <span class="tag">${esc(c.revenue)}</span>
+          <span class="tag">${esc(c.location)}</span>
+        </div>
+        <div class="why"><b>Why this match.</b> ${esc(c.why)}</div>
+        <div class="why" style="margin-top:5px;font-size:12px">${esc(c.prior)}</div>
+        <div class="acts"></div>`;
+      const acts = card.querySelector(".acts");
+      if(!c.state){
+        const ap = el("button","btn sm primary","Approve");
+        const rj = el("button","btn sm ghost","Reject");
+        ap.addEventListener("click", e=>{
+          e.stopPropagation(); c.state="approved";
+          const t = r.tasks.find(t=>t.t.includes(c.name.split(" ")[0]) || t.t.includes(c.name));
+          if(t) t.s = "Permission requested";
+          toast(`${c.name} approved. Permission request queued — the introduction is not complete until they confirm.`);
+          renderDrawer();
+        });
+        rj.addEventListener("click", e=>{
+          e.stopPropagation(); c.state="rejected";
+          toast(`${c.name} removed from the suggested connections for ${r.first}.`);
+          renderDrawer();
+        });
+        acts.append(ap, rj);
+      } else {
+        const s = el("div","state" + (c.state==="rejected" ? " rej":""),
+          c.state==="approved"
+            ? "Awaiting permission — not yet an introduction"
+            : "Will not be introduced");
+        const undo = el("button","btn sm ghost","Undo");
+        undo.addEventListener("click", e=>{ e.stopPropagation(); c.state=null; renderDrawer(); });
+        acts.append(s, undo);
+      }
+      cs.appendChild(card);
+    });
+    cs.appendChild(el("div","permnote",
+      "An introduction can never be described to a member as completed until the other member has confirmed permission. Approving here only requests that permission."));
+    body.appendChild(cs);
+  }
+
+  /* internal actions */
+  const tk = el("div","sec");
+  const doneN = r.tasks.filter(t=>t.done).length;
+  tk.innerHTML = `<h3>Internal Actions <span style="color:var(--faint);font-weight:500;text-transform:none;letter-spacing:0;font-size:12px">${doneN} of ${r.tasks.length} complete</span></h3>`;
+  r.tasks.forEach(t=>{
+    const cr = el("div","checkrow" + (t.done ? " done":""));
+    cr.innerHTML = `
+      <div class="cbox ${t.done?"on":""}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <div class="txt">${esc(t.t)}
+        <div class="sub">${esc(t.owner)} · due ${esc(t.due)}</div>
+      </div>
+      <div style="flex:0 0 auto">${tchip(t.s)}</div>`;
+    cr.addEventListener("click", ()=>{
+      if(t.s === "Needs RD" && !t.done){
+        toast("This task is held for " + r.rd + ". The Coordinator cannot close it.", true);
+        return;
+      }
+      t.done = !t.done;
+      t.s = t.done ? "Completed" : "Pending";
+      renderDrawer();
+    });
+    tk.appendChild(cr);
+  });
+  body.appendChild(tk);
+
+  /* communication options */
+  const cm = el("div","sec");
+  cm.innerHTML = `<h3>Communication Options</h3>`;
+  const optA = el("label","radio" + (r.sender==="coordinator" ? " on":"") + (locked ? " disabled":""));
+  optA.innerHTML = `<span class="dot"></span><span><span class="t">Send from Coordinator, CC the Regional Director</span>
+    <span class="s">${locked ? "Unavailable — this call is flagged for RD handling." : "For routine fulfillment. The message states that the Coordinator works with " + esc(r.rd) + "."}</span></span>`;
+  const optB = el("label","radio" + (r.sender==="rd" ? " on":""));
+  optB.innerHTML = `<span class="dot"></span><span><span class="t">Prepare for the Regional Director to send</span>
+    <span class="s">For sensitive or strategic messages. ${esc(r.rd)} reviews and sends.</span></span>`;
+  optA.addEventListener("click", ()=>{
+    if(locked){ toast("This call is flagged Needs RD and must be sent by " + r.rd + ".", true); return; }
+    r.sender="coordinator"; renderDrawer(); toast("Sender set to Coordinator with " + r.rd + " copied.");
+  });
+  optB.addEventListener("click", ()=>{
+    r.sender="rd"; renderDrawer(); toast("Prepared for " + r.rd + " to review and send.");
+  });
+  cm.append(optA, optB);
+  body.appendChild(cm);
+
+  renderFooter(r, locked);
+}
+
+function renderFooter(r, locked){
+  const f = $("#dFoot");
+  f.innerHTML = "";
+  const mk = (label, cls, fn, disabled) => {
+    const b = el("button","btn "+cls, label);
+    if(disabled) b.disabled = true;
+    else b.addEventListener("click", fn);
+    return b;
+  };
+
+  f.appendChild(mk("Save Draft","ghost",()=>{
+    toast("Draft saved for " + r.member + ". Nothing has been sent.");
+    const st = document.querySelector("#draftState");
+    if(st) st.textContent = "Saved by " + COORD;
+  }));
+
+  f.appendChild(mk("Approve Follow-Up", locked ? "ghost" : "primary", ()=>{
+    if(locked){ toast("Flagged calls cannot be approved by the Coordinator. Send it to " + r.rd + ".", true); return; }
+    setStatus(r,"Approved");
+    toast("Follow-up approved for " + r.member + ". Ready to send.");
+  }, false));
+
+  f.appendChild(mk("Send to RD","amber",()=>{
+    r.sender = "rd";
+    setStatus(r,"Needs RD");
+    toast("Sent to " + r.rd + " for review. It stays in the queue as Needs RD.");
+  }));
+
+  f.appendChild(mk("Send Message","primary",()=>{
+    if(locked && r.sender === "coordinator"){
+      toast("Blocked — this call is flagged Needs RD and must be sent by " + r.rd + ".", true); return;
+    }
+    if(locked){
+      setStatus(r,"Needs RD");
+      toast("Prepared and handed to " + r.rd + ". Only " + r.rd + " can send this one.", true);
+      return;
+    }
+    setStatus(r,"Sent");
+    toast(r.sender === "coordinator"
+      ? "Message sent to " + r.member + " from " + COORD + ", " + r.rd + " copied."
+      : "Message queued for " + r.rd + " to send to " + r.member + ".");
+  }));
+
+  f.appendChild(mk("Mark Completed","ghost",()=>{
+    const open = r.tasks.filter(t=>!t.done);
+    const pend = r.connections.filter(c=>c.state==="approved");
+    if(pend.length){
+      toast("Cannot complete — " + pend.length + " introduction" + (pend.length>1?"s are":" is") + " still awaiting permission.", true);
+      return;
+    }
+    if(open.length){
+      toast("Cannot complete — " + open.length + " internal action" + (open.length>1?"s are":" is") + " still open.", true);
+      return;
+    }
+    setStatus(r,"Completed");
+    toast(r.member + " marked completed. Every approved action was confirmed.");
+  }));
+}
+
+function setStatus(r, s){
+  r.status = s;
+  $("#dMeta").innerHTML =
+    `${esc(r.rd)} · ${esc(r.region)} · ${esc(r.type)} · ${fmtDate(r.date)} &nbsp;${chip(r.status)}`;
+  refresh();
+}
+
+/* ─────────── wire up ─────────── */
+function fill(sel, arr){
+  const s = $(sel);
+  arr.forEach(v=>{ const o=el("option",null,v); o.value=v; s.appendChild(o); });
+}
+fill("#fRd", RDS); fill("#fRegion", REGIONS); fill("#fType", CALL_TYPES); fill("#fStatus", STATUSES);
+
+$("#fSearch").addEventListener("input", e=>{ filters.q = e.target.value; renderTable(); });
+$("#fRd").addEventListener("change", e=>{ filters.rd = e.target.value; renderTable(); });
+$("#fRegion").addEventListener("change", e=>{ filters.region = e.target.value; renderTable(); });
+$("#fType").addEventListener("change", e=>{ filters.type = e.target.value; renderTable(); });
+$("#fStatus").addEventListener("change", e=>{ filters.status = e.target.value; refresh(); });
+$("#fDate").addEventListener("change", e=>{ filters.days = e.target.value; renderTable(); });
+
+$("#clearBtn").addEventListener("click", ()=>{
+  filters = { q:"", rd:"", region:"", type:"", status:"", days:"", scope:filters.scope };
+  $("#fSearch").value=""; $("#fRd").value=""; $("#fRegion").value="";
+  $("#fType").value=""; $("#fStatus").value=""; $("#fDate").value="";
+  refresh(); toast("Filters cleared.");
+});
+
+document.querySelectorAll("#strip button").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    const s = b.dataset.status;
+    filters.status = (filters.status === s) ? "" : s;
+    $("#fStatus").value = filters.status;
+    refresh();
+  });
+});
+
+document.querySelectorAll("#scopeSeg button").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    document.querySelectorAll("#scopeSeg button").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");
+    filters.scope = b.dataset.scope;
+    renderTable();
+    toast(filters.scope==="mine" ? "Showing calls owned by " + COORD + "." : "Showing all calls in the fulfillment window.");
+  });
+});
+
+$("#dClose").addEventListener("click", closeDrawer);
+$("#scrim").addEventListener("click", closeDrawer);
+document.addEventListener("keydown", e=>{ if(e.key==="Escape" && openId!=null) closeDrawer(); });
+
+/* clock */
+function tick(){
+  const d = new Date();
+  $("#asof").textContent = "as of " + d.toLocaleTimeString("en-US",{hour12:false}) + " ET";
+}
+tick(); setInterval(tick, 1000);
+
+refresh();
+</script>
+</body>
+</html>
