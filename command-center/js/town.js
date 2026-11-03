@@ -76,6 +76,16 @@ export function createTown({ container, canvas, labelsEl, buildings, onSelect })
       const roof = new THREE.Mesh(new THREE.ConeGeometry(2.3, 1.6, 4), new THREE.MeshLambertMaterial({ color: 0xa8846a }));
       roof.position.y = height + 0.8; roof.rotation.y = Math.PI / 4; g.add(roof);
       height += 1.6;
+    } else if (b.kind === 'placeholder') {
+      // a see-through "mock" vault: shows where the payments building will stand once Commas/Whop are connected
+      height = 4;
+      const ghost = new THREE.MeshLambertMaterial({ color: 0x9aa0a6, transparent: true, opacity: 0.35 });
+      const vault = new THREE.Mesh(new THREE.BoxGeometry(4.2, height, 3.4), ghost);
+      vault.position.y = height / 2; g.add(vault);
+      const edges = new THREE.LineSegments(new THREE.EdgesGeometry(vault.geometry), new THREE.LineDashedMaterial({ color: 0x52514e, dashSize: 0.4, gapSize: 0.25 }));
+      edges.position.copy(vault.position); edges.computeLineDistances(); g.add(edges);
+      const door = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.1, 0.2, 24), ghost);
+      door.rotation.x = Math.PI / 2; door.position.set(0, 2, 1.75); g.add(door);
     } else if (b.kind === 'bank') {
       height = 4.5;
       const base = new THREE.Mesh(new THREE.BoxGeometry(5.6, 0.6, 4), trim); base.position.y = 0.3; g.add(base);
@@ -112,14 +122,16 @@ export function createTown({ container, canvas, labelsEl, buildings, onSelect })
 
     const label = document.createElement('button');
     label.type = 'button';
-    label.className = `blabel ${b.status}${b.kind === 'region' ? ' region' : ''}`;
+    label.className = `blabel ${b.status}${b.kind === 'region' ? ' region' : ''}${b.kind === 'placeholder' ? ' mock' : ''}`;
     const t = STATUS_TEXT[b.status] || STATUS_TEXT.grey;
-    label.innerHTML = `<b>${b.short}</b> <span aria-hidden="true">${t.icon}</span><span class="sr"> — ${t.word}</span>`;
+    label.innerHTML = `<b>${b.short}</b>${b.kind === 'placeholder' ? ' <span class="mockTag">mock</span>' : ''} <span aria-hidden="true">${t.icon}</span><span class="sr"> — ${t.word}</span>`;
     label.setAttribute('aria-label', `${b.name}: ${t.word}`);
     label.addEventListener('click', () => onSelect(b.id));
     labelsEl.appendChild(label);
 
-    nodes.push({ b, g, ring, label, top: new THREE.Vector3(x, height + 1.2, z) });
+    // region labels sit under their house (on the outer ring), so they never stack on the department labels behind them
+    const below = b.kind === 'region';
+    nodes.push({ b, g, ring, label, below, top: below ? new THREE.Vector3(x, 0, z + 3) : new THREE.Vector3(x, height + 1.2, z) });
   });
 
   const controls = new THREE.OrbitControls(camera, canvas);
@@ -135,7 +147,12 @@ export function createTown({ container, canvas, labelsEl, buildings, onSelect })
     camera.aspect = w / h;
     // Pull back on tall/narrow screens so the whole ring fits
     const dist = w / h < 1.05 ? 92 : 74;
-    if (!fit.done) { camera.position.set(0, dist * 0.78, dist * 0.68); fit.done = true; }
+    if (!fit.done) {
+      // narrow screens look more from above so the back row doesn't bunch up
+      const narrow = w / h < 1.05;
+      camera.position.set(0, dist * (narrow ? 0.93 : 0.78), dist * (narrow ? 0.45 : 0.68));
+      fit.done = true;
+    }
     camera.updateProjectionMatrix();
     render();
   }
@@ -146,16 +163,21 @@ export function createTown({ container, canvas, labelsEl, buildings, onSelect })
     const w = container.clientWidth, h = container.clientHeight;
     const items = nodes.map((n) => {
       v.copy(n.top).project(camera);
-      return { n, x: ((v.x + 1) / 2) * w, y: ((1 - v.y) / 2) * h, z: v.z, lw: n.label.offsetWidth || 80, lh: n.label.offsetHeight || 20 };
+      const lh = n.label.offsetHeight || 20;
+      return { n, x: ((v.x + 1) / 2) * w, y: ((1 - v.y) / 2) * h + (n.below ? lh + 2 : 0), z: v.z, lw: n.label.offsetWidth || 80, lh };
     }).sort((a, b) => a.z - b.z);
     const placed = [];
     for (const it of items) {
+      // try the projected spot first, then alternate steps above and below; keep the first spot that overlaps nothing
+      const step = it.lh + 3;
+      const clashes = (yy) => placed.some((p) => Math.abs(p.x - it.x) < (p.lw + it.lw) / 2 + 2 && Math.abs(p.y - yy) < (p.lh + it.lh) / 2 + 2);
       let y = it.y;
-      for (let pass = 0; pass < 4; pass++) {
-        const clash = placed.find((p) => Math.abs(p.x - it.x) < (p.lw + it.lw) / 2 + 2 && Math.abs(p.y - y) < (p.lh + it.lh) / 2 + 2);
-        if (!clash) break;
-        y = clash.y - (clash.lh + it.lh) / 2 - 3;
+      for (let k = 1; clashes(y) && k <= 2; k++) {
+        const up = it.y - step * k, down = it.y + step * k;
+        if (up > it.lh + 2 && !clashes(up)) { y = up; break; }
+        if (down < h - 44 && !clashes(down)) { y = down; break; }
       }
+      y = Math.min(y, h - 44); // keep clear of the legend strip
       const x = Math.min(Math.max(it.x, it.lw / 2 + 4), w - it.lw / 2 - 4);
       placed.push({ x, y, lw: it.lw, lh: it.lh });
       const lab = it.n.label;

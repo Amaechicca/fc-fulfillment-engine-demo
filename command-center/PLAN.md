@@ -103,6 +103,9 @@ Each sales territory is a small house on the outer ring of the town, coloured by
 
 ## Payments check (the $1.73M)
 
+**Decision (Nov 3):** use the HQ dashboard numbers for now. Every cash and renewal figure on the page comes from the dashboard's own panels, read through FC AI, and is labelled "HQ dashboard … (via FC AI)". **Payments (Commas / Whop)** is a see-through placeholder building marked MOCK. Its slots (cash today, cash this month, failed payments, refunds, subscriptions per processor) stay blank, with no estimates, until access is granted.
+
+
 - No Commas or Whop connector is available here. The HQ dashboard (which reads both) is blocked by this environment's network rules and needs a staff Google login.
 - FC AI's payment records summed by channel give $963,910 from 110 closes for October. That counts only people whose intro was booked in October, so it can't confirm or refute the $1,725,010 (all cash dated in October, including payment-plan installments, 197 deals).
 - **Still to do:** compare October new-member cash on the HQ dashboard (or a Commas + Whop export) with $1,725,010.

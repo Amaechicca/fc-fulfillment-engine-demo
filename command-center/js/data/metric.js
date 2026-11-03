@@ -2,10 +2,10 @@
 
 export const SOURCES = {
   fcai_community_pulse: { name: 'FC AI · community totals', freshnessHours: 24 },
-  fcai_renewal_diagnosis: { name: 'FC AI · renewal book & diagnosis', freshnessHours: 24 },
+  fcai_renewal_diagnosis: { name: 'HQ dashboard · renewal book & diagnosis (via FC AI)', freshnessHours: 24 },
   fcai_rd_book_risk: { name: 'FC AI · RD check-in risk', freshnessHours: 24 },
-  fcai_staff_closer: { name: 'FC AI · closer panel', freshnessHours: 24 },
-  fcai_staff_setter: { name: 'FC AI · setter panel', freshnessHours: 24 },
+  fcai_staff_closer: { name: 'HQ dashboard · closer panel (via FC AI)', freshnessHours: 24 },
+  fcai_staff_setter: { name: 'HQ dashboard · setter panel (via FC AI)', freshnessHours: 24 },
   fcai_admissions: { name: 'FC AI · interview call outcomes', freshnessHours: 24 },
   fcai_attribution: { name: 'FC AI · channel attribution', freshnessHours: 24 },
   fcai_event_feedback: { name: 'FC AI · event feedback', freshnessHours: 168 },
@@ -16,8 +16,8 @@ export const SOURCES = {
   fcai_pipeline_prospects: { name: 'FC AI · interview pipeline (GHL outcomes)', freshnessHours: 24 },
   fathom_calls: { name: 'Fathom · recorded calls', freshnessHours: 24 },
   slack_channels: { name: 'Slack · RD SOS & welcome channels', freshnessHours: 24 },
-  fcai_renewal_book_this: { name: 'FC AI · renewal book (this month, by region)', freshnessHours: 24 },
-  fcai_renewal_book_last: { name: 'FC AI · renewal book (last month, by region)', freshnessHours: 720 },
+  fcai_renewal_book_this: { name: 'HQ dashboard · renewal book, this month by region (via FC AI)', freshnessHours: 24 },
+  fcai_renewal_book_last: { name: 'HQ dashboard · renewal book, last month by region (via FC AI)', freshnessHours: 720 },
 };
 
 // ---------- helpers ----------

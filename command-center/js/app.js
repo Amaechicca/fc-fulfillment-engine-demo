@@ -55,7 +55,7 @@ function renderTop() {
       <div class="lab">${esc(m.label)}</div>
       <div class="val">${formatValue(m, { compact: true })}</div>
       ${m.context ? `<div class="ctx">${esc(m.context)}</div>` : ''}
-      <details class="prov"><summary>${m.complete === false ? '<span class="warn">Incomplete read · </span>' : ''}${m.value === null ? esc(m.missingReason || 'Not read') : `${esc(m.source)} · ${ago(m.readAt)}`}</summary>${esc(m.scope || '')}${m.note ? `<br>Note: ${esc(m.note)}` : ''}</details>
+      <details class="prov"><summary>${m.complete === false && m.value !== null ? '<span class="warn">Incomplete read · </span>' : ''}${m.value === null ? esc(m.missingReason || 'Not read') : `${esc(m.source)} · ${ago(m.readAt)}`}</summary>${esc(m.scope || '')}${m.note ? `<br>Note: ${esc(m.note)}` : ''}</details>
     </div>`).join('');
 }
 
@@ -65,7 +65,7 @@ function metricCard(m) {
   return `<div class="m${m.value === null ? ' missing' : ''}">
     <div class="lab">${esc(m.label)}</div>
     <div class="val">${formatValue(m)}</div>
-    <div class="prov">${m.complete === false ? '<span class="warn">Incomplete read · </span>' : ''}${esc(provenance(m))}${m.note ? `<br>Note: ${esc(m.note)}` : ''}</div>
+    <div class="prov">${m.complete === false && m.value !== null ? '<span class="warn">Incomplete read · </span>' : ''}${esc(provenance(m))}${m.note ? `<br>Note: ${esc(m.note)}` : ''}</div>
   </div>`;
 }
 
@@ -283,6 +283,11 @@ function renderTabPanel() {
     case 'fulfillment':
       if (T.joins?.by_month) add(barChart({ title: 'New members per month (this month so far)', rows: T.joins.by_month, labelKey: 'month', valueKey: 'new_members',
         source: srcLine('fulfillment', 'joins_this_month'), columns: [['month', 'Month'], ['new_members', 'New members', true]] }));
+      break;
+    case 'payments':
+      el.insertAdjacentHTML('beforeend', `<p class="empty" style="margin-top:10px"><b>Placeholder.</b> Commas and Whop aren’t connected yet, so these slots stay blank — no numbers are estimated.
+        Until then, cash figures on this page come from the HQ dashboard (via FC AI): new-member cash ${formatValue(state.snap.topNumbers.find((m) => m.id === 'new_member_cash_usd'))} last month
+        and renewal dollars on the Renewals tab. Once access is granted, this building shows cash collected today and this month, failed payments, refunds and subscriptions per processor.</p>`);
       break;
     case 'cash':
       el.insertAdjacentHTML('beforeend', '<p class="empty" style="margin-top:10px">This building stays grey until an accounting or bank source is connected (read-only). Nothing here is estimated.</p>');

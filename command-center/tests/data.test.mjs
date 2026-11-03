@@ -152,3 +152,11 @@ test('snapshot: public part carries no names', () => {
   for (const n of ['Sample A', 'Sample B', 'Sample C', 'late urgent', 'C1', 'S1']) assert.ok(!txt.includes(n), `${n} leaked into public snapshot`);
   assert.equal(priv.renewals_worth_call.length, 2);
 });
+
+test('payments placeholder is grey and carries no numbers', () => {
+  const s = buildSnapshot(sample, NOW);
+  const p = s.buildings.find((b) => b.id === 'payments');
+  assert.equal(p.status, 'grey');
+  assert.ok(p.metrics.length >= 5);
+  for (const m of p.metrics) { assert.equal(m.value, null); assert.match(m.missingReason, /not connected/); }
+});

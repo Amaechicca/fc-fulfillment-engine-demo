@@ -110,7 +110,7 @@ export function normalizeClosers(raw) {
       new_members_closed: metric('new_members_closed', 'New members closed', deals, raw, { unit: 'members', scope: `${scope}; first payment in window`, context: `${monthLabel(p.window.from.slice(0, 7))}` }),
       new_member_cash_usd: metric('new_member_cash_usd', 'New-member cash collected', cash, raw, {
         unit: 'usd', context: `${monthLabel(p.window.from.slice(0, 7))}`, scope: `${scope}; new sale + payment plan, refunds netted`,
-        note: 'Source labels per-rep revenue “cents”, but its team median (labelled USD) is the same size, so it is read as USD. Confirm once against payments.',
+        note: 'This is the HQ dashboard’s sales-panel figure (via FC AI). It is not yet reconciled with what Commas and Whop collected — the Payments building is a placeholder until they are connected.',
       }),
       closer_close_rate: metric('closer_close_rate', 'Median close rate (held → paid)', p.team_medians.occurred_to_close_rate, raw, { unit: '%', scope: `${scope}; team median of ${p.team_size}` }),
       closer_show_rate: metric('closer_show_rate', 'Median interview show rate', p.team_medians.interview_show_rate, raw, { unit: '%', scope: `${scope}; team median` }),
@@ -280,6 +280,13 @@ export const BUILDINGS = [
   { id: 'operations', name: 'Operations', short: 'Ops', list: 'Operations', blurb: 'Tools, vendors, systems.' },
   { id: 'admin', name: 'Admin & People', short: 'Admin', list: 'Admin', blurb: 'Hiring, onboarding, staff support.' },
   { id: 'ai', name: 'CTO / AI', short: 'AI', list: 'CTO/AI', blurb: 'Internal product and AI work.' },
+  {
+    id: 'payments', name: 'Payments (Commas / Whop)', short: 'Payments', kind: 'placeholder',
+    blurb: 'Placeholder until Commas and Whop are connected. Cash numbers come from the HQ dashboard for now.',
+    noSource: 'Commas and Whop are not connected yet (placeholder)',
+    planned: [['payments_today', 'Cash collected today', 'usd'], ['payments_mtd', 'Cash collected this month', 'usd'], ['payments_failed', 'Failed payments (7 days)', 'payments'],
+      ['payments_refunds', 'Refunds (30 days)', 'usd'], ['payments_by_processor', 'Active subscriptions: Commas vs Whop', 'members']],
+  },
   { id: 'cash', name: 'Cash & Finance', short: 'Cash', kind: 'bank', blurb: 'Bank balance, money owed, money owing.', noSource: 'No accounting or bank connector is connected yet' },
 ];
 
@@ -345,6 +352,7 @@ export function buildSnapshot(raws, nowMs) {
     operations: { show: [], judge: [] },
     admin: { show: [], judge: [] },
     ai: { show: [], judge: [] },
+    payments: { show: [], judge: [] },
     cash: { show: [], judge: [] },
   };
 
@@ -359,7 +367,9 @@ export function buildSnapshot(raws, nowMs) {
       checks.push({ metricId: tm.overdue.id, ruleId: 'overdue_tasks', ...judge(tm.overdue, 'overdue_tasks') });
       if (tm.overdue_urgent) checks.push({ metricId: tm.overdue_urgent.id, ruleId: 'overdue_urgent_tasks', ...judge(tm.overdue_urgent, 'overdue_urgent_tasks') });
     }
-    if (b.noSource) {
+    if (b.planned) {
+      for (const [id, label, unit] of b.planned) metrics.push(missing(id, label, unit, b.noSource));
+    } else if (b.noSource) {
       metrics.push(missing('cash_balance', 'Cash in bank', 'usd', b.noSource));
       metrics.push(missing('receivables', 'Money owed to us', 'usd', b.noSource));
       metrics.push(missing('payables', 'Money we owe', 'usd', b.noSource));
