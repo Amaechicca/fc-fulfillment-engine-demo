@@ -1,5 +1,5 @@
 {
- "builtAt": "2026-11-03T21:30:00.000Z",
+ "builtAt": "2026-11-03T21:45:00.000Z",
  "question": "Are we growing the club this month?",
  "topNumbers": [
   {
@@ -294,6 +294,24 @@
      "reason": "26 members — green at 10 members or fewer, amber up to 25 members (red)"
     },
     {
+     "metricId": "pulse_frustrated",
+     "ruleId": "pulse_frustrated",
+     "status": "amber",
+     "reason": "33 members — green at 20 members or fewer, amber up to 50 members (amber)"
+    },
+    {
+     "metricId": "app_used_30d_pct",
+     "ruleId": "app_used_30d_pct",
+     "status": "green",
+     "reason": "67.7% — green at 60%+, amber at 40%+ (green)"
+    },
+    {
+     "metricId": "rd_sos_unanswered",
+     "ruleId": "rd_sos_unanswered",
+     "status": "green",
+     "reason": "0 posts — green at 0 posts or fewer, amber up to 0 posts (green)"
+    },
+    {
      "metricId": "overdue_Community",
      "ruleId": "overdue_tasks",
      "status": "green",
@@ -339,6 +357,120 @@
      "source": "FC AI · RD check-in risk",
      "readAt": "2026-11-03T21:21:40Z",
      "scope": "RD check-in calls since 2026-09-04, all territories, member's own words (confidence ≥ 0.6)",
+     "complete": true
+    },
+    {
+     "id": "pulse_frustrated",
+     "label": "Frustrated (in their own words)",
+     "value": 33,
+     "unit": "members",
+     "sourceId": "fcai_member_pulse",
+     "source": "FC AI · member pulse (Slack & support words)",
+     "readAt": "2026-11-03T21:38:29Z",
+     "scope": "Active members with a pulse read; weekly analysis of what they say in Slack and support",
+     "complete": true
+    },
+    {
+     "id": "pulse_disengaging",
+     "label": "Disengaging",
+     "value": 77,
+     "unit": "members",
+     "sourceId": "fcai_member_pulse",
+     "source": "FC AI · member pulse (Slack & support words)",
+     "readAt": "2026-11-03T21:38:29Z",
+     "scope": "Active members with a pulse read; weekly analysis of what they say in Slack and support",
+     "complete": true
+    },
+    {
+     "id": "pulse_thriving",
+     "label": "Thriving",
+     "value": 775,
+     "unit": "members",
+     "sourceId": "fcai_member_pulse",
+     "source": "FC AI · member pulse (Slack & support words)",
+     "readAt": "2026-11-03T21:38:29Z",
+     "scope": "Active members with a pulse read; weekly analysis of what they say in Slack and support",
+     "complete": true
+    },
+    {
+     "id": "engagement_score",
+     "label": "Average engagement score",
+     "value": 80.4,
+     "unit": "pts",
+     "sourceId": "fcai_member_engagement",
+     "source": "FC AI · member engagement (GHL, Slack, app)",
+     "readAt": "2026-11-03T21:38:29Z",
+     "scope": "2,124 scored members; 0–100 from what we can observe",
+     "complete": true
+    },
+    {
+     "id": "on_slack_pct",
+     "label": "Active members on Slack",
+     "value": 92.7,
+     "unit": "%",
+     "sourceId": "fcai_member_engagement",
+     "source": "FC AI · member engagement (GHL, Slack, app)",
+     "readAt": "2026-11-03T21:38:29Z",
+     "scope": "Active members today",
+     "complete": true,
+     "context": "1,981 of 2,136"
+    },
+    {
+     "id": "app_used_30d_pct",
+     "label": "Used the app in 30 days",
+     "value": 67.7,
+     "unit": "%",
+     "sourceId": "fcai_member_engagement",
+     "source": "FC AI · member engagement (GHL, Slack, app)",
+     "readAt": "2026-11-03T21:38:29Z",
+     "scope": "Active members today; registered for an event, read an announcement, watched or downloaded, last 30 days",
+     "complete": true,
+     "context": "1,447 members"
+    },
+    {
+     "id": "mastermind_seated_pct",
+     "label": "In a mastermind group",
+     "value": 58.9,
+     "unit": "%",
+     "sourceId": "fcai_member_engagement",
+     "source": "FC AI · member engagement (GHL, Slack, app)",
+     "readAt": "2026-11-03T21:38:29Z",
+     "scope": "Active members today; active seat",
+     "complete": true,
+     "context": "1,258 members"
+    },
+    {
+     "id": "rd_sos_30d",
+     "label": "RD SOS posts (30 days)",
+     "value": 4,
+     "unit": "posts",
+     "sourceId": "slack_channels",
+     "source": "Slack · RD SOS & welcome channels",
+     "readAt": "2026-11-03T21:41:00Z",
+     "scope": "#team-rd-sos since 2026-10-04",
+     "complete": true,
+     "context": "4 answered, latest 2026-10-27"
+    },
+    {
+     "id": "rd_sos_unanswered",
+     "label": "RD SOS posts with no reply",
+     "value": 0,
+     "unit": "posts",
+     "sourceId": "slack_channels",
+     "source": "Slack · RD SOS & welcome channels",
+     "readAt": "2026-11-03T21:41:00Z",
+     "scope": "#team-rd-sos since 2026-10-04",
+     "complete": true
+    },
+    {
+     "id": "calls_rd_2d",
+     "label": "RD check-in calls (2 days)",
+     "value": 29,
+     "unit": "calls",
+     "sourceId": "fathom_calls",
+     "source": "Fathom · recorded calls",
+     "readAt": "2026-11-03T21:40:00Z",
+     "scope": "Calls recorded in Fathom 2026-11-02 to 2026-11-03 (to read time), sorted by meeting title",
      "complete": true
     },
     {
@@ -425,6 +557,12 @@
      "reason": "23.6% — green at 30%+, amber at 20%+ (amber)"
     },
     {
+     "metricId": "outcome_missing_3d",
+     "ruleId": "outcome_missing_3d",
+     "status": "amber",
+     "reason": "8 prospects — green at 3 prospects or fewer, amber up to 10 prospects (amber)"
+    },
+    {
      "metricId": "overdue_Admissions",
      "ruleId": "overdue_tasks",
      "status": "red",
@@ -449,6 +587,18 @@
      "scope": "Closers, 2026-10-01 to 2026-11-01 (exclusive); first payment in window",
      "complete": true,
      "context": "October 2026"
+    },
+    {
+     "id": "joins_last_month_ledger",
+     "label": "October joins (membership ledger)",
+     "value": 193,
+     "unit": "members",
+     "sourceId": "fcai_joins_by_month",
+     "source": "FC AI · membership ledger (joins)",
+     "readAt": "2026-11-03T21:38:29Z",
+     "scope": "First payment in October",
+     "complete": true,
+     "note": "The closer panel counts 197 for the same month; the two count slightly different things (first payment vs. deals credited to closers)."
     },
     {
      "id": "new_member_cash_usd",
@@ -505,6 +655,50 @@
      "source": "FC AI · interview call outcomes",
      "readAt": "2026-11-03T21:21:40Z",
      "scope": "Interview calls 2026-10-01 to 2026-11-03, read from transcripts",
+     "complete": true
+    },
+    {
+     "id": "hot_not_closed",
+     "label": "Flagged hot, not closed yet",
+     "value": 35,
+     "unit": "prospects",
+     "sourceId": "fcai_pipeline_prospects",
+     "source": "FC AI · interview pipeline (GHL outcomes)",
+     "readAt": "2026-11-03T21:38:40Z",
+     "scope": "Interviews 2026-10-29 to 2026-11-03 that did not close",
+     "complete": true
+    },
+    {
+     "id": "outcome_missing_3d",
+     "label": "No outcome recorded 3+ days after interview",
+     "value": 8,
+     "unit": "prospects",
+     "sourceId": "fcai_pipeline_prospects",
+     "source": "FC AI · interview pipeline (GHL outcomes)",
+     "readAt": "2026-11-03T21:38:40Z",
+     "scope": "Interviews 2026-10-29 to 2026-11-03 that did not close",
+     "complete": true
+    },
+    {
+     "id": "not_closed_since_oct1",
+     "label": "Interviewed since Oct 1, not closed",
+     "value": 409,
+     "unit": "prospects",
+     "sourceId": "fcai_pipeline_prospects",
+     "source": "FC AI · interview pipeline (GHL outcomes)",
+     "readAt": "2026-11-03T21:38:40Z",
+     "scope": "Interviews taken since 2026-10-01; 191 closed, 427 not taken",
+     "complete": true
+    },
+    {
+     "id": "calls_interview_2d",
+     "label": "Interview & sales follow-up calls (2 days)",
+     "value": 46,
+     "unit": "calls",
+     "sourceId": "fathom_calls",
+     "source": "Fathom · recorded calls",
+     "readAt": "2026-11-03T21:40:00Z",
+     "scope": "Calls recorded in Fathom 2026-11-02 to 2026-11-03 (to read time), sorted by meeting title",
      "complete": true
     },
     {
@@ -639,6 +833,17 @@
      "source": "FC AI · setter panel",
      "readAt": "2026-11-03T21:21:40Z",
      "scope": "Setters, 2026-10-01 to 2026-11-01 (exclusive); setters with 30+ intros scheduled",
+     "complete": true
+    },
+    {
+     "id": "calls_intro_2d",
+     "label": "Intro calls recorded (2 days)",
+     "value": 131,
+     "unit": "calls",
+     "sourceId": "fathom_calls",
+     "source": "Fathom · recorded calls",
+     "readAt": "2026-11-03T21:40:00Z",
+     "scope": "Calls recorded in Fathom 2026-11-02 to 2026-11-03 (to read time), sorted by meeting title",
      "complete": true
     },
     {
@@ -949,6 +1154,53 @@
     }
    ],
    "metrics": [
+    {
+     "id": "joins_this_month",
+     "label": "New members so far this month",
+     "value": 23,
+     "unit": "members",
+     "sourceId": "fcai_joins_by_month",
+     "source": "FC AI · membership ledger (joins)",
+     "readAt": "2026-11-03T21:38:29Z",
+     "scope": "2026-11, first payment dated in the month (membership ledger)",
+     "complete": true,
+     "context": "6-month average: 173 a month"
+    },
+    {
+     "id": "calls_onboarding_2d",
+     "label": "Onboarding calls (2 days)",
+     "value": 14,
+     "unit": "calls",
+     "sourceId": "fathom_calls",
+     "source": "Fathom · recorded calls",
+     "readAt": "2026-11-03T21:40:00Z",
+     "scope": "Calls recorded in Fathom 2026-11-02 to 2026-11-03 (to read time), sorted by meeting title",
+     "complete": true
+    },
+    {
+     "id": "welcome_intros_7d",
+     "label": "New-member intros in #0-welcome-introductions (7 days)",
+     "value": 32,
+     "unit": "posts",
+     "sourceId": "slack_channels",
+     "source": "Slack · RD SOS & welcome channels",
+     "readAt": "2026-11-03T21:41:00Z",
+     "scope": "since 2026-10-27",
+     "complete": false,
+     "note": "Read stopped after the first page — at least this many."
+    },
+    {
+     "id": "member_support_moved",
+     "label": "Member support channel",
+     "value": null,
+     "unit": "",
+     "sourceId": "slack_channels",
+     "source": "Slack · RD SOS & welcome channels",
+     "readAt": "2026-11-03T21:41:00Z",
+     "scope": "",
+     "complete": true,
+     "missingReason": "Moved off Slack on 2026-09-28 (now DM / email) — not readable here"
+    },
     {
      "id": "overdue_Member Fulfillment Queue",
      "label": "Overdue open tasks",
@@ -1321,6 +1573,31 @@
    "privateList": "renewals_silent_churn"
   },
   {
+   "id": "community_pulse_frustrated",
+   "buildingId": "community",
+   "status": "amber",
+   "title": "33 members are frustrated in their own words (Slack, support)",
+   "detail": "33 members — green at 20 members or fewer, amber up to 50 members (amber)",
+   "costUsd": null,
+   "costLabel": "—",
+   "nextStep": "RDs read each member’s evidence quote and reach out; check overlap with the “leaving” list.",
+   "owner": "Nicholas Roethlein",
+   "metricId": "pulse_frustrated"
+  },
+  {
+   "id": "admissions_outcome_missing_3d",
+   "buildingId": "admissions",
+   "status": "amber",
+   "title": "8 interviews have no outcome in GHL after 3+ days",
+   "detail": "8 prospects — green at 3 prospects or fewer, amber up to 10 prospects (amber)",
+   "costUsd": null,
+   "costLabel": "—",
+   "nextStep": "Closers record the outcome on each card so the pipeline and dashboard are right.",
+   "owner": "Dawson Turkovich",
+   "metricId": "outcome_missing_3d",
+   "privateList": "pipeline_no_outcome"
+  },
+  {
    "id": "admissions_closer_close_rate",
    "buildingId": "admissions",
    "status": "amber",
@@ -1450,6 +1727,60 @@
    "ok": true,
    "error": null,
    "note": null
+  },
+  {
+   "id": "fcai_member_engagement",
+   "name": "FC AI · member engagement (GHL, Slack, app)",
+   "freshnessHours": 24,
+   "readAt": "2026-11-03T21:38:29Z",
+   "ok": true,
+   "error": null,
+   "note": "app check-ins returned 0 in 30 days (check-in isn't used in the app), so attendance is not shown"
+  },
+  {
+   "id": "fcai_member_pulse",
+   "name": "FC AI · member pulse (Slack & support words)",
+   "freshnessHours": 168,
+   "readAt": "2026-11-03T21:38:29Z",
+   "ok": true,
+   "error": null,
+   "note": "pulse is weekly analysis of what members say in Slack and support; 251 active members have no pulse yet"
+  },
+  {
+   "id": "fcai_joins_by_month",
+   "name": "FC AI · membership ledger (joins)",
+   "freshnessHours": 24,
+   "readAt": "2026-11-03T21:38:29Z",
+   "ok": true,
+   "error": null,
+   "note": "from the membership ledger (first payment). GHL contact-created dates were also queried but are almost all blank, so lead volume from GHL is not shown"
+  },
+  {
+   "id": "fcai_pipeline_prospects",
+   "name": "FC AI · interview pipeline (GHL outcomes)",
+   "freshnessHours": 24,
+   "readAt": "2026-11-03T21:38:40Z",
+   "ok": true,
+   "error": null,
+   "note": "tool returns the 100 most recent; they cover every interview from Oct 29 to Nov 3 (the cut falls on Oct 28), so per-row counts are scoped to Oct 29–Nov 3"
+  },
+  {
+   "id": "fathom_calls",
+   "name": "Fathom · recorded calls",
+   "freshnessHours": 24,
+   "readAt": "2026-11-03T21:40:00Z",
+   "ok": true,
+   "error": null,
+   "note": "classified by meeting title: 'Community Intro Call' = intro; 'Interview Call' or a closer's 1:1 = interview/sales follow-up; 'Check in Call', RD follow-ups and RD 1:1s = RD; 'Onboarding Call' = onboarding; huddles/weekly syncs = internal; 'Impromptu' = other"
+  },
+  {
+   "id": "slack_channels",
+   "name": "Slack · RD SOS & welcome channels",
+   "freshnessHours": 24,
+   "readAt": "2026-11-03T21:41:00Z",
+   "ok": true,
+   "error": null,
+   "note": "welcome-channel read stopped at its first page (the connector returned the same page again for the next cursor), so new-member intros are 'at least 32'"
   }
  ],
  "tables": {
@@ -2080,6 +2411,126 @@
     "overdue_urgent": 0,
     "topAssignee": "Nicholas Roethlein"
    }
-  ]
+  ],
+  "engagement": {
+   "app_events": [
+    {
+     "action": "event registered",
+     "members": 1420,
+     "events": 4395
+    },
+    {
+     "action": "announcement read",
+     "members": 225,
+     "events": 947
+    }
+   ],
+   "pulse": [
+    {
+     "pulse": "thriving",
+     "members": 775
+    },
+    {
+     "pulse": "neutral",
+     "members": 1000
+    },
+    {
+     "pulse": "disengaging",
+     "members": 77
+    },
+    {
+     "pulse": "frustrated",
+     "members": 33
+    }
+   ]
+  },
+  "joins": {
+   "by_month": [
+    {
+     "month": "2026-05",
+     "new_members": 142
+    },
+    {
+     "month": "2026-06",
+     "new_members": 148
+    },
+    {
+     "month": "2026-07",
+     "new_members": 179
+    },
+    {
+     "month": "2026-08",
+     "new_members": 192
+    },
+    {
+     "month": "2026-09",
+     "new_members": 181
+    },
+    {
+     "month": "2026-10",
+     "new_members": 193
+    },
+    {
+     "month": "2026-11",
+     "new_members": 23
+    }
+   ]
+  },
+  "pipeline": {
+   "verdicts": [
+    {
+     "verdict": "interview taken, outcome not recorded",
+     "prospects": 44
+    },
+    {
+     "verdict": "flagged hot, not closed",
+     "prospects": 35
+    },
+    {
+     "verdict": "follow-up lane",
+     "prospects": 7
+    },
+    {
+     "verdict": "do not pursue",
+     "prospects": 4
+    },
+    {
+     "verdict": "unfinished call / NDA / other",
+     "prospects": 3
+    },
+    {
+     "verdict": "no close, don't follow up",
+     "prospects": 1
+    }
+   ]
+  },
+  "calls": {
+   "calls": [
+    {
+     "type": "Intro (setters)",
+     "calls": 131
+    },
+    {
+     "type": "Interview / sales follow-up",
+     "calls": 46
+    },
+    {
+     "type": "RD check-in",
+     "calls": 29
+    },
+    {
+     "type": "Onboarding",
+     "calls": 14
+    },
+    {
+     "type": "Internal meetings",
+     "calls": 12
+    },
+    {
+     "type": "Other",
+     "calls": 4
+    }
+   ]
+  }
  }
 }

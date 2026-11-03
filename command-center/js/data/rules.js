@@ -31,6 +31,18 @@ export const RULES = {
   event_nps: {
     label: 'Event NPS (promoters − detractors)', higherIsBetter: true, green: 50, amber: 30, unit: 'pts',
   },
+  pulse_frustrated: {
+    label: 'Members frustrated in their own words', higherIsBetter: false, green: 20, amber: 50, unit: 'members',
+  },
+  app_used_30d_pct: {
+    label: 'Active members who used the app in 30 days', higherIsBetter: true, green: 60, amber: 40, unit: '%',
+  },
+  rd_sos_unanswered: {
+    label: 'RD SOS posts with no reply', higherIsBetter: false, green: 0, amber: 0, unit: 'posts',
+  },
+  outcome_missing_3d: {
+    label: 'Interviews with no outcome recorded after 3+ days', higherIsBetter: false, green: 3, amber: 10, unit: 'prospects',
+  },
   overdue_tasks: {
     label: 'Overdue open ClickUp tasks', higherIsBetter: false, green: 2, amber: 5, unit: 'tasks',
   },

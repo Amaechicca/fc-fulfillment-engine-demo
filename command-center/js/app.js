@@ -106,6 +106,8 @@ const PRIVATE_LISTS = {
   renewals_silent_churn: { title: 'Left with nothing on record', cols: [['name', 'Member'], ['territory', 'Territory'], ['plan_value_usd', 'Plan value', true, fmtUsd], ['left', 'Left']] },
   rd_leaving: { title: 'Told an RD they are leaving', cols: [['name', 'Member'], ['territory', 'Territory'], ['call_date', 'Call'], ['frustrated', 'Frustrated', false, (v) => (v ? 'Yes' : 'No')], ['confidence', 'Confidence', true]] },
   closers: { title: 'Closers', cols: [['name', 'Closer'], ['interviews', 'Interviews', true], ['show_rate', 'Show %', true, fmtPct], ['closed', 'Closed', true], ['close_rate', 'Close %', true, fmtPct], ['cash_usd', 'Cash', true, fmtUsd]] },
+  pipeline_hot: { title: 'Flagged hot, not closed (Oct 29 on)', cols: [['name', 'Prospect'], ['interviewed', 'Interviewed']] },
+  pipeline_no_outcome: { title: 'No outcome recorded after 3+ days', cols: [['name', 'Prospect'], ['interviewed', 'Interviewed'], ['days', 'Days', true]] },
   setters: { title: 'Setters (30+ intros)', cols: [['name', 'Setter'], ['intros', 'Intros', true], ['show_rate', 'Show %', true, fmtPct], ['closed', 'Closed', true], ['on_call_dq', 'On-call DQ %', true, fmtPct]] },
 };
 const taskCols = [['name', 'Task', false, taskLink], ['assignees', 'Assigned'], ['priority', 'Priority'], ['due', 'Due'], ['days_late', 'Days late', true]];
@@ -206,6 +208,10 @@ function renderTabPanel() {
       el.insertAdjacentHTML('beforeend', '<h4 class="subH">Every area at a glance</h4>');
       add(table(state.snap.buildings.filter((x) => x.id !== 'hq').map((x) => ({ name: x.name, status: x.status, owner: x.owner?.name || '—', alerts: state.snap.alerts.filter((a) => a.buildingId === x.id).length })),
         [['name', 'Area'], ['status', 'Status', false, (v) => pill(v)], ['owner', 'Owner'], ['alerts', 'Alerts', true]]));
+      if (T.joins?.by_month) add(barChart({ title: 'New members per month (this month so far)', rows: T.joins.by_month, labelKey: 'month', valueKey: 'new_members',
+        source: srcLine('fulfillment', 'joins_this_month'), columns: [['month', 'Month'], ['new_members', 'New members', true]] }));
+      if (T.calls?.calls) add(barChart({ title: 'Calls the team recorded in the last two days', rows: T.calls.calls, labelKey: 'type', valueKey: 'calls',
+        source: srcLine('setters', 'calls_intro_2d'), columns: [['type', 'Call type'], ['calls', 'Calls', true]] }));
       break;
     }
     case 'renewals':
@@ -221,6 +227,10 @@ function renderTabPanel() {
         source: srcLine('community', 'active_members'), columns: [['territory', 'Territory'], ['members', 'Members', true]] }));
       add(barChart({ title: 'Top industries', rows: T.community.top_industries, labelKey: 'industry', valueKey: 'members',
         source: srcLine('community', 'active_members'), columns: [['industry', 'Industry'], ['members', 'Members', true]] }));
+      if (T.engagement?.pulse) add(barChart({ title: `${T.engagement.pulse.filter((r) => r.pulse === 'disengaging' || r.pulse === 'frustrated').reduce((n, r) => n + r.members, 0)} members are pulling back or frustrated, in their own words`, rows: T.engagement.pulse, labelKey: 'pulse', valueKey: 'members',
+        source: srcLine('community', 'pulse_frustrated'), columns: [['pulse', 'In their own words'], ['members', 'Members', true]] }));
+      if (T.engagement?.app_events) add(barChart({ title: 'Event registration drives app use', rows: T.engagement.app_events, labelKey: 'action', valueKey: 'members',
+        source: srcLine('community', 'app_used_30d_pct'), columns: [['action', 'App action (30 days)'], ['members', 'Members', true], ['events', 'Times', true]] }));
       add(namesBlock('rd_leaving', PRIVATE_LISTS.rd_leaving.cols, PRIVATE_LISTS.rd_leaving.title));
       break;
     case 'admissions':
@@ -228,6 +238,10 @@ function renderTabPanel() {
         source: srcLine('admissions', 'interview_calls'), columns: [['outcome', 'How the call ended'], ['calls', 'Calls', true]] }));
       add(barChart({ title: 'Travel/format is the most raised objection', rows: T.admissions.objections, labelKey: 'objection', valueKey: 'calls',
         source: srcLine('admissions', 'interview_calls'), columns: [['objection', 'Objection'], ['calls', 'Calls raising it', true]] }));
+      if (T.pipeline?.verdicts) add(barChart({ title: `Largest group of recent non-closers: ${T.pipeline.verdicts[0]?.verdict}`, rows: T.pipeline.verdicts, labelKey: 'verdict', valueKey: 'prospects',
+        source: srcLine('admissions', 'hot_not_closed'), columns: [['verdict', 'Where they stand'], ['prospects', 'Prospects', true]] }));
+      add(namesBlock('pipeline_hot', PRIVATE_LISTS.pipeline_hot.cols, PRIVATE_LISTS.pipeline_hot.title));
+      add(namesBlock('pipeline_no_outcome', PRIVATE_LISTS.pipeline_no_outcome.cols, PRIVATE_LISTS.pipeline_no_outcome.title));
       add(namesBlock('closers', PRIVATE_LISTS.closers.cols, PRIVATE_LISTS.closers.title));
       break;
     case 'setters':
@@ -244,6 +258,10 @@ function renderTabPanel() {
         columns: [['city', 'City'], ['kind', 'Format'], ['responses', 'Responses', true], ['avg_score', 'Avg score', true], ['nps', 'NPS', true]] }));
       break;
     }
+    case 'fulfillment':
+      if (T.joins?.by_month) add(barChart({ title: 'New members per month (this month so far)', rows: T.joins.by_month, labelKey: 'month', valueKey: 'new_members',
+        source: srcLine('fulfillment', 'joins_this_month'), columns: [['month', 'Month'], ['new_members', 'New members', true]] }));
+      break;
     case 'cash':
       el.insertAdjacentHTML('beforeend', '<p class="empty" style="margin-top:10px">This building stays grey until an accounting or bank source is connected (read-only). Nothing here is estimated.</p>');
       break;

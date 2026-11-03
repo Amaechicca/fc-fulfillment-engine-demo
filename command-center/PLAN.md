@@ -6,7 +6,8 @@ A 3D “town” of Founders Club: one building per department, ringed red / ambe
 ## How data flows
 
 ```
-FC AI + ClickUp ──(Claude Code reads, read-only)──▶ data/raw/*.json        (gitignored: has names)
+FC AI (GHL, payments, app) · ClickUp · Fathom · Slack
+        ──(Claude Code reads, read-only)──▶ data/raw/*.json        (gitignored: has names)
                                                      │
                        node scripts/build-snapshot.mjs (js/data/*: clean, calculate, judge)
                                                      ▼
@@ -33,6 +34,13 @@ The browser cannot call FC AI or ClickUp itself, so a page load never hits a liv
 | **Setters** | median intro show, intro→close, on-call DQ, cash/intro; setters under 45% show | `staff_performance` setter | last month |
 | **Marketing & Growth** | intro bookings, unknown-source share, Facebook spend & spend per close, LinkedIn qualified leads, bookings by channel | `attribution_report` | last month |
 | **Events & Partnerships** | event NPS, responses, by city | `event_feedback` | since Sep 1 |
+| **Community & RDs** (added) | frustrated / disengaging / thriving members (their own words in Slack & support), engagement score, % on Slack, % used the app in 30 days, % in a mastermind | FC AI member queries over GHL, Slack links, app events, masterminds | today / 30 days |
+| | RD SOS posts (30 d) and how many have no reply | Slack #team-rd-sos | 30 days |
+| | RD check-in calls recorded | Fathom | last 2 days |
+| **Admissions** (added) | flagged hot but not closed; no outcome in GHL 3+ days after the interview; interviewed since Oct 1 and not closed; October joins per the membership ledger (cross-check against the closer panel) | `list_pipeline_prospects` (GHL outcomes), membership ledger | Oct 29 → today |
+| | interview / sales follow-up calls recorded | Fathom | last 2 days |
+| **Setters** (added) | intro calls recorded | Fathom | last 2 days |
+| **Member Fulfillment** (added) | new members this month and by month; onboarding calls; new-member intros in #0-welcome-introductions | membership ledger, Fathom, Slack | month / 2 days / 7 days |
 | **Every department** | open, in progress, paused, overdue, overdue urgent | ClickUp “Projects By Department” | now |
 | **Cash & Finance** | cash, receivables, payables | none connected → grey, blank | — |
 
@@ -52,6 +60,10 @@ All in `js/data/rules.js`. Grey = no data, an incomplete read, or too small a sa
 | Setter median intro show rate | ≥ 55% | ≥ 45% | < 45% |
 | Intro bookings with unknown source | ≤ 10% | ≤ 20% | > 20% |
 | Event NPS | ≥ 50 | ≥ 30 | < 30 |
+| Members frustrated in their own words | ≤ 20 | ≤ 50 | > 50 |
+| Active members who used the app in 30 days | ≥ 60% | ≥ 40% | < 40% |
+| RD SOS posts with no reply | 0 | — | ≥ 1 |
+| Interviews with no outcome after 3+ days | ≤ 3 | ≤ 10 | > 10 |
 | Overdue open ClickUp tasks (per dept) | ≤ 2 | ≤ 5 | > 5 |
 | Overdue *urgent* ClickUp tasks | 0 | — | ≥ 1 |
 
@@ -64,6 +76,13 @@ A building takes its worst rule. Alerts list every red/amber item, red first, th
 - **Green:** Events (NPS 59), Fulfillment, Ops, Admin, CTO/AI. **Grey:** Cash.
 
 ## Known data caveats
+
+- **GHL has no direct connector here.** Everything from GHL (pipeline outcomes, contacts, territories) comes through FC AI, which reads GHL. GHL contact-created dates are almost all blank, so lead volume from GHL isn't shown.
+- **Slack member support moved to DM/email on Sep 28**, so the support channel has nothing to measure. Member-support volume needs the support inbox (not connected).
+- **The Slack welcome-channel read stops after one page.** New-member intros show as "at least 32" and are not judged.
+- **Fathom calls are sorted by meeting title** (intro, interview, check-in, onboarding, internal). Calls with other titles can land in the wrong bucket. The window is two days to keep the read complete.
+- **October joins: 193 by the membership ledger vs 197 by the closer panel.** Both are shown; they count slightly different things.
+- **App check-ins are 0 in 30 days**: the app's check-in isn't used, so event attendance isn't shown.
 
 - Closer revenue per rep arrives labelled “cents”, but the team median (labelled USD) is the same size, so it’s read as USD ($1,725,010 for October). **Check this once against payments.**
 - November renewals are early in the month. The rate is judged because 34 outcomes are decided, but 103 are still open.

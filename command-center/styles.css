@@ -148,7 +148,7 @@ main { max-width: 1180px; margin: 0 auto; padding: 0 16px 32px; }
 .owner { font-size: 13px; color: var(--ink-2); margin: 4px 0 10px; }
 .checks { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 6px; }
 .checks li { font-size: 13px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
-.mgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: 8px; }
+.mgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 155px), 1fr)); gap: 8px; }
 .m { border: 1px solid var(--hair); border-radius: 10px; padding: 8px 10px; min-width: 0; }
 .m .lab { font-size: 12px; color: var(--ink-2); }
 .m .val { font-size: 19px; font-weight: 650; }

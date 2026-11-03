@@ -14,9 +14,9 @@ Drafted by Claude on 2026-11-03 from what the connected systems show (FC AI, Cli
 5. **Five-second question:** _ASSUMED_ “Are we growing the club this month?”
 
 ## Systems and data
-6. **Systems:** FC AI (members, renewals, RD calls, sales panels, attribution, event feedback — built on GHL, payments, Fathom, Slack). ClickUp (department projects and tasks). Slack, Fathom, Gmail, Google Calendar also connected. GHL, payments and accounting are only reached through FC AI.
+6. **Systems:** FC AI (members, renewals, RD calls, sales panels, attribution, event feedback, pipeline — built on GHL, payments, the app, Fathom, Slack). ClickUp (department projects and tasks). Slack (RD SOS, welcome channel) and Fathom (recorded calls) are read directly too. Gmail and Google Calendar are connected but personal, so they aren't used. GHL and payments are reached only through FC AI; accounting isn't reachable at all.
 7. **Source of truth:** FC AI is the record for members, renewals and sales numbers (its rules say it outranks GHL tags). ClickUp is the record for tasks. Nobody is the record for cash yet.
-8. **Connected to Claude Code:** FC AI (MCP), ClickUp (MCP), Slack, Fathom, Gmail, Calendar. **Not connected:** bank/accounting — Cash building stays grey.
+8. **Connected to Claude Code:** FC AI, ClickUp, Slack, Fathom, Gmail, Calendar. **Not connected:** GHL directly (via FC AI only), bank/accounting (Cash stays grey), the member-support inbox.
 9. **Freshness:** _ASSUMED_ daily for everything; weekly for event feedback.
 10. **Numbers we don't trust:** FC AI flags member revenue as mostly self-reported; ClickUp has a task to stop 150+ GHL duplicate contacts and one to fix “should’ve been DQed” leads on the dashboard; 15% of October intro bookings have an unknown source. Closer revenue arrives labelled “cents” but reads as dollars (see PLAN).
 

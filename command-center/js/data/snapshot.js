@@ -5,44 +5,10 @@
 // Anything a person's name is attached to goes into `private`, never into `public`.
 
 import { judge, worst } from './rules.js';
+import { SOURCES, metric, pct, sum, monthLabel } from './metric.js';
+import { normalizeEngagement, normalizePulse, normalizeJoins, normalizePipeline, normalizeFathom, normalizeSlack } from './engagement.js';
 
-export const SOURCES = {
-  fcai_community_pulse: { name: 'FC AI · community totals', freshnessHours: 24 },
-  fcai_renewal_diagnosis: { name: 'FC AI · renewal book & diagnosis', freshnessHours: 24 },
-  fcai_rd_book_risk: { name: 'FC AI · RD check-in risk', freshnessHours: 24 },
-  fcai_staff_closer: { name: 'FC AI · closer panel', freshnessHours: 24 },
-  fcai_staff_setter: { name: 'FC AI · setter panel', freshnessHours: 24 },
-  fcai_admissions: { name: 'FC AI · interview call outcomes', freshnessHours: 24 },
-  fcai_attribution: { name: 'FC AI · channel attribution', freshnessHours: 24 },
-  fcai_event_feedback: { name: 'FC AI · event feedback', freshnessHours: 168 },
-  clickup_tasks: { name: 'ClickUp · Projects By Department', freshnessHours: 24 },
-};
-
-// ---------- helpers ----------
-
-function metric(id, label, value, raw, { unit = '', scope = '', sample, note, context, missingReason } = {}) {
-  return {
-    id, label, value: value ?? null, unit,
-    sourceId: raw?.__id ?? null,
-    source: raw ? SOURCES[raw.__id]?.name ?? raw.__id : null,
-    readAt: raw?.readAt ?? null,
-    scope,
-    complete: raw ? raw.complete !== false : false,
-    ...(sample !== undefined ? { sample } : {}),
-    ...(note ? { note } : {}),
-    ...(context ? { context } : {}),
-    ...(missingReason || !raw || value === null || value === undefined
-      ? { missingReason: missingReason || (!raw ? 'Source not read' : 'Not in this read') } : {}),
-  };
-}
-
-const pct = (a, b) => (b > 0 ? Math.round((a / b) * 1000) / 10 : null);
-const sum = (xs) => xs.reduce((a, b) => a + (Number(b) || 0), 0);
-
-function monthLabel(isoMonth) {
-  const [y, m] = isoMonth.split('-').map(Number);
-  return new Date(Date.UTC(y, m - 1, 1)).toLocaleString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
-}
+export { SOURCES } from './metric.js';
 
 // ---------- per-source normalizers ----------
 
@@ -333,10 +299,17 @@ export function buildSnapshot(raws, nowMs) {
   const attribution = normalizeAttribution(r.fcai_attribution);
   const events = normalizeEvents(r.fcai_event_feedback);
   const tasks = normalizeTasks(r.clickup_tasks, nowMs);
+  const engagement = normalizeEngagement(r.fcai_member_engagement);
+  const pulse = normalizePulse(r.fcai_member_pulse);
+  const joins = normalizeJoins(r.fcai_joins_by_month, closers.metrics.new_members_closed?.value ?? null);
+  const pipeline = normalizePipeline(r.fcai_pipeline_prospects, nowMs);
+  const fathom = normalizeFathom(r.fathom_calls);
+  const slack = normalizeSlack(r.slack_channels);
 
   const M = {
     ...community.metrics, ...renewals.metrics, ...rd.metrics, ...closers.metrics,
     ...setters.metrics, ...admissions.metrics, ...attribution.metrics, ...events.metrics,
+    ...engagement.metrics, ...pulse.metrics, ...joins.metrics, ...pipeline.metrics, ...fathom.metrics, ...slack.metrics,
   };
 
   const missing = (id, label, unit, reason) => metric(id, label, null, null, { unit, missingReason: reason });
@@ -348,15 +321,20 @@ export function buildSnapshot(raws, nowMs) {
       show: ['renewals_voluntary_rate', 'renewals_renewed', 'renewals_book', 'renewals_collected_usd', 'renewals_worth_call', 'renewals_worth_call_usd', 'renewals_silent_churn', 'renewals_silent_churn_usd', 'renewals_payment_failures'],
       judge: [['renewals_voluntary_rate', 'renewals_voluntary_rate'], ['renewals_payment_failures', 'renewals_payment_failures']],
     },
-    community: { show: ['rd_said_leaving', 'rd_undecided', 'rd_leaving_frustrated', 'active_members'], judge: [['rd_said_leaving', 'rd_said_leaving']] },
-    admissions: {
-      show: ['new_members_closed', 'new_member_cash_usd', 'closer_close_rate', 'closer_show_rate', 'interview_join_rate', 'interview_travel_objection'],
-      judge: [['closer_close_rate', 'closer_close_rate'], ['interview_join_rate', 'interview_join_rate']],
+    community: {
+      show: ['rd_said_leaving', 'rd_undecided', 'rd_leaving_frustrated', 'pulse_frustrated', 'pulse_disengaging', 'pulse_thriving', 'engagement_score',
+        'on_slack_pct', 'app_used_30d_pct', 'mastermind_seated_pct', 'rd_sos_30d', 'rd_sos_unanswered', 'calls_rd_2d', 'active_members'],
+      judge: [['rd_said_leaving', 'rd_said_leaving'], ['pulse_frustrated', 'pulse_frustrated'], ['app_used_30d_pct', 'app_used_30d_pct'], ['rd_sos_unanswered', 'rd_sos_unanswered']],
     },
-    setters: { show: ['setter_intro_show', 'setter_intro_to_close', 'setter_on_call_dq', 'setter_cash_per_intro', 'setters_below_45_show'], judge: [['setter_intro_show', 'setter_intro_show']] },
+    admissions: {
+      show: ['new_members_closed', 'joins_last_month_ledger', 'new_member_cash_usd', 'closer_close_rate', 'closer_show_rate', 'interview_join_rate', 'interview_travel_objection',
+        'hot_not_closed', 'outcome_missing_3d', 'not_closed_since_oct1', 'calls_interview_2d'],
+      judge: [['closer_close_rate', 'closer_close_rate'], ['interview_join_rate', 'interview_join_rate'], ['outcome_missing_3d', 'outcome_missing_3d']],
+    },
+    setters: { show: ['setter_intro_show', 'setter_intro_to_close', 'setter_on_call_dq', 'setter_cash_per_intro', 'setters_below_45_show', 'calls_intro_2d'], judge: [['setter_intro_show', 'setter_intro_show']] },
     marketing: { show: ['intro_bookings', 'unknown_source_share', 'fb_spend_usd', 'fb_cost_per_close', 'linkedin_qualified'], judge: [['unknown_source_share', 'unknown_source_share']] },
     events: { show: ['event_nps', 'event_responses'], judge: [['event_nps', 'event_nps']] },
-    fulfillment: { show: [], judge: [] },
+    fulfillment: { show: ['joins_this_month', 'calls_onboarding_2d', 'welcome_intros_7d', 'member_support_moved'], judge: [] },
     operations: { show: [], judge: [] },
     admin: { show: [], judge: [] },
     ai: { show: [], judge: [] },
@@ -417,10 +395,15 @@ export function buildSnapshot(raws, nowMs) {
       marketing: attribution.tables,
       events: events.tables,
       tasks: Object.values(tasks.byList).sort((a, b) => b.overdue - a.overdue),
+      engagement: { ...engagement.tables, ...pulse.tables },
+      joins: joins.tables,
+      pipeline: pipeline.tables,
+      calls: fathom.tables,
     },
     private: {
       ...renewals.private, ...rd.private, ...closers.private, ...setters.private,
       overdue_tasks: tasks.private,
+      ...pipeline.private,
     },
   };
 }
@@ -485,15 +468,19 @@ export function buildAlerts({ M, buildings, tasks }) {
     ['setters', 'setter_intro_show', 'Intro show rate is below target', `${M.setters_below_45_show?.value ?? '—'} setters (30+ intros) are under 45% show; coach or rebalance their calendars.`],
     ['marketing', 'unknown_source_share', 'Too many bookings have no known source', 'Fix tracking on the booking forms so spend can be judged.'],
     ['events', 'event_nps', 'Event scores are slipping', 'Read the detractor comments by city.'],
+    ['community', 'pulse_frustrated', `${M.pulse_frustrated?.value ?? '—'} members are frustrated in their own words (Slack, support)`, 'RDs read each member’s evidence quote and reach out; check overlap with the “leaving” list.'],
+    ['community', 'app_used_30d_pct', 'Fewer members are using the app', 'Promote the next events and announcements in the app.'],
+    ['community', 'rd_sos_unanswered', 'An RD SOS post has no reply', 'Answer it in #team-rd-sos today.'],
+    ['admissions', 'outcome_missing_3d', `${M.outcome_missing_3d?.value ?? '—'} interviews have no outcome in GHL after 3+ days`, 'Closers record the outcome on each card so the pipeline and dashboard are right.', 'pipeline_no_outcome'],
   ];
-  for (const [bid, mid, title, nextStep] of ruleAlerts) {
+  for (const [bid, mid, title, nextStep, privateList] of ruleAlerts) {
     const c = check(bid, mid);
     if (!c) continue;
     add({
       id: `${bid}_${mid}`, buildingId: bid, status: c.status, title, detail: c.reason,
       costUsd: null,
       costLabel: mid === 'unknown_source_share' && M.fb_spend_usd?.value ? `${usd(M.fb_spend_usd.value)} Facebook spend in the window` : '—',
-      nextStep, owner: ownerOf(bid), metricId: mid,
+      nextStep, owner: ownerOf(bid), metricId: mid, ...(privateList ? { privateList } : {}),
     });
   }
 
