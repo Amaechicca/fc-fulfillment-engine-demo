@@ -1,0 +1,10 @@
+{
+  "name": "fc-command-center",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "build": "node scripts/build-snapshot.mjs",
+    "serve": "python3 -m http.server 8080"
+  }
+}

@@ -1,0 +1,6 @@
+# Raw connector reads and anything with member/staff names stay off the repo.
+data/raw/
+data/snapshot.private.json
+.env
+.env.*
+node_modules/

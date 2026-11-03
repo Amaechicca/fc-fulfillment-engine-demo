@@ -1,0 +1,2085 @@
+{
+ "builtAt": "2026-11-03T21:30:00.000Z",
+ "question": "Are we growing the club this month?",
+ "topNumbers": [
+  {
+   "id": "active_members",
+   "label": "Active members",
+   "value": 2136,
+   "unit": "members",
+   "sourceId": "fcai_community_pulse",
+   "source": "FC AI · community totals",
+   "readAt": "2026-11-03T21:21:40Z",
+   "scope": "Whole community, paid-active today",
+   "complete": true,
+   "context": "Paid and active today"
+  },
+  {
+   "id": "renewals_voluntary_rate",
+   "label": "Voluntary renewal rate",
+   "value": 17.6,
+   "unit": "%",
+   "sourceId": "fcai_renewal_diagnosis",
+   "source": "FC AI · renewal book & diagnosis",
+   "readAt": "2026-11-03T21:21:40Z",
+   "scope": "November 2026 renewal book, all territories; renewed ÷ decided, excluding policy exits",
+   "complete": true,
+   "sample": 34,
+   "context": "6 renewed of 34 decided · 103 still open"
+  },
+  {
+   "id": "new_members_closed",
+   "label": "New members closed",
+   "value": 197,
+   "unit": "members",
+   "sourceId": "fcai_staff_closer",
+   "source": "FC AI · closer panel",
+   "readAt": "2026-11-03T21:21:40Z",
+   "scope": "Closers, 2026-10-01 to 2026-11-01 (exclusive); first payment in window",
+   "complete": true,
+   "context": "October 2026"
+  },
+  {
+   "id": "new_member_cash_usd",
+   "label": "New-member cash collected",
+   "value": 1725010,
+   "unit": "usd",
+   "sourceId": "fcai_staff_closer",
+   "source": "FC AI · closer panel",
+   "readAt": "2026-11-03T21:21:40Z",
+   "scope": "Closers, 2026-10-01 to 2026-11-01 (exclusive); new sale + payment plan, refunds netted",
+   "complete": true,
+   "note": "Source labels per-rep revenue “cents”, but its team median (labelled USD) is the same size, so it is read as USD. Confirm once against payments.",
+   "context": "October 2026"
+  },
+  {
+   "id": "rd_said_leaving",
+   "label": "Told an RD they are leaving",
+   "value": 26,
+   "unit": "members",
+   "sourceId": "fcai_rd_book_risk",
+   "source": "FC AI · RD check-in risk",
+   "readAt": "2026-11-03T21:21:40Z",
+   "scope": "RD check-in calls since 2026-09-04, all territories, member's own words (confidence ≥ 0.6)",
+   "complete": true,
+   "context": "51 more undecided · last 60 days"
+  }
+ ],
+ "buildings": [
+  {
+   "id": "hq",
+   "name": "HQ",
+   "short": "HQ",
+   "kind": "hq",
+   "list": null,
+   "blurb": "The five-second numbers.",
+   "owner": {
+    "name": null,
+    "why": "No owner on record"
+   },
+   "status": "hq",
+   "checks": [],
+   "metrics": [
+    {
+     "id": "active_members",
+     "label": "Active members",
+     "value": 2136,
+     "unit": "members",
+     "sourceId": "fcai_community_pulse",
+     "source": "FC AI · community totals",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Whole community, paid-active today",
+     "complete": true,
+     "context": "Paid and active today"
+    },
+    {
+     "id": "renewals_voluntary_rate",
+     "label": "Voluntary renewal rate",
+     "value": 17.6,
+     "unit": "%",
+     "sourceId": "fcai_renewal_diagnosis",
+     "source": "FC AI · renewal book & diagnosis",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "November 2026 renewal book, all territories; renewed ÷ decided, excluding policy exits",
+     "complete": true,
+     "sample": 34,
+     "context": "6 renewed of 34 decided · 103 still open"
+    },
+    {
+     "id": "new_members_closed",
+     "label": "New members closed",
+     "value": 197,
+     "unit": "members",
+     "sourceId": "fcai_staff_closer",
+     "source": "FC AI · closer panel",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Closers, 2026-10-01 to 2026-11-01 (exclusive); first payment in window",
+     "complete": true,
+     "context": "October 2026"
+    },
+    {
+     "id": "new_member_cash_usd",
+     "label": "New-member cash collected",
+     "value": 1725010,
+     "unit": "usd",
+     "sourceId": "fcai_staff_closer",
+     "source": "FC AI · closer panel",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Closers, 2026-10-01 to 2026-11-01 (exclusive); new sale + payment plan, refunds netted",
+     "complete": true,
+     "note": "Source labels per-rep revenue “cents”, but its team median (labelled USD) is the same size, so it is read as USD. Confirm once against payments.",
+     "context": "October 2026"
+    },
+    {
+     "id": "rd_said_leaving",
+     "label": "Told an RD they are leaving",
+     "value": 26,
+     "unit": "members",
+     "sourceId": "fcai_rd_book_risk",
+     "source": "FC AI · RD check-in risk",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "RD check-in calls since 2026-09-04, all territories, member's own words (confidence ≥ 0.6)",
+     "complete": true,
+     "context": "51 more undecided · last 60 days"
+    }
+   ]
+  },
+  {
+   "id": "renewals",
+   "name": "Renewals",
+   "short": "Renewals",
+   "kind": "bank",
+   "list": null,
+   "blurb": "This month’s renewal book.",
+   "owner": {
+    "name": "Chauncey Amaechi",
+    "why": "assigned “Renewal Outreach Execution” in ClickUp"
+   },
+   "status": "red",
+   "checks": [
+    {
+     "metricId": "renewals_voluntary_rate",
+     "ruleId": "renewals_voluntary_rate",
+     "status": "red",
+     "reason": "17.6% — green at 70%+, amber at 50%+ (red)"
+    },
+    {
+     "metricId": "renewals_payment_failures",
+     "ruleId": "renewals_payment_failures",
+     "status": "green",
+     "reason": "0 members — green at 0 members or fewer, amber up to 2 members (green)"
+    }
+   ],
+   "metrics": [
+    {
+     "id": "renewals_voluntary_rate",
+     "label": "Voluntary renewal rate",
+     "value": 17.6,
+     "unit": "%",
+     "sourceId": "fcai_renewal_diagnosis",
+     "source": "FC AI · renewal book & diagnosis",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "November 2026 renewal book, all territories; renewed ÷ decided, excluding policy exits",
+     "complete": true,
+     "sample": 34,
+     "context": "6 renewed of 34 decided · 103 still open"
+    },
+    {
+     "id": "renewals_renewed",
+     "label": "Renewed so far",
+     "value": 6,
+     "unit": "members",
+     "sourceId": "fcai_renewal_diagnosis",
+     "source": "FC AI · renewal book & diagnosis",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "November 2026 renewal book, all territories",
+     "complete": true
+    },
+    {
+     "id": "renewals_book",
+     "label": "Members up for renewal",
+     "value": 139,
+     "unit": "members",
+     "sourceId": "fcai_renewal_diagnosis",
+     "source": "FC AI · renewal book & diagnosis",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "November 2026 renewal book, all territories",
+     "complete": true
+    },
+    {
+     "id": "renewals_collected_usd",
+     "label": "Renewal dollars collected",
+     "value": 41500,
+     "unit": "usd",
+     "sourceId": "fcai_renewal_diagnosis",
+     "source": "FC AI · renewal book & diagnosis",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "November 2026 renewal book, all territories",
+     "complete": true
+    },
+    {
+     "id": "renewals_worth_call",
+     "label": "Open and worth a call",
+     "value": 67,
+     "unit": "members",
+     "sourceId": "fcai_renewal_diagnosis",
+     "source": "FC AI · renewal book & diagnosis",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "November 2026 renewal book, all territories",
+     "complete": true
+    },
+    {
+     "id": "renewals_worth_call_usd",
+     "label": "Plan value of “worth a call”",
+     "value": 496985,
+     "unit": "usd",
+     "sourceId": "fcai_renewal_diagnosis",
+     "source": "FC AI · renewal book & diagnosis",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "November 2026 renewal book, all territories",
+     "complete": true
+    },
+    {
+     "id": "renewals_silent_churn",
+     "label": "Left with nothing on record",
+     "value": 17,
+     "unit": "members",
+     "sourceId": "fcai_renewal_diagnosis",
+     "source": "FC AI · renewal book & diagnosis",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "November 2026 renewal book, all territories",
+     "complete": true
+    },
+    {
+     "id": "renewals_silent_churn_usd",
+     "label": "Plan value lost silently",
+     "value": 112700,
+     "unit": "usd",
+     "sourceId": "fcai_renewal_diagnosis",
+     "source": "FC AI · renewal book & diagnosis",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "November 2026 renewal book, all territories",
+     "complete": true
+    },
+    {
+     "id": "renewals_payment_failures",
+     "label": "Payment failures",
+     "value": 0,
+     "unit": "members",
+     "sourceId": "fcai_renewal_diagnosis",
+     "source": "FC AI · renewal book & diagnosis",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "November 2026 renewal book, all territories",
+     "complete": true
+    }
+   ]
+  },
+  {
+   "id": "community",
+   "name": "Community & RDs",
+   "short": "Community",
+   "kind": "dept",
+   "list": "Community",
+   "blurb": "What members tell their RD, and community tasks.",
+   "owner": {
+    "name": "Nicholas Roethlein",
+    "why": "most-assigned in ClickUp “Community”"
+   },
+   "status": "red",
+   "checks": [
+    {
+     "metricId": "rd_said_leaving",
+     "ruleId": "rd_said_leaving",
+     "status": "red",
+     "reason": "26 members — green at 10 members or fewer, amber up to 25 members (red)"
+    },
+    {
+     "metricId": "overdue_Community",
+     "ruleId": "overdue_tasks",
+     "status": "green",
+     "reason": "2 tasks — green at 2 tasks or fewer, amber up to 5 tasks (green)"
+    },
+    {
+     "metricId": "overdue_urgent_Community",
+     "ruleId": "overdue_urgent_tasks",
+     "status": "green",
+     "reason": "0 tasks — green at 0 tasks or fewer, amber up to 0 tasks (green)"
+    }
+   ],
+   "metrics": [
+    {
+     "id": "rd_said_leaving",
+     "label": "Told an RD they are leaving",
+     "value": 26,
+     "unit": "members",
+     "sourceId": "fcai_rd_book_risk",
+     "source": "FC AI · RD check-in risk",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "RD check-in calls since 2026-09-04, all territories, member's own words (confidence ≥ 0.6)",
+     "complete": true,
+     "context": "51 more undecided · last 60 days"
+    },
+    {
+     "id": "rd_undecided",
+     "label": "Undecided on staying",
+     "value": 51,
+     "unit": "members",
+     "sourceId": "fcai_rd_book_risk",
+     "source": "FC AI · RD check-in risk",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "RD check-in calls since 2026-09-04, all territories, member's own words (confidence ≥ 0.6)",
+     "complete": true
+    },
+    {
+     "id": "rd_leaving_frustrated",
+     "label": "Leaving and frustrated",
+     "value": 9,
+     "unit": "members",
+     "sourceId": "fcai_rd_book_risk",
+     "source": "FC AI · RD check-in risk",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "RD check-in calls since 2026-09-04, all territories, member's own words (confidence ≥ 0.6)",
+     "complete": true
+    },
+    {
+     "id": "active_members",
+     "label": "Active members",
+     "value": 2136,
+     "unit": "members",
+     "sourceId": "fcai_community_pulse",
+     "source": "FC AI · community totals",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Whole community, paid-active today",
+     "complete": true,
+     "context": "Paid and active today"
+    },
+    {
+     "id": "overdue_Community",
+     "label": "Overdue open tasks",
+     "value": 2,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Community”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "overdue_urgent_Community",
+     "label": "Overdue urgent tasks",
+     "value": 0,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Community”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "open_Community",
+     "label": "Open tasks (to do + in progress)",
+     "value": 24,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Community”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "paused_Community",
+     "label": "Paused tasks",
+     "value": 2,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Community”, open = to do / in progress",
+     "complete": true
+    }
+   ]
+  },
+  {
+   "id": "admissions",
+   "name": "Admissions (Closers)",
+   "short": "Closers",
+   "kind": "dept",
+   "list": "Admissions",
+   "blurb": "Interviews → paid members.",
+   "owner": {
+    "name": "Dawson Turkovich",
+    "why": "most-assigned in ClickUp “Admissions”"
+   },
+   "status": "red",
+   "checks": [
+    {
+     "metricId": "closer_close_rate",
+     "ruleId": "closer_close_rate",
+     "status": "amber",
+     "reason": "18.3% — green at 20%+, amber at 15%+ (amber)"
+    },
+    {
+     "metricId": "interview_join_rate",
+     "ruleId": "interview_join_rate",
+     "status": "amber",
+     "reason": "23.6% — green at 30%+, amber at 20%+ (amber)"
+    },
+    {
+     "metricId": "overdue_Admissions",
+     "ruleId": "overdue_tasks",
+     "status": "red",
+     "reason": "16 tasks — green at 2 tasks or fewer, amber up to 5 tasks (red)"
+    },
+    {
+     "metricId": "overdue_urgent_Admissions",
+     "ruleId": "overdue_urgent_tasks",
+     "status": "red",
+     "reason": "3 tasks — green at 0 tasks or fewer, amber up to 0 tasks (red)"
+    }
+   ],
+   "metrics": [
+    {
+     "id": "new_members_closed",
+     "label": "New members closed",
+     "value": 197,
+     "unit": "members",
+     "sourceId": "fcai_staff_closer",
+     "source": "FC AI · closer panel",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Closers, 2026-10-01 to 2026-11-01 (exclusive); first payment in window",
+     "complete": true,
+     "context": "October 2026"
+    },
+    {
+     "id": "new_member_cash_usd",
+     "label": "New-member cash collected",
+     "value": 1725010,
+     "unit": "usd",
+     "sourceId": "fcai_staff_closer",
+     "source": "FC AI · closer panel",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Closers, 2026-10-01 to 2026-11-01 (exclusive); new sale + payment plan, refunds netted",
+     "complete": true,
+     "note": "Source labels per-rep revenue “cents”, but its team median (labelled USD) is the same size, so it is read as USD. Confirm once against payments.",
+     "context": "October 2026"
+    },
+    {
+     "id": "closer_close_rate",
+     "label": "Median close rate (held → paid)",
+     "value": 18.25,
+     "unit": "%",
+     "sourceId": "fcai_staff_closer",
+     "source": "FC AI · closer panel",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Closers, 2026-10-01 to 2026-11-01 (exclusive); team median of 10",
+     "complete": true
+    },
+    {
+     "id": "closer_show_rate",
+     "label": "Median interview show rate",
+     "value": 52.8,
+     "unit": "%",
+     "sourceId": "fcai_staff_closer",
+     "source": "FC AI · closer panel",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Closers, 2026-10-01 to 2026-11-01 (exclusive); team median",
+     "complete": true
+    },
+    {
+     "id": "interview_join_rate",
+     "label": "Ended joined / committed",
+     "value": 23.6,
+     "unit": "%",
+     "sourceId": "fcai_admissions",
+     "source": "FC AI · interview call outcomes",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Interview calls 2026-10-01 to 2026-11-03, read from transcripts",
+     "complete": true
+    },
+    {
+     "id": "interview_travel_objection",
+     "label": "Calls raising travel/format",
+     "value": 53.7,
+     "unit": "%",
+     "sourceId": "fcai_admissions",
+     "source": "FC AI · interview call outcomes",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Interview calls 2026-10-01 to 2026-11-03, read from transcripts",
+     "complete": true
+    },
+    {
+     "id": "overdue_Admissions",
+     "label": "Overdue open tasks",
+     "value": 16,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Admissions”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "overdue_urgent_Admissions",
+     "label": "Overdue urgent tasks",
+     "value": 3,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Admissions”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "open_Admissions",
+     "label": "Open tasks (to do + in progress)",
+     "value": 39,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Admissions”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "paused_Admissions",
+     "label": "Paused tasks",
+     "value": 1,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Admissions”, open = to do / in progress",
+     "complete": true
+    }
+   ]
+  },
+  {
+   "id": "setters",
+   "name": "Setters (Front End)",
+   "short": "Setters",
+   "kind": "dept",
+   "list": "Growth",
+   "blurb": "Intro calls booked and shown.",
+   "owner": {
+    "name": "Rayne Crossen",
+    "why": "most-assigned in ClickUp “Growth”"
+   },
+   "status": "amber",
+   "checks": [
+    {
+     "metricId": "setter_intro_show",
+     "ruleId": "setter_intro_show",
+     "status": "amber",
+     "reason": "50.2% — green at 55%+, amber at 45%+ (amber)"
+    },
+    {
+     "metricId": "overdue_Growth",
+     "ruleId": "overdue_tasks",
+     "status": "green",
+     "reason": "1 tasks — green at 2 tasks or fewer, amber up to 5 tasks (green)"
+    },
+    {
+     "metricId": "overdue_urgent_Growth",
+     "ruleId": "overdue_urgent_tasks",
+     "status": "green",
+     "reason": "0 tasks — green at 0 tasks or fewer, amber up to 0 tasks (green)"
+    }
+   ],
+   "metrics": [
+    {
+     "id": "setter_intro_show",
+     "label": "Median intro show rate",
+     "value": 50.2,
+     "unit": "%",
+     "sourceId": "fcai_staff_setter",
+     "source": "FC AI · setter panel",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Setters, 2026-10-01 to 2026-11-01 (exclusive); team median of 21",
+     "complete": true
+    },
+    {
+     "id": "setter_intro_to_close",
+     "label": "Median intro → close",
+     "value": 5.3,
+     "unit": "%",
+     "sourceId": "fcai_staff_setter",
+     "source": "FC AI · setter panel",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Setters, 2026-10-01 to 2026-11-01 (exclusive); team median of 21",
+     "complete": true
+    },
+    {
+     "id": "setter_on_call_dq",
+     "label": "Median on-call DQ rate",
+     "value": 21.4,
+     "unit": "%",
+     "sourceId": "fcai_staff_setter",
+     "source": "FC AI · setter panel",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Setters, 2026-10-01 to 2026-11-01 (exclusive); team median of 21",
+     "complete": true
+    },
+    {
+     "id": "setter_cash_per_intro",
+     "label": "Median cash per intro",
+     "value": 428,
+     "unit": "usd",
+     "sourceId": "fcai_staff_setter",
+     "source": "FC AI · setter panel",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Setters, 2026-10-01 to 2026-11-01 (exclusive); team median of 21",
+     "complete": true
+    },
+    {
+     "id": "setters_below_45_show",
+     "label": "Setters (30+ intros) under 45% show",
+     "value": 4,
+     "unit": "setters",
+     "sourceId": "fcai_staff_setter",
+     "source": "FC AI · setter panel",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Setters, 2026-10-01 to 2026-11-01 (exclusive); setters with 30+ intros scheduled",
+     "complete": true
+    },
+    {
+     "id": "overdue_Growth",
+     "label": "Overdue open tasks",
+     "value": 1,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Growth”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "overdue_urgent_Growth",
+     "label": "Overdue urgent tasks",
+     "value": 0,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Growth”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "open_Growth",
+     "label": "Open tasks (to do + in progress)",
+     "value": 14,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Growth”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "paused_Growth",
+     "label": "Paused tasks",
+     "value": 0,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Growth”, open = to do / in progress",
+     "complete": true
+    }
+   ]
+  },
+  {
+   "id": "marketing",
+   "name": "Marketing & Growth",
+   "short": "Marketing",
+   "kind": "dept",
+   "list": "Marketing & Product",
+   "blurb": "Where intro bookings come from and what they cost.",
+   "owner": {
+    "name": "Johnny Brown",
+    "why": "most-assigned in ClickUp “Marketing & Product”"
+   },
+   "status": "amber",
+   "checks": [
+    {
+     "metricId": "unknown_source_share",
+     "ruleId": "unknown_source_share",
+     "status": "amber",
+     "reason": "15.3% — green at 10% or fewer, amber up to 20% (amber)"
+    },
+    {
+     "metricId": "overdue_Marketing & Product",
+     "ruleId": "overdue_tasks",
+     "status": "green",
+     "reason": "2 tasks — green at 2 tasks or fewer, amber up to 5 tasks (green)"
+    },
+    {
+     "metricId": "overdue_urgent_Marketing & Product",
+     "ruleId": "overdue_urgent_tasks",
+     "status": "green",
+     "reason": "0 tasks — green at 0 tasks or fewer, amber up to 0 tasks (green)"
+    }
+   ],
+   "metrics": [
+    {
+     "id": "intro_bookings",
+     "label": "Intro calls booked",
+     "value": 3546,
+     "unit": "bookings",
+     "sourceId": "fcai_attribution",
+     "source": "FC AI · channel attribution",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Intro bookings 2026-10-01 to 2026-10-31, last-touch",
+     "complete": true
+    },
+    {
+     "id": "unknown_source_share",
+     "label": "Bookings with unknown source",
+     "value": 15.3,
+     "unit": "%",
+     "sourceId": "fcai_attribution",
+     "source": "FC AI · channel attribution",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Intro bookings 2026-10-01 to 2026-10-31, last-touch",
+     "complete": true
+    },
+    {
+     "id": "fb_spend_usd",
+     "label": "Facebook ad spend",
+     "value": 120541,
+     "unit": "usd",
+     "sourceId": "fcai_attribution",
+     "source": "FC AI · channel attribution",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "2026-10-01 to 2026-10-31",
+     "complete": true
+    },
+    {
+     "id": "fb_cost_per_close",
+     "label": "Facebook spend per last-touch close",
+     "value": 1944,
+     "unit": "usd",
+     "sourceId": "fcai_attribution",
+     "source": "FC AI · channel attribution",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Intro bookings 2026-10-01 to 2026-10-31, last-touch; worst case (all spend on last-touch closes)",
+     "complete": true
+    },
+    {
+     "id": "linkedin_qualified",
+     "label": "LinkedIn qualified leads",
+     "value": 866,
+     "unit": "leads",
+     "sourceId": "fcai_attribution",
+     "source": "FC AI · channel attribution",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "2026-10-01 to 2026-10-31",
+     "complete": true
+    },
+    {
+     "id": "overdue_Marketing & Product",
+     "label": "Overdue open tasks",
+     "value": 2,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Marketing & Product”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "overdue_urgent_Marketing & Product",
+     "label": "Overdue urgent tasks",
+     "value": 0,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Marketing & Product”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "open_Marketing & Product",
+     "label": "Open tasks (to do + in progress)",
+     "value": 10,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Marketing & Product”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "paused_Marketing & Product",
+     "label": "Paused tasks",
+     "value": 0,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Marketing & Product”, open = to do / in progress",
+     "complete": true
+    }
+   ]
+  },
+  {
+   "id": "events",
+   "name": "Events & Partnerships",
+   "short": "Events",
+   "kind": "dept",
+   "list": "Events & Partnerships",
+   "blurb": "How events land with members.",
+   "owner": {
+    "name": "Kahla Lauinger",
+    "why": "most-assigned in ClickUp “Events & Partnerships”"
+   },
+   "status": "green",
+   "checks": [
+    {
+     "metricId": "event_nps",
+     "ruleId": "event_nps",
+     "status": "green",
+     "reason": "59 — green at 50+, amber at 30+ (green)"
+    },
+    {
+     "metricId": "overdue_Events & Partnerships",
+     "ruleId": "overdue_tasks",
+     "status": "green",
+     "reason": "1 tasks — green at 2 tasks or fewer, amber up to 5 tasks (green)"
+    },
+    {
+     "metricId": "overdue_urgent_Events & Partnerships",
+     "ruleId": "overdue_urgent_tasks",
+     "status": "green",
+     "reason": "0 tasks — green at 0 tasks or fewer, amber up to 0 tasks (green)"
+    }
+   ],
+   "metrics": [
+    {
+     "id": "event_nps",
+     "label": "Event NPS",
+     "value": 59,
+     "unit": "pts",
+     "sourceId": "fcai_event_feedback",
+     "source": "FC AI · event feedback",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Post-event surveys since 2026-09-01, all cities; 234 responses",
+     "complete": true
+    },
+    {
+     "id": "event_responses",
+     "label": "Survey responses",
+     "value": 234,
+     "unit": "responses",
+     "sourceId": "fcai_event_feedback",
+     "source": "FC AI · event feedback",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Post-event surveys since 2026-09-01, all cities",
+     "complete": true
+    },
+    {
+     "id": "overdue_Events & Partnerships",
+     "label": "Overdue open tasks",
+     "value": 1,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Events & Partnerships”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "overdue_urgent_Events & Partnerships",
+     "label": "Overdue urgent tasks",
+     "value": 0,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Events & Partnerships”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "open_Events & Partnerships",
+     "label": "Open tasks (to do + in progress)",
+     "value": 8,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Events & Partnerships”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "paused_Events & Partnerships",
+     "label": "Paused tasks",
+     "value": 0,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Events & Partnerships”, open = to do / in progress",
+     "complete": true
+    }
+   ]
+  },
+  {
+   "id": "fulfillment",
+   "name": "Member Fulfillment",
+   "short": "Fulfillment",
+   "kind": "dept",
+   "list": "Member Fulfillment Queue",
+   "blurb": "Post-call follow-through for members.",
+   "owner": {
+    "name": "Omaar Yemini",
+    "why": "most-assigned in ClickUp “Member Fulfillment Queue”"
+   },
+   "status": "green",
+   "checks": [
+    {
+     "metricId": "overdue_Member Fulfillment Queue",
+     "ruleId": "overdue_tasks",
+     "status": "green",
+     "reason": "1 tasks — green at 2 tasks or fewer, amber up to 5 tasks (green)"
+    },
+    {
+     "metricId": "overdue_urgent_Member Fulfillment Queue",
+     "ruleId": "overdue_urgent_tasks",
+     "status": "green",
+     "reason": "0 tasks — green at 0 tasks or fewer, amber up to 0 tasks (green)"
+    }
+   ],
+   "metrics": [
+    {
+     "id": "overdue_Member Fulfillment Queue",
+     "label": "Overdue open tasks",
+     "value": 1,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Member Fulfillment Queue”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "overdue_urgent_Member Fulfillment Queue",
+     "label": "Overdue urgent tasks",
+     "value": 0,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Member Fulfillment Queue”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "open_Member Fulfillment Queue",
+     "label": "Open tasks (to do + in progress)",
+     "value": 1,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Member Fulfillment Queue”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "paused_Member Fulfillment Queue",
+     "label": "Paused tasks",
+     "value": 0,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Member Fulfillment Queue”, open = to do / in progress",
+     "complete": true
+    }
+   ]
+  },
+  {
+   "id": "operations",
+   "name": "Operations",
+   "short": "Ops",
+   "kind": "dept",
+   "list": "Operations",
+   "blurb": "Tools, vendors, systems.",
+   "owner": {
+    "name": "Marie Mack",
+    "why": "most-assigned in ClickUp “Operations”"
+   },
+   "status": "green",
+   "checks": [
+    {
+     "metricId": "overdue_Operations",
+     "ruleId": "overdue_tasks",
+     "status": "green",
+     "reason": "0 tasks — green at 2 tasks or fewer, amber up to 5 tasks (green)"
+    },
+    {
+     "metricId": "overdue_urgent_Operations",
+     "ruleId": "overdue_urgent_tasks",
+     "status": "green",
+     "reason": "0 tasks — green at 0 tasks or fewer, amber up to 0 tasks (green)"
+    }
+   ],
+   "metrics": [
+    {
+     "id": "overdue_Operations",
+     "label": "Overdue open tasks",
+     "value": 0,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Operations”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "overdue_urgent_Operations",
+     "label": "Overdue urgent tasks",
+     "value": 0,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Operations”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "open_Operations",
+     "label": "Open tasks (to do + in progress)",
+     "value": 13,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Operations”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "paused_Operations",
+     "label": "Paused tasks",
+     "value": 0,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Operations”, open = to do / in progress",
+     "complete": true
+    }
+   ]
+  },
+  {
+   "id": "admin",
+   "name": "Admin & People",
+   "short": "Admin",
+   "kind": "dept",
+   "list": "Admin",
+   "blurb": "Hiring, onboarding, staff support.",
+   "owner": {
+    "name": "Perla Dominguez",
+    "why": "most-assigned in ClickUp “Admin”"
+   },
+   "status": "green",
+   "checks": [
+    {
+     "metricId": "overdue_Admin",
+     "ruleId": "overdue_tasks",
+     "status": "green",
+     "reason": "0 tasks — green at 2 tasks or fewer, amber up to 5 tasks (green)"
+    },
+    {
+     "metricId": "overdue_urgent_Admin",
+     "ruleId": "overdue_urgent_tasks",
+     "status": "green",
+     "reason": "0 tasks — green at 0 tasks or fewer, amber up to 0 tasks (green)"
+    }
+   ],
+   "metrics": [
+    {
+     "id": "overdue_Admin",
+     "label": "Overdue open tasks",
+     "value": 0,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Admin”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "overdue_urgent_Admin",
+     "label": "Overdue urgent tasks",
+     "value": 0,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Admin”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "open_Admin",
+     "label": "Open tasks (to do + in progress)",
+     "value": 15,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Admin”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "paused_Admin",
+     "label": "Paused tasks",
+     "value": 0,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “Admin”, open = to do / in progress",
+     "complete": true
+    }
+   ]
+  },
+  {
+   "id": "ai",
+   "name": "CTO / AI",
+   "short": "AI",
+   "kind": "dept",
+   "list": "CTO/AI",
+   "blurb": "Internal product and AI work.",
+   "owner": {
+    "name": "Kevin Kuznetsov",
+    "why": "most-assigned in ClickUp “CTO/AI”"
+   },
+   "status": "green",
+   "checks": [
+    {
+     "metricId": "overdue_CTO/AI",
+     "ruleId": "overdue_tasks",
+     "status": "green",
+     "reason": "1 tasks — green at 2 tasks or fewer, amber up to 5 tasks (green)"
+    },
+    {
+     "metricId": "overdue_urgent_CTO/AI",
+     "ruleId": "overdue_urgent_tasks",
+     "status": "green",
+     "reason": "0 tasks — green at 0 tasks or fewer, amber up to 0 tasks (green)"
+    }
+   ],
+   "metrics": [
+    {
+     "id": "overdue_CTO/AI",
+     "label": "Overdue open tasks",
+     "value": 1,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “CTO/AI”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "overdue_urgent_CTO/AI",
+     "label": "Overdue urgent tasks",
+     "value": 0,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “CTO/AI”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "open_CTO/AI",
+     "label": "Open tasks (to do + in progress)",
+     "value": 2,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “CTO/AI”, open = to do / in progress",
+     "complete": true
+    },
+    {
+     "id": "paused_CTO/AI",
+     "label": "Paused tasks",
+     "value": 7,
+     "unit": "tasks",
+     "sourceId": "clickup_tasks",
+     "source": "ClickUp · Projects By Department",
+     "readAt": "2026-11-03T21:22:30Z",
+     "scope": "ClickUp list “CTO/AI”, open = to do / in progress",
+     "complete": true
+    }
+   ]
+  },
+  {
+   "id": "cash",
+   "name": "Cash & Finance",
+   "short": "Cash",
+   "kind": "bank",
+   "list": null,
+   "blurb": "Bank balance, money owed, money owing.",
+   "owner": {
+    "name": null,
+    "why": "No owner on record"
+   },
+   "status": "grey",
+   "checks": [],
+   "metrics": [
+    {
+     "id": "cash_balance",
+     "label": "Cash in bank",
+     "value": null,
+     "unit": "usd",
+     "sourceId": null,
+     "source": null,
+     "readAt": null,
+     "scope": "",
+     "complete": false,
+     "missingReason": "No accounting or bank connector is connected yet"
+    },
+    {
+     "id": "receivables",
+     "label": "Money owed to us",
+     "value": null,
+     "unit": "usd",
+     "sourceId": null,
+     "source": null,
+     "readAt": null,
+     "scope": "",
+     "complete": false,
+     "missingReason": "No accounting or bank connector is connected yet"
+    },
+    {
+     "id": "payables",
+     "label": "Money we owe",
+     "value": null,
+     "unit": "usd",
+     "sourceId": null,
+     "source": null,
+     "readAt": null,
+     "scope": "",
+     "complete": false,
+     "missingReason": "No accounting or bank connector is connected yet"
+    }
+   ]
+  }
+ ],
+ "alerts": [
+  {
+   "id": "renewals_worth_call",
+   "buildingId": "renewals",
+   "status": "red",
+   "title": "67 open renewals are engaged and worth a call",
+   "detail": "Voluntary renewal rate so far is 17.6% with 103 still open.",
+   "costUsd": 496985,
+   "costLabel": "$496,985 plan value open",
+   "nextStep": "Work the “worth a call” list this week, highest plan value first.",
+   "owner": "Chauncey Amaechi",
+   "metricId": "renewals_worth_call",
+   "privateList": "renewals_worth_call"
+  },
+  {
+   "id": "rd_leaving",
+   "buildingId": "community",
+   "status": "red",
+   "title": "26 members told an RD they're leaving (9 frustrated)",
+   "detail": "51 more are undecided. 26 members — green at 10 members or fewer, amber up to 25 members (red).",
+   "costUsd": null,
+   "costLabel": "Plan value not in this read",
+   "nextStep": "Each RD calls back their frustrated “leaving” members first; verify against RD notes.",
+   "owner": "Each territory’s RD",
+   "metricId": "rd_said_leaving",
+   "privateList": "rd_leaving"
+  },
+  {
+   "id": "tasks_admissions",
+   "buildingId": "admissions",
+   "status": "red",
+   "title": "Admissions (Closers): 16 overdue tasks (3 urgent)",
+   "detail": "In ClickUp “Admissions”.",
+   "costUsd": null,
+   "costLabel": "—",
+   "nextStep": "Re-date or close each overdue task; urgent ones first.",
+   "owner": "Dawson Turkovich",
+   "metricId": "overdue_Admissions",
+   "privateList": "overdue_tasks:Admissions"
+  },
+  {
+   "id": "renewals_silent",
+   "buildingId": "renewals",
+   "status": "amber",
+   "title": "17 members left this month with nothing on record",
+   "detail": "No call, support thread or note in their own words before they went.",
+   "costUsd": 112700,
+   "costLabel": "$112,700 plan value lost",
+   "nextStep": "Book exit conversations; add them to the weekly churn review.",
+   "owner": "Ivan Dukovski (assigned “Weekly Review of Churned Members” in ClickUp)",
+   "metricId": "renewals_silent_churn",
+   "privateList": "renewals_silent_churn"
+  },
+  {
+   "id": "admissions_closer_close_rate",
+   "buildingId": "admissions",
+   "status": "amber",
+   "title": "Closer close rate is below target",
+   "detail": "18.3% — green at 20%+, amber at 15%+ (amber)",
+   "costUsd": null,
+   "costLabel": "—",
+   "nextStep": "Review the bottom closers’ calls against the top two; check follow-up close rate.",
+   "owner": "Dawson Turkovich",
+   "metricId": "closer_close_rate"
+  },
+  {
+   "id": "admissions_interview_join_rate",
+   "buildingId": "admissions",
+   "status": "amber",
+   "title": "Fewer interviews end with a join",
+   "detail": "23.6% — green at 30%+, amber at 20%+ (amber)",
+   "costUsd": null,
+   "costLabel": "—",
+   "nextStep": "Travel/format comes up on 53.7% of calls — prepare a format answer for the pitch.",
+   "owner": "Dawson Turkovich",
+   "metricId": "interview_join_rate"
+  },
+  {
+   "id": "setters_setter_intro_show",
+   "buildingId": "setters",
+   "status": "amber",
+   "title": "Intro show rate is below target",
+   "detail": "50.2% — green at 55%+, amber at 45%+ (amber)",
+   "costUsd": null,
+   "costLabel": "—",
+   "nextStep": "4 setters (30+ intros) are under 45% show; coach or rebalance their calendars.",
+   "owner": "Rayne Crossen",
+   "metricId": "setter_intro_show"
+  },
+  {
+   "id": "marketing_unknown_source_share",
+   "buildingId": "marketing",
+   "status": "amber",
+   "title": "Too many bookings have no known source",
+   "detail": "15.3% — green at 10% or fewer, amber up to 20% (amber)",
+   "costUsd": null,
+   "costLabel": "$120,541 Facebook spend in the window",
+   "nextStep": "Fix tracking on the booking forms so spend can be judged.",
+   "owner": "Johnny Brown",
+   "metricId": "unknown_source_share"
+  }
+ ],
+ "sources": [
+  {
+   "id": "fcai_community_pulse",
+   "name": "FC AI · community totals",
+   "freshnessHours": 24,
+   "readAt": "2026-11-03T21:21:40Z",
+   "ok": true,
+   "error": null,
+   "note": null
+  },
+  {
+   "id": "fcai_renewal_diagnosis",
+   "name": "FC AI · renewal book & diagnosis",
+   "freshnessHours": 24,
+   "readAt": "2026-11-03T21:21:40Z",
+   "ok": true,
+   "error": null,
+   "note": null
+  },
+  {
+   "id": "fcai_rd_book_risk",
+   "name": "FC AI · RD check-in risk",
+   "freshnessHours": 24,
+   "readAt": "2026-11-03T21:21:40Z",
+   "ok": true,
+   "error": null,
+   "note": "undecided rows transcribed with name+territory only"
+  },
+  {
+   "id": "fcai_staff_closer",
+   "name": "FC AI · closer panel",
+   "freshnessHours": 24,
+   "readAt": "2026-11-03T21:21:40Z",
+   "ok": true,
+   "error": null,
+   "note": "source labels revenue '_cents' per rep but the team median (labelled usd) is the same magnitude; read as USD"
+  },
+  {
+   "id": "fcai_staff_setter",
+   "name": "FC AI · setter panel",
+   "freshnessHours": 24,
+   "readAt": "2026-11-03T21:21:40Z",
+   "ok": true,
+   "error": null,
+   "note": "rows with 30+ intros scheduled transcribed; team medians are the source's own over all 21"
+  },
+  {
+   "id": "fcai_admissions",
+   "name": "FC AI · interview call outcomes",
+   "freshnessHours": 24,
+   "readAt": "2026-11-03T21:21:40Z",
+   "ok": true,
+   "error": null,
+   "note": null
+  },
+  {
+   "id": "fcai_attribution",
+   "name": "FC AI · channel attribution",
+   "freshnessHours": 24,
+   "readAt": "2026-11-03T21:21:40Z",
+   "ok": true,
+   "error": null,
+   "note": "rows transcribed: every row with last-touch bookings > 0 plus the two cold-email senders with qualified leads; last-touch closes across all rows sum to these"
+  },
+  {
+   "id": "fcai_event_feedback",
+   "name": "FC AI · event feedback",
+   "freshnessHours": 168,
+   "readAt": "2026-11-03T21:21:40Z",
+   "ok": true,
+   "error": null,
+   "note": null
+  },
+  {
+   "id": "clickup_tasks",
+   "name": "ClickUp · Projects By Department",
+   "freshnessHours": 24,
+   "readAt": "2026-11-03T21:22:30Z",
+   "ok": true,
+   "error": null,
+   "note": null
+  }
+ ],
+ "tables": {
+  "community": {
+   "by_territory": [
+    {
+     "territory": "Rep 5 — West Coast",
+     "members": 342
+    },
+    {
+     "territory": "Rep 2 — Canada",
+     "members": 341
+    },
+    {
+     "territory": "Rep 4 — NYC / NE / DC",
+     "members": 328
+    },
+    {
+     "territory": "Rep 1 — Southeast",
+     "members": 297
+    },
+    {
+     "territory": "Rep 6 — Texas / Mountain",
+     "members": 293
+    },
+    {
+     "territory": "Rep 3 — Chicago / Virtual / Intl",
+     "members": 287
+    },
+    {
+     "territory": "Rep 7 — Atlanta",
+     "members": 211
+    },
+    {
+     "territory": "Unassigned",
+     "members": 37
+    }
+   ],
+   "top_industries": [
+    {
+     "industry": "ecommerce cpg",
+     "members": 260
+    },
+    {
+     "industry": "construction trades",
+     "members": 229
+    },
+    {
+     "industry": "financial professional services",
+     "members": 152
+    },
+    {
+     "industry": "marketing advertising",
+     "members": 148
+    },
+    {
+     "industry": "healthcare medical",
+     "members": 118
+    },
+    {
+     "industry": "real estate",
+     "members": 113
+    },
+    {
+     "industry": "manufacturing industrial",
+     "members": 110
+    },
+    {
+     "industry": "wellness aesthetics",
+     "members": 105
+    },
+    {
+     "industry": "food beverage hospitality",
+     "members": 102
+    },
+    {
+     "industry": "software saas",
+     "members": 100
+    }
+   ],
+   "rd_by_territory": [
+    {
+     "territory": "Toronto",
+     "leaving": 6,
+     "undecided": 12
+    },
+    {
+     "territory": "West Coast",
+     "leaving": 6,
+     "undecided": 8
+    },
+    {
+     "territory": "MidWest & MidAtlantic",
+     "leaving": 4,
+     "undecided": 11
+    },
+    {
+     "territory": "South East",
+     "leaving": 4,
+     "undecided": 2
+    },
+    {
+     "territory": "Mountain West",
+     "leaving": 3,
+     "undecided": 7
+    },
+    {
+     "territory": "New York",
+     "leaving": 2,
+     "undecided": 9
+    },
+    {
+     "territory": "South Florida",
+     "leaving": 1,
+     "undecided": 2
+    }
+   ]
+  },
+  "renewals": {
+   "outcomes": [
+    {
+     "outcome": "Renewed",
+     "members": 6,
+     "usd": 41500
+    },
+    {
+     "outcome": "Left, reason on record",
+     "members": 7,
+     "usd": 52000
+    },
+    {
+     "outcome": "Left silently",
+     "members": 17,
+     "usd": 112700
+    },
+    {
+     "outcome": "Other exit",
+     "members": 4,
+     "usd": 27750
+    },
+    {
+     "outcome": "Policy exit (intended)",
+     "members": 2,
+     "usd": 14500
+    },
+    {
+     "outcome": "Payment failure",
+     "members": 0,
+     "usd": 0
+    },
+    {
+     "outcome": "Open — worth a call",
+     "members": 67,
+     "usd": 496985
+    },
+    {
+     "outcome": "Open — quiet",
+     "members": 36,
+     "usd": 233730
+    }
+   ]
+  },
+  "admissions": {
+   "outcomes": [
+    {
+     "outcome": "Joined / committed",
+     "calls": 145
+    },
+    {
+     "outcome": "Booked next step",
+     "calls": 357
+    },
+    {
+     "outcome": "Thinking about it",
+     "calls": 90
+    },
+    {
+     "outcome": "Declined",
+     "calls": 12
+    },
+    {
+     "outcome": "No engagement",
+     "calls": 11
+    }
+   ],
+   "objections": [
+    {
+     "objection": "Travel / format",
+     "calls": 330
+    },
+    {
+     "objection": "Time",
+     "calls": 194
+    },
+    {
+     "objection": "Price",
+     "calls": 143
+    },
+    {
+     "objection": "Partner check",
+     "calls": 97
+    },
+    {
+     "objection": "Fit / value",
+     "calls": 87
+    },
+    {
+     "objection": "Competitor",
+     "calls": 83
+    }
+   ]
+  },
+  "marketing": {
+   "channels": [
+    {
+     "channel": "paid · facebook",
+     "bookings": 1714,
+     "closes": 62,
+     "cost_usd": 120541
+    },
+    {
+     "channel": "unknown source",
+     "bookings": 542,
+     "closes": 97,
+     "cost_usd": null
+    },
+    {
+     "channel": "email · Vi",
+     "bookings": 390,
+     "closes": 35,
+     "cost_usd": null
+    },
+    {
+     "channel": "email · Darwin",
+     "bookings": 259,
+     "closes": 3,
+     "cost_usd": null
+    },
+    {
+     "channel": "outbound · LinkedIn",
+     "bookings": 232,
+     "closes": 1,
+     "cost_usd": null
+    },
+    {
+     "channel": "paid · google",
+     "bookings": 180,
+     "closes": 5,
+     "cost_usd": 8211
+    },
+    {
+     "channel": "email · David",
+     "bookings": 141,
+     "closes": 6,
+     "cost_usd": null
+    },
+    {
+     "channel": "email · John",
+     "bookings": 65,
+     "closes": 0,
+     "cost_usd": null
+    },
+    {
+     "channel": "organic · Website",
+     "bookings": 9,
+     "closes": 0,
+     "cost_usd": null
+    },
+    {
+     "channel": "email · AI",
+     "bookings": 7,
+     "closes": 1,
+     "cost_usd": null
+    },
+    {
+     "channel": "newsletter · Chris",
+     "bookings": 4,
+     "closes": 0,
+     "cost_usd": null
+    },
+    {
+     "channel": "email (no sender)",
+     "bookings": 2,
+     "closes": 0,
+     "cost_usd": null
+    },
+    {
+     "channel": "partner · Chris",
+     "bookings": 1,
+     "closes": 0,
+     "cost_usd": null
+    }
+   ]
+  },
+  "events": {
+   "by_city": [
+    {
+     "city": "Toronto",
+     "kind": "Social",
+     "responses": 36,
+     "avg_score": 9,
+     "nps": 69
+    },
+    {
+     "city": "Toronto",
+     "kind": "Mastermind",
+     "responses": 23,
+     "avg_score": 8.8,
+     "nps": 57
+    },
+    {
+     "city": "Los Angeles",
+     "kind": "Social",
+     "responses": 17,
+     "avg_score": 8.3,
+     "nps": 53
+    },
+    {
+     "city": "Miami",
+     "kind": "Social",
+     "responses": 14,
+     "avg_score": 8.9,
+     "nps": 57
+    },
+    {
+     "city": "Miami",
+     "kind": "Mastermind",
+     "responses": 13,
+     "avg_score": 9,
+     "nps": 69
+    },
+    {
+     "city": "NYC",
+     "kind": "Social",
+     "responses": 13,
+     "avg_score": 8.2,
+     "nps": 31
+    },
+    {
+     "city": "NYC",
+     "kind": "Mastermind",
+     "responses": 11,
+     "avg_score": 8.1,
+     "nps": 36
+    },
+    {
+     "city": "Los Angeles",
+     "kind": "Mastermind",
+     "responses": 10,
+     "avg_score": 8.2,
+     "nps": 30
+    },
+    {
+     "city": "San Francisco",
+     "kind": "Social",
+     "responses": 8,
+     "avg_score": 8.8,
+     "nps": 63
+    },
+    {
+     "city": "Orange County",
+     "kind": "Mastermind",
+     "responses": 8,
+     "avg_score": 8.8,
+     "nps": 50
+    },
+    {
+     "city": "New York",
+     "kind": "Mastermind",
+     "responses": 6,
+     "avg_score": 10,
+     "nps": 100
+    },
+    {
+     "city": "Dallas",
+     "kind": "Dinner",
+     "responses": 6,
+     "avg_score": 8.2,
+     "nps": 33
+    },
+    {
+     "city": "New York",
+     "kind": "Social",
+     "responses": 6,
+     "avg_score": 8.5,
+     "nps": 33
+    },
+    {
+     "city": "Boca Raton",
+     "kind": "Mastermind",
+     "responses": 6,
+     "avg_score": 9.2,
+     "nps": 67
+    },
+    {
+     "city": "Toronto",
+     "kind": "Dinner",
+     "responses": 5,
+     "avg_score": 9,
+     "nps": 60
+    },
+    {
+     "city": "Chicago",
+     "kind": "Dinner",
+     "responses": 5,
+     "avg_score": 10,
+     "nps": 100
+    },
+    {
+     "city": "Chicago",
+     "kind": "Mastermind",
+     "responses": 5,
+     "avg_score": 8.2,
+     "nps": 40
+    },
+    {
+     "city": "Tampa",
+     "kind": "Mastermind",
+     "responses": 5,
+     "avg_score": 9,
+     "nps": 60
+    },
+    {
+     "city": "Austin",
+     "kind": "Mastermind",
+     "responses": 5,
+     "avg_score": 9.6,
+     "nps": 100
+    },
+    {
+     "city": "Washington DC",
+     "kind": "Social",
+     "responses": 5,
+     "avg_score": 9.4,
+     "nps": 80
+    },
+    {
+     "city": "Austin",
+     "kind": "Dinner",
+     "responses": 3,
+     "avg_score": 8.7,
+     "nps": 33
+    },
+    {
+     "city": "Atlanta",
+     "kind": "Dinner",
+     "responses": 3,
+     "avg_score": 8.7,
+     "nps": 67
+    },
+    {
+     "city": "Tampa",
+     "kind": "Social",
+     "responses": 3,
+     "avg_score": 8.3,
+     "nps": 33
+    },
+    {
+     "city": "Vancouver",
+     "kind": "Mastermind",
+     "responses": 3,
+     "avg_score": 9.7,
+     "nps": 100
+    },
+    {
+     "city": "Boston",
+     "kind": "Social",
+     "responses": 2,
+     "avg_score": 9,
+     "nps": 50
+    },
+    {
+     "city": "Tampa",
+     "kind": "Dinner",
+     "responses": 2,
+     "avg_score": 9,
+     "nps": 100
+    },
+    {
+     "city": "Chicago",
+     "kind": "Social",
+     "responses": 2,
+     "avg_score": 10,
+     "nps": 100
+    },
+    {
+     "city": "Dallas",
+     "kind": "Social",
+     "responses": 2,
+     "avg_score": 10,
+     "nps": 100
+    },
+    {
+     "city": "Vancouver",
+     "kind": "Social",
+     "responses": 2,
+     "avg_score": 8.5,
+     "nps": 50
+    },
+    {
+     "city": "Austin",
+     "kind": "Social",
+     "responses": 2,
+     "avg_score": 9,
+     "nps": 50
+    },
+    {
+     "city": "Boston",
+     "kind": "Mastermind",
+     "responses": 1,
+     "avg_score": 10,
+     "nps": 100
+    },
+    {
+     "city": "Philadelphia",
+     "kind": "Social",
+     "responses": 1,
+     "avg_score": 10,
+     "nps": 100
+    },
+    {
+     "city": "Female Founder Day- Miami",
+     "kind": "Social",
+     "responses": 1,
+     "avg_score": 9,
+     "nps": 100
+    }
+   ]
+  },
+  "tasks": [
+   {
+    "list": "Admissions",
+    "open": 39,
+    "in_progress": 8,
+    "on_pause": 1,
+    "ideas": 0,
+    "overdue": 16,
+    "overdue_urgent": 3,
+    "topAssignee": "Dawson Turkovich"
+   },
+   {
+    "list": "Community",
+    "open": 24,
+    "in_progress": 10,
+    "on_pause": 2,
+    "ideas": 0,
+    "overdue": 2,
+    "overdue_urgent": 0,
+    "topAssignee": "Nicholas Roethlein"
+   },
+   {
+    "list": "Marketing & Product",
+    "open": 10,
+    "in_progress": 1,
+    "on_pause": 0,
+    "ideas": 0,
+    "overdue": 2,
+    "overdue_urgent": 0,
+    "topAssignee": "Johnny Brown"
+   },
+   {
+    "list": "Growth",
+    "open": 14,
+    "in_progress": 0,
+    "on_pause": 0,
+    "ideas": 0,
+    "overdue": 1,
+    "overdue_urgent": 0,
+    "topAssignee": "Rayne Crossen"
+   },
+   {
+    "list": "Member Fulfillment Queue",
+    "open": 1,
+    "in_progress": 0,
+    "on_pause": 0,
+    "ideas": 0,
+    "overdue": 1,
+    "overdue_urgent": 0,
+    "topAssignee": "Omaar Yemini"
+   },
+   {
+    "list": "Events & Partnerships",
+    "open": 8,
+    "in_progress": 3,
+    "on_pause": 0,
+    "ideas": 0,
+    "overdue": 1,
+    "overdue_urgent": 0,
+    "topAssignee": "Kahla Lauinger"
+   },
+   {
+    "list": "CTO/AI",
+    "open": 2,
+    "in_progress": 0,
+    "on_pause": 7,
+    "ideas": 0,
+    "overdue": 1,
+    "overdue_urgent": 0,
+    "topAssignee": "Kevin Kuznetsov"
+   },
+   {
+    "list": "Operations",
+    "open": 13,
+    "in_progress": 1,
+    "on_pause": 0,
+    "ideas": 0,
+    "overdue": 0,
+    "overdue_urgent": 0,
+    "topAssignee": "Marie Mack"
+   },
+   {
+    "list": "Admin",
+    "open": 15,
+    "in_progress": 1,
+    "on_pause": 0,
+    "ideas": 0,
+    "overdue": 0,
+    "overdue_urgent": 0,
+    "topAssignee": "Perla Dominguez"
+   },
+   {
+    "list": "Retention Backlog",
+    "open": 0,
+    "in_progress": 0,
+    "on_pause": 0,
+    "ideas": 12,
+    "overdue": 0,
+    "overdue_urgent": 0,
+    "topAssignee": "Nicholas Roethlein"
+   }
+  ]
+ }
+}

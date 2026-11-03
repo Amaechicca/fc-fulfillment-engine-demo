@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FC Command Center</title>
+<meta name="description" content="Founders Club command center: every department as a building, colored by how it's doing. Read-only.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <span class="seal" aria-hidden="true">FC</span>
+    <div>
+      <h1>Command Center</h1>
+      <p class="sub">Read-only · Phase 1</p>
+    </div>
+  </div>
+  <label class="switch" title="Hide member and staff names">
+    <input type="checkbox" id="hideNames" checked>
+    <span>Hide names</span>
+  </label>
+</header>
+
+<div id="banner" class="banner" role="status" hidden></div>
+
+<main>
+  <section class="five" aria-labelledby="q">
+    <h2 id="q" class="question">—</h2>
+    <div id="topNumbers" class="tiles"></div>
+  </section>
+
+  <section class="townWrap" aria-label="3D town of departments">
+    <div id="town" class="town">
+      <canvas id="townCanvas" aria-hidden="true"></canvas>
+      <div id="labels" class="labels"></div>
+      <button id="fullscreen" class="iconBtn fsBtn" type="button" aria-label="Full screen">⤢</button>
+      <div class="legend" aria-label="Legend">
+        <span><i class="dot red"></i>✕ Act now</span>
+        <span><i class="dot amber"></i>! Watch</span>
+        <span><i class="dot green"></i>✓ On track</span>
+        <span><i class="dot grey"></i>– No data</span>
+      </div>
+      <p id="townFallback" class="townFallback" hidden>The 3D town could not load. Everything is in the tabs below.</p>
+    </div>
+    <p class="hint">Tap a building for its numbers. Drag to turn, pinch to zoom.</p>
+  </section>
+
+  <section id="detail" class="detail" aria-live="polite" hidden></section>
+
+  <section aria-labelledby="alertsH">
+    <h2 id="alertsH" class="sectionH">Alerts <span class="muted small">red and amber, ranked by cost of delay</span></h2>
+    <ol id="alerts" class="alerts"></ol>
+  </section>
+
+  <section aria-labelledby="tabsH">
+    <h2 id="tabsH" class="sectionH">By area</h2>
+    <div id="tabs" class="tabs" role="tablist"></div>
+    <div id="tabPanel" class="tabPanel" role="tabpanel"></div>
+  </section>
+
+  <section aria-labelledby="srcH">
+    <h2 id="srcH" class="sectionH">Sources</h2>
+    <div id="sources"></div>
+  </section>
+</main>
+
+<footer class="foot">Nothing on this page can send, write or change anything. Numbers come from FC AI and ClickUp reads; see each number's source line.</footer>
+
+<script src="vendor/three-0.128.0/three.min.js"></script>
+<script src="vendor/three-0.128.0/OrbitControls.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
