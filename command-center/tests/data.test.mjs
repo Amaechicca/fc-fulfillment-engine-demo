@@ -160,3 +160,23 @@ test('payments placeholder is grey and carries no numbers', () => {
   assert.ok(p.metrics.length >= 5);
   for (const m of p.metrics) { assert.equal(m.value, null); assert.match(m.missingReason, /not connected/); }
 });
+
+test('town: every building gets a key number, height on a capped scale, and flag counts', () => {
+  const s = buildSnapshot(sample, NOW);
+  const adm = s.buildings.find((b) => b.id === 'admissions');
+  assert.equal(adm.key.metricId, 'new_members_closed');
+  assert.equal(adm.volume.unit, 'open tasks');
+  assert.ok(adm.volume.value <= adm.volume.cap || adm.volume.cap === 40);
+  const flagged = s.alerts.filter((a) => a.buildingId === 'admissions').length;
+  assert.equal(adm.flags.count, flagged);
+  const ops = s.buildings.find((b) => b.id === 'operations');
+  assert.equal(ops.key.metricId, 'overdue_Operations');
+});
+
+test('rules: a month that is over can make a building amber, never red', () => {
+  assert.equal(judge({ value: 20, complete: true, sample: 30 }, 'renewal_rate_last').status, 'amber');
+  assert.equal(judge({ value: 80, complete: true, sample: 30 }, 'renewal_rate_last').status, 'green');
+  // a region needs 10 decided this month before it can turn red
+  assert.equal(judge({ value: 0, complete: true, sample: 6 }, 'renewal_rate_region').status, 'grey');
+  assert.equal(judge({ value: 40, complete: true, sample: 12 }, 'renewal_rate_region').status, 'red');
+});

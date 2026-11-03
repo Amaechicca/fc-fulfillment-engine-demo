@@ -14,8 +14,13 @@ export const RULES = {
   renewal_rate: {
     label: 'Renewal rate (renewed ÷ renewed + not renewed)', higherIsBetter: true, green: 75, amber: 60, unit: '%', minSample: 20,
   },
+  // "Red means act today": a month that is already over can make a building amber, never red.
+  renewal_rate_last: {
+    label: 'Last month’s renewal rate (final)', higherIsBetter: true, green: 75, amber: 0, unit: '%', minSample: 5,
+  },
+  // A region turns red on this month only once 10+ renewals are decided (early-month cancellations land first).
   renewal_rate_region: {
-    label: 'Region renewal rate', higherIsBetter: true, green: 75, amber: 60, unit: '%', minSample: 5,
+    label: 'Region renewal rate this month', higherIsBetter: true, green: 75, amber: 60, unit: '%', minSample: 10,
   },
   renewals_payment_failures: {
     label: 'Renewals lost to payment failure', higherIsBetter: false, green: 0, amber: 2, unit: 'members',

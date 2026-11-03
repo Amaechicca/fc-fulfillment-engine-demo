@@ -112,6 +112,43 @@ const PRIVATE_LISTS = {
 };
 const taskCols = [['name', 'Task', false, taskLink], ['assignees', 'Assigned'], ['priority', 'Priority'], ['due', 'Due'], ['days_late', 'Days late', true]];
 
+// ---------- town helpers ----------
+
+/** What the 3D town needs for one building: name, status, the key number and caption, flags, height. */
+function townView(b) {
+  const m = b.key ? b.metrics.find((x) => x.id === b.key.metricId) ?? state.snap.topNumbers.find((x) => x.id === b.key.metricId) : null;
+  let keyText = m ? formatValue(m, { compact: true }) : null;
+  let keyCaption = b.key?.caption ?? '';
+  if (b.kind === 'placeholder') { keyText = 'not connected'; keyCaption = ''; }
+  if (b.id === 'cash') { keyText = 'no source yet'; keyCaption = ''; }
+  return { id: b.id, name: b.name, short: b.short || b.name, kind: b.kind, status: b.status, keyText, keyCaption, flags: b.flags, volume: b.volume };
+}
+
+const STATE_ORDER = [['red', 'Act now'], ['amber', 'Watch'], ['green', 'On track'], ['grey', 'No data']];
+function renderStatusStrip() {
+  const areas = state.snap.buildings.filter((b) => b.kind !== 'hq');
+  $('#statusStrip').innerHTML = STATE_ORDER.map(([st, word]) => {
+    const n = areas.filter((b) => b.status === st).length;
+    return `<div class="stat ${st}"><span class="statLab">${STATUS_TEXT[st].icon} ${word}</span><span class="statNum">${n}</span></div>`;
+  }).join('');
+}
+
+function renderBuildingList(list) {
+  const order = { red: 0, amber: 1, green: 2, grey: 3, hq: -1 };
+  $('#buildingList').innerHTML = [...list].sort((a, b) => order[a.status] - order[b.status]).map((b) => {
+    const t = STATUS_TEXT[b.status] || STATUS_TEXT.grey;
+    return `<li data-status="${b.status}"><button type="button" data-id="${b.id}" class="bItem ${b.status}">
+      <span class="bIcon" aria-label="${t.word}">${t.icon}</span><span class="bName">${esc(b.name)}</span>
+      <span class="bKey">${esc(b.keyText ?? '—')} <small>${esc(b.keyCaption || '')}</small></span>
+      ${b.flags?.count ? `<span class="flag ${b.flags.status}">⚑ ${b.flags.count}</span>` : ''}</button></li>`;
+  }).join('');
+  $('#buildingList').addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-id]'); if (!btn) return;
+    select(btn.dataset.id);
+    $('#town').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+}
+
 // ---------- detail card ----------
 
 function select(id) {
@@ -119,7 +156,7 @@ function select(id) {
   const b = state.snap.buildings.find((x) => x.id === id);
   const el = $('#detail');
   if (!b) { el.hidden = true; return; }
-  state.town?.select(id);
+  const phone = $('#town').clientWidth < 640;
   const alerts = state.snap.alerts.filter((a) => a.buildingId === id);
   el.hidden = false;
   el.innerHTML = `
@@ -131,10 +168,16 @@ function select(id) {
     <h4 class="subH">Needs action</h4>
     ${alerts.length ? `<ol class="alerts">${alerts.map(alertItem).join('')}</ol>` : '<p class="empty">Nothing red or amber here.</p>'}
     <p><button type="button" class="linkBtn" id="openTab">Open the ${b.kind === 'region' ? 'Regions' : esc(b.name)} tab ↓</button></p>`;
-  el.querySelector('.closeBtn').addEventListener('click', () => { el.hidden = true; state.town?.select(null); });
+  el.querySelector('.closeBtn').addEventListener('click', () => {
+    el.hidden = true; state.selected = null; state.town?.setInsets({}); state.town?.select(null);
+  });
+  el.scrollTop = 0;
+  // frame the building in the space the panel leaves free
+  if (phone) $('#town').scrollIntoView({ block: 'start' });
+  state.town?.setInsets(phone ? { bottom: el.offsetHeight } : { right: el.offsetWidth + 20 });
+  state.town?.select(id);
   el.querySelector('#openTab').addEventListener('click', () => { setTab(b.kind === 'region' ? 'regions' : id); $('#tabsH').scrollIntoView({ behavior: 'smooth' }); });
   wireAlertDetails(el);
-  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 // ---------- alerts ----------
@@ -330,7 +373,7 @@ async function boot() {
   $('#hideNames').addEventListener('change', (e) => {
     state.hideNames = e.target.checked;
     renderTabPanel(); renderAlerts();
-    if (state.selected) select(state.selected);
+    if (state.selected && !$('#detail').hidden) select(state.selected);
   });
 
   renderBanner();
@@ -339,16 +382,28 @@ async function boot() {
   renderTabs();
   renderSources();
 
+  const townBuildings = state.snap.buildings.map(townView);
+  renderStatusStrip();
+  renderBuildingList(townBuildings);
   try {
     state.town = createTown({
       container: $('#town'), canvas: $('#townCanvas'), labelsEl: $('#labels'),
-      buildings: state.snap.buildings.map(({ id, name, short, status, kind }) => ({ id, name, short: short || name, status, kind })),
-      onSelect: select,
+      buildings: townBuildings, onSelect: select,
+      reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches,
     });
   } catch (e) {
     console.warn('3D town unavailable:', e && (e.stack || e.message));
     $('#townFallback').hidden = false;
   }
+  const setFilter = (mode) => {
+    $('#fAll').setAttribute('aria-pressed', String(mode === 'all'));
+    $('#fNeeds').setAttribute('aria-pressed', String(mode === 'needs'));
+    state.town?.setFilter(mode);
+    document.querySelectorAll('#buildingList li').forEach((li) => { li.hidden = mode === 'needs' && !['red', 'amber'].includes(li.dataset.status); });
+  };
+  $('#fAll').addEventListener('click', () => setFilter('all'));
+  $('#fNeeds').addEventListener('click', () => setFilter('needs'));
+  $('#resetView').addEventListener('click', () => state.town?.reset());
 
   $('#fullscreen').addEventListener('click', () => {
     const t = $('#town');

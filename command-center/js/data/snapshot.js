@@ -333,7 +333,7 @@ export function buildSnapshot(raws, nowMs) {
     hq: { show: ['active_members', 'renewals_book_rate', 'new_members_closed', 'new_member_cash_usd', 'rd_said_leaving'], judge: [] },
     renewals: {
       show: ['renewals_book_rate', 'renewals_book_rate_last', 'renewals_voluntary_rate', 'renewals_renewed', 'renewals_book', 'renewals_collected_usd', 'renewals_worth_call', 'renewals_worth_call_usd', 'renewals_silent_churn', 'renewals_silent_churn_usd', 'renewals_payment_failures'],
-      judge: [['renewals_book_rate', 'renewal_rate'], ['renewals_book_rate_last', 'renewal_rate'], ['renewals_payment_failures', 'renewals_payment_failures']],
+      judge: [['renewals_book_rate', 'renewal_rate'], ['renewals_book_rate_last', 'renewal_rate_last'], ['renewals_payment_failures', 'renewals_payment_failures']],
     },
     community: {
       show: ['rd_said_leaving', 'rd_undecided', 'rd_leaving_frustrated', 'pulse_frustrated', 'pulse_disengaging', 'pulse_thriving', 'engagement_score',
@@ -387,7 +387,7 @@ export function buildSnapshot(raws, nowMs) {
   // One small house per sales territory, coloured by last month's final renewal rate against the 75% target.
   for (const g of regions) {
     const checks = [
-      { metricId: g.metrics.last_rate.id, ruleId: 'renewal_rate_region', ...judge(g.metrics.last_rate, 'renewal_rate_region') },
+      { metricId: g.metrics.last_rate.id, ruleId: 'renewal_rate_last', ...judge(g.metrics.last_rate, 'renewal_rate_last') },
       { metricId: g.metrics.this_rate.id, ruleId: 'renewal_rate_region', ...judge(g.metrics.this_rate, 'renewal_rate_region') },
     ];
     buildings.push({
@@ -399,12 +399,23 @@ export function buildSnapshot(raws, nowMs) {
   }
 
   const alerts = buildAlerts({ M, buildings, tasks });
+  const missedLast = buildings.filter((b) => b.kind === 'region' && b.checks[0]?.status === 'amber');
+  if (missedLast.length) {
+    alerts.push({
+      id: 'regions_missed_last_month', buildingId: missedLast[0].id, status: 'amber',
+      title: `${missedLast.length} of ${REGIONS.length} regions finished last month under the 75% renewal target`,
+      detail: missedLast.map((b) => `${b.short} ${b.metrics.find((m) => m.id.endsWith('_last_rate')).value}%`).join(' · '),
+      costUsd: null, costLabel: `${M.renewals_book_rate_last?.value ?? '—'}% club-wide last month`,
+      nextStep: 'Each territory rep works this month’s open renewals, furthest-behind regions first.',
+      owner: 'Territory reps; Chauncey Amaechi for the club', metricId: missedLast[0].metrics[0].id,
+    });
+  }
   const below = buildings.filter((b) => b.kind === 'region' && b.status === 'red');
   if (below.length) {
     alerts.unshift({
       id: 'regions_below_target', buildingId: below[0].id, status: 'red',
-      title: `${below.length} of ${REGIONS.length} regions finished last month under 60% renewals (target 75%)`,
-      detail: below.map((b) => `${b.short} ${b.metrics.find((m) => m.id.endsWith('_last_rate')).value}%`).join(' · '),
+      title: `${below.length} region${below.length === 1 ? ' is' : 's are'} under 60% renewals this month (target 75%)`,
+      detail: below.map((b) => `${b.short} ${b.metrics.find((m) => m.id.endsWith('_this_rate')).value}%`).join(' · '),
       costUsd: null, costLabel: `${M.renewals_book_rate_last?.value ?? '—'}% club-wide last month`,
       nextStep: 'Each territory rep works this month’s open renewals; start with the regions furthest below target.',
       owner: 'Territory reps; Chauncey Amaechi for the club', metricId: below[0].metrics[0].id,
@@ -422,6 +433,8 @@ export function buildSnapshot(raws, nowMs) {
       note: raw?.note ?? null,
     };
   });
+
+  decorateForTown(buildings, alerts, M, tasks);
 
   return {
     builtAt: new Date(nowMs).toISOString(),
@@ -449,6 +462,40 @@ export function buildSnapshot(raws, nowMs) {
       ...pipeline.private,
     },
   };
+}
+
+// ---------- town: key number, height, flags ----------
+
+// The one number on each building's floating tag.
+const KEY = {
+  hq: ['active_members', 'members'], renewals: ['renewals_book_rate', 'renewed this month'], community: ['rd_said_leaving', 'said they’re leaving'],
+  admissions: ['new_members_closed', 'closed last month'], setters: ['setter_intro_show', 'intro show rate'], marketing: ['intro_bookings', 'intros booked'],
+  events: ['event_nps', 'event NPS'], fulfillment: ['joins_this_month', 'new members this month'],
+};
+// Height = how much is going on, on a capped scale (the legend explains it).
+export const VOLUME_CAPS = { tasks: 40, renewals: 150, members: 400 };
+
+export function decorateForTown(buildings, alerts, M, tasks) {
+  for (const b of buildings) {
+    const own = alerts.filter((a) => a.buildingId === b.id);
+    b.flags = { count: own.length, status: own.some((a) => a.status === 'red') ? 'red' : own.length ? 'amber' : null };
+    let key = null;
+    if (KEY[b.id]) key = { metricId: KEY[b.id][0], caption: KEY[b.id][1] };
+    else if (b.list) key = { metricId: `overdue_${b.list}`, caption: 'overdue tasks' };
+    else if (b.kind === 'region') {
+      const cur = b.metrics.find((m) => m.id.endsWith('_this_rate'));
+      key = (cur?.sample ?? 0) >= 5
+        ? { metricId: cur.id, caption: 'renewed this month' }
+        : { metricId: b.metrics.find((m) => m.id.endsWith('_last_rate')).id, caption: 'renewed last month' };
+    }
+    b.key = key;
+    if (b.list && tasks.byList[b.list]) b.volume = { value: tasks.byList[b.list].open, cap: VOLUME_CAPS.tasks, unit: 'open tasks' };
+    else if (b.id === 'renewals' && M.renewals_book?.value != null) b.volume = { value: M.renewals_book.value, cap: VOLUME_CAPS.renewals, unit: 'renewals due this month' };
+    else if (b.kind === 'region') {
+      const a = b.metrics.find((m) => m.id.endsWith('_active'));
+      b.volume = a?.value != null ? { value: a.value, cap: VOLUME_CAPS.members, unit: 'active members' } : null;
+    } else b.volume = null;
+  }
 }
 
 // ---------- alerts ----------

@@ -97,6 +97,24 @@ A building takes its worst rule. Alerts list every red/amber item, red first, th
 | 3 · Actions with a preview | assign ClickUp task, draft Slack message, block calendar time; each shows exactly what goes out, confirm click, log | every action has preview + confirm + log. **Gate: hand-off rules.** |
 | 4 · Delegation loop | tasks to owners in Slack; town tracks assigned → accepted → done → checked | you can see who owes what without asking. |
 
+## Step 2: the 3D town (built Nov 3)
+
+Built to the "Goal and Prompt" brief:
+- **Look:** low-poly, game-style town with a camera tilted about 40°, sunlight and soft shadows, roads, trees, a river and cars. Light and dark mode.
+- **Layout:** HQ on a central plaza. The sale road runs **Lead → Appointment → Sale → Delivery → Paid** (Marketing → Setters → Closers → Fulfillment → Payments), then on to the Renewals bank. The other departments ring the back of the plaza, and the sales regions are neighbourhoods farther out.
+- **Shapes match the job:** bank (Renewals), sales tower (Closers), call centre with dish (Setters), billboard (Marketing), event tent, delivery warehouse, factory (Ops), office (Admin), data centre (AI), clubhouse (Community), a see-through MOCK vault (Payments), houses (regions).
+- **Status:** red / amber / green / grey ring, always with an icon. Only red pulses.
+- **Height:** shows volume on a capped scale (open tasks, renewals due, active members), explained in the legend.
+- **Tags:** each building has a floating tag with its name, one key number and a flag count. Tags never overlap or run off the edge; when there's no room they shrink to a status pin. On a phone, only areas that need action get full tags.
+- **Interaction:** tap a building and the camera flies to it, with a panel showing numbers, needs-action items, owner and sources (bottom sheet on phones). Filters: All / Needs action. Every building is also a button in a plain list. Drag to turn, pinch to zoom, double-tap to reset.
+- **Performance:** respects reduced motion and pauses rendering off screen.
+
+## Red means "act today" (rule change, Nov 3)
+
+- A month that is over (October's final renewal rate) can make a building **amber, never red**.
+- A region turns red on this month's rate only once **10+** of its renewals are decided.
+- Result today: **3 red buildings** (Renewals 18.2% this month, Community 26 said leaving, Closers 3 urgent tasks overdue), each with an owner and a next step in its alert.
+
 ## Regions
 
 Each sales territory is a small house on the outer ring of the town, coloured by **last month's final renewal rate** against 75%. This month's rate so far is shown beside it and is judged once 5+ renewals in that region are decided. Source: the renewal team's own book (`get_renewal_book`), split by territory.

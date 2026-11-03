@@ -1,5 +1,5 @@
 {
- "builtAt": "2026-11-03T22:10:00.000Z",
+ "builtAt": "2026-11-03T22:30:00.000Z",
  "question": "Are we growing the club this month?",
  "topNumbers": [
   {
@@ -142,7 +142,16 @@
      "complete": true,
      "context": "51 more undecided · last 60 days"
     }
-   ]
+   ],
+   "flags": {
+    "count": 0,
+    "status": null
+   },
+   "key": {
+    "metricId": "active_members",
+    "caption": "members"
+   },
+   "volume": null
   },
   {
    "id": "renewals",
@@ -165,9 +174,9 @@
     },
     {
      "metricId": "renewals_book_rate_last",
-     "ruleId": "renewal_rate",
-     "status": "red",
-     "reason": "46.3% — green at 75%+, amber at 60%+ (red)"
+     "ruleId": "renewal_rate_last",
+     "status": "amber",
+     "reason": "46.3% — green at 75%+, amber at 0%+ (amber)"
     },
     {
      "metricId": "renewals_payment_failures",
@@ -304,7 +313,20 @@
      "scope": "November 2026 renewal book, all territories",
      "complete": true
     }
-   ]
+   ],
+   "flags": {
+    "count": 2,
+    "status": "amber"
+   },
+   "key": {
+    "metricId": "renewals_book_rate",
+    "caption": "renewed this month"
+   },
+   "volume": {
+    "value": 139,
+    "cap": 150,
+    "unit": "renewals due this month"
+   }
   },
   {
    "id": "community",
@@ -561,7 +583,20 @@
      "scope": "ClickUp list “Community”, open = to do / in progress",
      "complete": true
     }
-   ]
+   ],
+   "flags": {
+    "count": 2,
+    "status": "red"
+   },
+   "key": {
+    "metricId": "rd_said_leaving",
+    "caption": "said they’re leaving"
+   },
+   "volume": {
+    "value": 24,
+    "cap": 40,
+    "unit": "open tasks"
+   }
   },
   {
    "id": "admissions",
@@ -777,7 +812,20 @@
      "scope": "ClickUp list “Admissions”, open = to do / in progress",
      "complete": true
     }
-   ]
+   ],
+   "flags": {
+    "count": 4,
+    "status": "red"
+   },
+   "key": {
+    "metricId": "new_members_closed",
+    "caption": "closed last month"
+   },
+   "volume": {
+    "value": 39,
+    "cap": 40,
+    "unit": "open tasks"
+   }
   },
   {
    "id": "setters",
@@ -922,7 +970,20 @@
      "scope": "ClickUp list “Growth”, open = to do / in progress",
      "complete": true
     }
-   ]
+   ],
+   "flags": {
+    "count": 1,
+    "status": "amber"
+   },
+   "key": {
+    "metricId": "setter_intro_show",
+    "caption": "intro show rate"
+   },
+   "volume": {
+    "value": 14,
+    "cap": 40,
+    "unit": "open tasks"
+   }
   },
   {
    "id": "marketing",
@@ -1056,7 +1117,20 @@
      "scope": "ClickUp list “Marketing & Product”, open = to do / in progress",
      "complete": true
     }
-   ]
+   ],
+   "flags": {
+    "count": 1,
+    "status": "amber"
+   },
+   "key": {
+    "metricId": "intro_bookings",
+    "caption": "intros booked"
+   },
+   "volume": {
+    "value": 10,
+    "cap": 40,
+    "unit": "open tasks"
+   }
   },
   {
    "id": "events",
@@ -1157,7 +1231,20 @@
      "scope": "ClickUp list “Events & Partnerships”, open = to do / in progress",
      "complete": true
     }
-   ]
+   ],
+   "flags": {
+    "count": 0,
+    "status": null
+   },
+   "key": {
+    "metricId": "event_nps",
+    "caption": "event NPS"
+   },
+   "volume": {
+    "value": 8,
+    "cap": 40,
+    "unit": "open tasks"
+   }
   },
   {
    "id": "fulfillment",
@@ -1277,7 +1364,20 @@
      "scope": "ClickUp list “Member Fulfillment Queue”, open = to do / in progress",
      "complete": true
     }
-   ]
+   ],
+   "flags": {
+    "count": 0,
+    "status": null
+   },
+   "key": {
+    "metricId": "joins_this_month",
+    "caption": "new members this month"
+   },
+   "volume": {
+    "value": 1,
+    "cap": 40,
+    "unit": "open tasks"
+   }
   },
   {
    "id": "operations",
@@ -1350,7 +1450,20 @@
      "scope": "ClickUp list “Operations”, open = to do / in progress",
      "complete": true
     }
-   ]
+   ],
+   "flags": {
+    "count": 0,
+    "status": null
+   },
+   "key": {
+    "metricId": "overdue_Operations",
+    "caption": "overdue tasks"
+   },
+   "volume": {
+    "value": 13,
+    "cap": 40,
+    "unit": "open tasks"
+   }
   },
   {
    "id": "admin",
@@ -1423,7 +1536,20 @@
      "scope": "ClickUp list “Admin”, open = to do / in progress",
      "complete": true
     }
-   ]
+   ],
+   "flags": {
+    "count": 0,
+    "status": null
+   },
+   "key": {
+    "metricId": "overdue_Admin",
+    "caption": "overdue tasks"
+   },
+   "volume": {
+    "value": 15,
+    "cap": 40,
+    "unit": "open tasks"
+   }
   },
   {
    "id": "ai",
@@ -1496,7 +1622,20 @@
      "scope": "ClickUp list “CTO/AI”, open = to do / in progress",
      "complete": true
     }
-   ]
+   ],
+   "flags": {
+    "count": 0,
+    "status": null
+   },
+   "key": {
+    "metricId": "overdue_CTO/AI",
+    "caption": "overdue tasks"
+   },
+   "volume": {
+    "value": 2,
+    "cap": 40,
+    "unit": "open tasks"
+   }
   },
   {
    "id": "payments",
@@ -1572,7 +1711,13 @@
      "complete": false,
      "missingReason": "Commas and Whop are not connected yet (placeholder)"
     }
-   ]
+   ],
+   "flags": {
+    "count": 0,
+    "status": null
+   },
+   "key": null,
+   "volume": null
   },
   {
    "id": "cash",
@@ -1624,7 +1769,13 @@
      "complete": false,
      "missingReason": "No accounting or bank connector is connected yet"
     }
-   ]
+   ],
+   "flags": {
+    "count": 0,
+    "status": null
+   },
+   "key": null,
+   "volume": null
   },
   {
    "id": "r_southeast",
@@ -1641,15 +1792,15 @@
    "checks": [
     {
      "metricId": "r_southeast_last_rate",
-     "ruleId": "renewal_rate_region",
+     "ruleId": "renewal_rate_last",
      "status": "amber",
-     "reason": "66.7% — green at 75%+, amber at 60%+ (amber)"
+     "reason": "66.7% — green at 75%+, amber at 0%+ (amber)"
     },
     {
      "metricId": "r_southeast_this_rate",
      "ruleId": "renewal_rate_region",
      "status": "grey",
-     "reason": "Only 3 decided so far — too few to judge (needs 5)"
+     "reason": "Only 3 decided so far — too few to judge (needs 10)"
     }
    ],
    "metrics": [
@@ -1712,7 +1863,20 @@
      "scope": "Paid-active today, Rep 1 — Southeast",
      "complete": true
     }
-   ]
+   ],
+   "flags": {
+    "count": 1,
+    "status": "amber"
+   },
+   "key": {
+    "metricId": "r_southeast_last_rate",
+    "caption": "renewed last month"
+   },
+   "volume": {
+    "value": 297,
+    "cap": 400,
+    "unit": "active members"
+   }
   },
   {
    "id": "r_canada",
@@ -1725,19 +1889,19 @@
     "name": null,
     "why": "Territory rep (not named in the renewal book)"
    },
-   "status": "red",
+   "status": "amber",
    "checks": [
     {
      "metricId": "r_canada_last_rate",
-     "ruleId": "renewal_rate_region",
-     "status": "red",
-     "reason": "45.5% — green at 75%+, amber at 60%+ (red)"
+     "ruleId": "renewal_rate_last",
+     "status": "amber",
+     "reason": "45.5% — green at 75%+, amber at 0%+ (amber)"
     },
     {
      "metricId": "r_canada_this_rate",
      "ruleId": "renewal_rate_region",
      "status": "grey",
-     "reason": "Only 4 decided so far — too few to judge (needs 5)"
+     "reason": "Only 4 decided so far — too few to judge (needs 10)"
     }
    ],
    "metrics": [
@@ -1800,7 +1964,20 @@
      "scope": "Paid-active today, Rep 2 — Canada",
      "complete": true
     }
-   ]
+   ],
+   "flags": {
+    "count": 0,
+    "status": null
+   },
+   "key": {
+    "metricId": "r_canada_last_rate",
+    "caption": "renewed last month"
+   },
+   "volume": {
+    "value": 341,
+    "cap": 400,
+    "unit": "active members"
+   }
   },
   {
    "id": "r_chicago",
@@ -1813,19 +1990,19 @@
     "name": null,
     "why": "Territory rep (not named in the renewal book)"
    },
-   "status": "red",
+   "status": "amber",
    "checks": [
     {
      "metricId": "r_chicago_last_rate",
-     "ruleId": "renewal_rate_region",
-     "status": "red",
-     "reason": "50% — green at 75%+, amber at 60%+ (red)"
+     "ruleId": "renewal_rate_last",
+     "status": "amber",
+     "reason": "50% — green at 75%+, amber at 0%+ (amber)"
     },
     {
      "metricId": "r_chicago_this_rate",
      "ruleId": "renewal_rate_region",
-     "status": "red",
-     "reason": "12.5% — green at 75%+, amber at 60%+ (red)"
+     "status": "grey",
+     "reason": "Only 8 decided so far — too few to judge (needs 10)"
     }
    ],
    "metrics": [
@@ -1888,7 +2065,20 @@
      "scope": "Paid-active today, Rep 3 — Chicago / Virtual / Intl",
      "complete": true
     }
-   ]
+   ],
+   "flags": {
+    "count": 0,
+    "status": null
+   },
+   "key": {
+    "metricId": "r_chicago_this_rate",
+    "caption": "renewed this month"
+   },
+   "volume": {
+    "value": 287,
+    "cap": 400,
+    "unit": "active members"
+   }
   },
   {
    "id": "r_nyc",
@@ -1901,19 +2091,19 @@
     "name": null,
     "why": "Territory rep (not named in the renewal book)"
    },
-   "status": "red",
+   "status": "amber",
    "checks": [
     {
      "metricId": "r_nyc_last_rate",
-     "ruleId": "renewal_rate_region",
-     "status": "red",
-     "reason": "57.1% — green at 75%+, amber at 60%+ (red)"
+     "ruleId": "renewal_rate_last",
+     "status": "amber",
+     "reason": "57.1% — green at 75%+, amber at 0%+ (amber)"
     },
     {
      "metricId": "r_nyc_this_rate",
      "ruleId": "renewal_rate_region",
-     "status": "red",
-     "reason": "0% — green at 75%+, amber at 60%+ (red)"
+     "status": "grey",
+     "reason": "Only 5 decided so far — too few to judge (needs 10)"
     }
    ],
    "metrics": [
@@ -1976,7 +2166,20 @@
      "scope": "Paid-active today, Rep 4 — NYC / NE / DC",
      "complete": true
     }
-   ]
+   ],
+   "flags": {
+    "count": 0,
+    "status": null
+   },
+   "key": {
+    "metricId": "r_nyc_this_rate",
+    "caption": "renewed this month"
+   },
+   "volume": {
+    "value": 328,
+    "cap": 400,
+    "unit": "active members"
+   }
   },
   {
    "id": "r_westcoast",
@@ -1989,19 +2192,19 @@
     "name": null,
     "why": "Territory rep (not named in the renewal book)"
    },
-   "status": "red",
+   "status": "amber",
    "checks": [
     {
      "metricId": "r_westcoast_last_rate",
-     "ruleId": "renewal_rate_region",
-     "status": "red",
-     "reason": "33.3% — green at 75%+, amber at 60%+ (red)"
+     "ruleId": "renewal_rate_last",
+     "status": "amber",
+     "reason": "33.3% — green at 75%+, amber at 0%+ (amber)"
     },
     {
      "metricId": "r_westcoast_this_rate",
      "ruleId": "renewal_rate_region",
-     "status": "red",
-     "reason": "12.5% — green at 75%+, amber at 60%+ (red)"
+     "status": "grey",
+     "reason": "Only 8 decided so far — too few to judge (needs 10)"
     }
    ],
    "metrics": [
@@ -2064,7 +2267,20 @@
      "scope": "Paid-active today, Rep 5 — West Coast",
      "complete": true
     }
-   ]
+   ],
+   "flags": {
+    "count": 0,
+    "status": null
+   },
+   "key": {
+    "metricId": "r_westcoast_this_rate",
+    "caption": "renewed this month"
+   },
+   "volume": {
+    "value": 342,
+    "cap": 400,
+    "unit": "active members"
+   }
   },
   {
    "id": "r_texas",
@@ -2077,19 +2293,19 @@
     "name": null,
     "why": "Territory rep (not named in the renewal book)"
    },
-   "status": "red",
+   "status": "amber",
    "checks": [
     {
      "metricId": "r_texas_last_rate",
-     "ruleId": "renewal_rate_region",
-     "status": "red",
-     "reason": "53.3% — green at 75%+, amber at 60%+ (red)"
+     "ruleId": "renewal_rate_last",
+     "status": "amber",
+     "reason": "53.3% — green at 75%+, amber at 0%+ (amber)"
     },
     {
      "metricId": "r_texas_this_rate",
      "ruleId": "renewal_rate_region",
      "status": "grey",
-     "reason": "Only 3 decided so far — too few to judge (needs 5)"
+     "reason": "Only 3 decided so far — too few to judge (needs 10)"
     }
    ],
    "metrics": [
@@ -2152,7 +2368,20 @@
      "scope": "Paid-active today, Rep 6 — Texas / Mountain",
      "complete": true
     }
-   ]
+   ],
+   "flags": {
+    "count": 0,
+    "status": null
+   },
+   "key": {
+    "metricId": "r_texas_last_rate",
+    "caption": "renewed last month"
+   },
+   "volume": {
+    "value": 293,
+    "cap": 400,
+    "unit": "active members"
+   }
   },
   {
    "id": "r_atlanta",
@@ -2165,19 +2394,19 @@
     "name": null,
     "why": "Territory rep (not named in the renewal book)"
    },
-   "status": "red",
+   "status": "amber",
    "checks": [
     {
      "metricId": "r_atlanta_last_rate",
-     "ruleId": "renewal_rate_region",
-     "status": "red",
-     "reason": "29.4% — green at 75%+, amber at 60%+ (red)"
+     "ruleId": "renewal_rate_last",
+     "status": "amber",
+     "reason": "29.4% — green at 75%+, amber at 0%+ (amber)"
     },
     {
      "metricId": "r_atlanta_this_rate",
      "ruleId": "renewal_rate_region",
      "status": "grey",
-     "reason": "Only 1 decided so far — too few to judge (needs 5)"
+     "reason": "Only 1 decided so far — too few to judge (needs 10)"
     }
    ],
    "metrics": [
@@ -2240,22 +2469,23 @@
      "scope": "Paid-active today, Rep 7 — Atlanta",
      "complete": true
     }
-   ]
+   ],
+   "flags": {
+    "count": 0,
+    "status": null
+   },
+   "key": {
+    "metricId": "r_atlanta_last_rate",
+    "caption": "renewed last month"
+   },
+   "volume": {
+    "value": 211,
+    "cap": 400,
+    "unit": "active members"
+   }
   }
  ],
  "alerts": [
-  {
-   "id": "regions_below_target",
-   "buildingId": "r_canada",
-   "status": "red",
-   "title": "6 of 7 regions finished last month under 60% renewals (target 75%)",
-   "detail": "Canada 45.5% · Chicago/Intl 50% · NYC/NE/DC 57.1% · West Coast 33.3% · Texas/Mtn 53.3% · Atlanta 29.4%",
-   "costUsd": null,
-   "costLabel": "46.3% club-wide last month",
-   "nextStep": "Each territory rep works this month’s open renewals; start with the regions furthest below target.",
-   "owner": "Territory reps; Chauncey Amaechi for the club",
-   "metricId": "r_canada_last_rate"
-  },
   {
    "id": "rd_leaving",
    "buildingId": "community",
@@ -2380,6 +2610,18 @@
    "nextStep": "Fix tracking on the booking forms so spend can be judged.",
    "owner": "Johnny Brown",
    "metricId": "unknown_source_share"
+  },
+  {
+   "id": "regions_missed_last_month",
+   "buildingId": "r_southeast",
+   "status": "amber",
+   "title": "7 of 7 regions finished last month under the 75% renewal target",
+   "detail": "Southeast 66.7% · Canada 45.5% · Chicago/Intl 50% · NYC/NE/DC 57.1% · West Coast 33.3% · Texas/Mtn 53.3% · Atlanta 29.4%",
+   "costUsd": null,
+   "costLabel": "46.3% club-wide last month",
+   "nextStep": "Each territory rep works this month’s open renewals, furthest-behind regions first.",
+   "owner": "Territory reps; Chauncey Amaechi for the club",
+   "metricId": "r_southeast_last_rate"
   }
  ],
  "sources": [
@@ -3309,7 +3551,7 @@
     "this_decided": 4,
     "this_open": 20,
     "this_rate": 0,
-    "status": "red"
+    "status": "amber"
    },
    {
     "id": "r_chicago",
@@ -3321,7 +3563,7 @@
     "this_decided": 8,
     "this_open": 10,
     "this_rate": 12.5,
-    "status": "red"
+    "status": "amber"
    },
    {
     "id": "r_nyc",
@@ -3333,7 +3575,7 @@
     "this_decided": 5,
     "this_open": 14,
     "this_rate": 0,
-    "status": "red"
+    "status": "amber"
    },
    {
     "id": "r_westcoast",
@@ -3345,7 +3587,7 @@
     "this_decided": 8,
     "this_open": 19,
     "this_rate": 12.5,
-    "status": "red"
+    "status": "amber"
    },
    {
     "id": "r_texas",
@@ -3357,7 +3599,7 @@
     "this_decided": 3,
     "this_open": 16,
     "this_rate": 0,
-    "status": "red"
+    "status": "amber"
    },
    {
     "id": "r_atlanta",
@@ -3369,7 +3611,7 @@
     "this_decided": 1,
     "this_open": 6,
     "this_rate": 100,
-    "status": "red"
+    "status": "amber"
    }
   ]
  }

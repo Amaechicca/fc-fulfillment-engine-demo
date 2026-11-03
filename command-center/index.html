@@ -27,26 +27,34 @@
 <main>
   <section class="five" aria-labelledby="q">
     <h2 id="q" class="question">—</h2>
+    <div id="statusStrip" class="statusStrip" aria-label="How many areas are in each state"></div>
     <div id="topNumbers" class="tiles"></div>
   </section>
 
-  <section class="townWrap" aria-label="3D town of departments">
+  <section class="townWrap" aria-label="3D town of the business">
+    <div class="townBar" role="toolbar" aria-label="Town view">
+      <div class="seg" role="group" aria-label="Show">
+        <button type="button" id="fAll" class="segBtn" aria-pressed="true">All</button>
+        <button type="button" id="fNeeds" class="segBtn" aria-pressed="false">Needs action</button>
+      </div>
+      <div class="townBtns">
+        <button type="button" id="resetView" class="ghostBtn">Reset view</button>
+        <button type="button" id="fullscreen" class="ghostBtn">Full screen</button>
+      </div>
+    </div>
     <div id="town" class="town">
       <canvas id="townCanvas" aria-hidden="true"></canvas>
       <div id="labels" class="labels"></div>
-      <button id="fullscreen" class="iconBtn fsBtn" type="button" aria-label="Full screen">⤢</button>
       <div class="legend" aria-label="Legend">
-        <span><i class="dot red"></i>✕ Act now</span>
-        <span><i class="dot amber"></i>! Watch</span>
-        <span><i class="dot green"></i>✓ On track</span>
-        <span><i class="dot grey"></i>– No data</span>
+        <span><i class="dot red"></i>✕ act now</span><span><i class="dot amber"></i>! watch</span><span><i class="dot green"></i>✓ on track</span><span><i class="dot grey"></i>– no data</span>
+        <span class="legendNote">Taller = more going on (open tasks · renewals due · active members, capped) · drag to turn · pinch to zoom · double-tap to reset</span>
       </div>
-      <p id="townFallback" class="townFallback" hidden>The 3D town could not load. Everything is in the tabs below.</p>
+      <p id="townFallback" class="townFallback" hidden>The 3D town could not load. Every area is in the list below.</p>
+      <section id="detail" class="sheet" aria-live="polite" hidden></section>
     </div>
-    <p class="hint">Tap a building for its numbers. Drag to turn, pinch to zoom.</p>
+    <h3 class="listH">Every area</h3>
+    <ul id="buildingList" class="buildingList"></ul>
   </section>
-
-  <section id="detail" class="detail" aria-live="polite" hidden></section>
 
   <section aria-labelledby="alertsH">
     <h2 id="alertsH" class="sectionH">Alerts <span class="muted small">red and amber, ranked by cost of delay</span></h2>
