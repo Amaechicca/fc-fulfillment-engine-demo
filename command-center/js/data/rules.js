@@ -10,6 +10,13 @@ export const RULES = {
     higherIsBetter: true, green: 70, amber: 50, unit: '%',
     minSample: 20, // decided outcomes needed before we judge the rate
   },
+  // Renewal target from leadership: 75%, judged per region. The amber band (60–75%) is an assumption.
+  renewal_rate: {
+    label: 'Renewal rate (renewed ÷ renewed + not renewed)', higherIsBetter: true, green: 75, amber: 60, unit: '%', minSample: 20,
+  },
+  renewal_rate_region: {
+    label: 'Region renewal rate', higherIsBetter: true, green: 75, amber: 60, unit: '%', minSample: 5,
+  },
   renewals_payment_failures: {
     label: 'Renewals lost to payment failure', higherIsBetter: false, green: 0, amber: 2, unit: 'members',
   },

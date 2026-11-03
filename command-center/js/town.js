@@ -26,7 +26,7 @@ export function createTown({ container, canvas, labelsEl, buildings, onSelect })
   sun.position.set(20, 40, 15);
   scene.add(sun);
 
-  const ground = new THREE.Mesh(new THREE.CircleGeometry(34, 64), new THREE.MeshLambertMaterial({ color: 0xfcfcfb }));
+  const ground = new THREE.Mesh(new THREE.CircleGeometry(36, 64), new THREE.MeshLambertMaterial({ color: 0xfcfcfb }));
   ground.rotation.x = -Math.PI / 2;
   scene.add(ground);
   const plaza = new THREE.Mesh(new THREE.RingGeometry(7.5, 8.2, 64), new THREE.MeshBasicMaterial({ color: 0xc3c2b7 }));
@@ -35,13 +35,23 @@ export function createTown({ container, canvas, labelsEl, buildings, onSelect })
 
   const pickables = [];
   const nodes = [];
-  const others = buildings.filter((b) => b.kind !== 'hq');
+  const others = buildings.filter((b) => b.kind !== 'hq' && b.kind !== 'region');
+  const regions = buildings.filter((b) => b.kind === 'region');
   const radius = 17;
+  const regionRadius = 29;
+  // a path ring separating the departments from the regional neighbourhood
+  const path = new THREE.Mesh(new THREE.RingGeometry(23.5, 24.1, 96), new THREE.MeshBasicMaterial({ color: 0xc3c2b7 }));
+  path.rotation.x = -Math.PI / 2; path.position.y = 0.01;
+  scene.add(path);
 
   buildings.forEach((b) => {
     const g = new THREE.Group();
     let x = 0, z = 0;
-    if (b.kind !== 'hq') {
+    if (b.kind === 'region') {
+      const i = regions.indexOf(b);
+      const a = ((i + 0.5) / regions.length) * Math.PI * 2 - Math.PI / 2;
+      x = Math.cos(a) * regionRadius; z = Math.sin(a) * regionRadius;
+    } else if (b.kind !== 'hq') {
       const i = others.indexOf(b);
       const a = (i / others.length) * Math.PI * 2 - Math.PI / 2;
       x = Math.cos(a) * radius; z = Math.sin(a) * radius;
@@ -58,6 +68,14 @@ export function createTown({ container, canvas, labelsEl, buildings, onSelect })
       const crown = new THREE.Mesh(new THREE.ConeGeometry(2.4, 3, 4), new THREE.MeshLambertMaterial({ color: 0x92bf9a }));
       crown.position.y = height + 1.5; crown.rotation.y = Math.PI / 4; g.add(crown);
       height += 3;
+    } else if (b.kind === 'region') {
+      // a small house with a pitched roof: one per sales territory
+      height = 2.2;
+      const house = new THREE.Mesh(new THREE.BoxGeometry(2.8, height, 2.8), body);
+      house.position.y = height / 2; g.add(house);
+      const roof = new THREE.Mesh(new THREE.ConeGeometry(2.3, 1.6, 4), new THREE.MeshLambertMaterial({ color: 0xa8846a }));
+      roof.position.y = height + 0.8; roof.rotation.y = Math.PI / 4; g.add(roof);
+      height += 1.6;
     } else if (b.kind === 'bank') {
       height = 4.5;
       const base = new THREE.Mesh(new THREE.BoxGeometry(5.6, 0.6, 4), trim); base.position.y = 0.3; g.add(base);
@@ -81,12 +99,12 @@ export function createTown({ container, canvas, labelsEl, buildings, onSelect })
     }
 
     const ringMat = new THREE.MeshBasicMaterial({ color: RING[b.status] ?? RING.grey });
-    const ring = new THREE.Mesh(new THREE.TorusGeometry(b.kind === 'hq' ? 4.6 : 3.9, 0.38, 10, 48), ringMat);
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(b.kind === 'hq' ? 4.6 : b.kind === 'region' ? 2.6 : 3.9, b.kind === 'region' ? 0.3 : 0.38, 10, 48), ringMat);
     ring.rotation.x = Math.PI / 2; ring.position.y = 0.25;
     g.add(ring);
 
     // invisible hit box, a bit bigger than the building, so taps are easy on a phone
-    const hit = new THREE.Mesh(new THREE.BoxGeometry(6.5, height + 2, 6.5), new THREE.MeshBasicMaterial({ visible: false }));
+    const hit = new THREE.Mesh(new THREE.BoxGeometry(b.kind === 'region' ? 5 : 6.5, height + 2, b.kind === 'region' ? 5 : 6.5), new THREE.MeshBasicMaterial({ visible: false }));
     hit.position.y = (height + 2) / 2; hit.userData.id = b.id;
     g.add(hit); pickables.push(hit);
 
@@ -94,7 +112,7 @@ export function createTown({ container, canvas, labelsEl, buildings, onSelect })
 
     const label = document.createElement('button');
     label.type = 'button';
-    label.className = `blabel ${b.status}`;
+    label.className = `blabel ${b.status}${b.kind === 'region' ? ' region' : ''}`;
     const t = STATUS_TEXT[b.status] || STATUS_TEXT.grey;
     label.innerHTML = `<b>${b.short}</b> <span aria-hidden="true">${t.icon}</span><span class="sr"> — ${t.word}</span>`;
     label.setAttribute('aria-label', `${b.name}: ${t.word}`);
@@ -107,16 +125,16 @@ export function createTown({ container, canvas, labelsEl, buildings, onSelect })
   const controls = new THREE.OrbitControls(camera, canvas);
   controls.enablePan = false;
   controls.enableDamping = true;
-  controls.minDistance = 25; controls.maxDistance = 110;
+  controls.minDistance = 25; controls.maxDistance = 130;
   controls.maxPolarAngle = Math.PI * 0.44;
-  controls.target.set(0, 0, 3);
+  controls.target.set(0, 0, 5);
 
   function fit() {
     const w = container.clientWidth, h = container.clientHeight;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     // Pull back on tall/narrow screens so the whole ring fits
-    const dist = w / h < 1.05 ? 70 : 60;
+    const dist = w / h < 1.05 ? 92 : 74;
     if (!fit.done) { camera.position.set(0, dist * 0.78, dist * 0.68); fit.done = true; }
     camera.updateProjectionMatrix();
     render();

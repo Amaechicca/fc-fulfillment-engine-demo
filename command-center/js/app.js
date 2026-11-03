@@ -130,9 +130,9 @@ function select(id) {
     ${b.id === 'hq' ? '<p class="owner">The five numbers at the top of the page.</p><div class="mgrid">' + state.snap.topNumbers.map(metricCard).join('') + '</div>' : areaSummary(b)}
     <h4 class="subH">Needs action</h4>
     ${alerts.length ? `<ol class="alerts">${alerts.map(alertItem).join('')}</ol>` : '<p class="empty">Nothing red or amber here.</p>'}
-    <p><button type="button" class="linkBtn" id="openTab">Open the ${esc(b.name)} tab ↓</button></p>`;
+    <p><button type="button" class="linkBtn" id="openTab">Open the ${b.kind === 'region' ? 'Regions' : esc(b.name)} tab ↓</button></p>`;
   el.querySelector('.closeBtn').addEventListener('click', () => { el.hidden = true; state.town?.select(null); });
-  el.querySelector('#openTab').addEventListener('click', () => { setTab(id); $('#tabsH').scrollIntoView({ behavior: 'smooth' }); });
+  el.querySelector('#openTab').addEventListener('click', () => { setTab(b.kind === 'region' ? 'regions' : id); $('#tabsH').scrollIntoView({ behavior: 'smooth' }); });
   wireAlertDetails(el);
   el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
@@ -181,10 +181,17 @@ function setTab(id) {
   renderTabPanel();
 }
 
+const STATUS_RANK = { red: 3, amber: 2, green: 1, grey: 0 };
+function regionsStatus() {
+  return state.snap.buildings.filter((b) => b.kind === 'region').reduce((w, b) => (STATUS_RANK[b.status] > STATUS_RANK[w] ? b.status : w), 'grey');
+}
+
 function renderTabs() {
-  $('#tabs').innerHTML = state.snap.buildings.map((b) => {
+  const tabs = state.snap.buildings.filter((b) => b.kind !== 'region').map((b) => ({ id: b.id, name: b.id === 'hq' ? 'Overview' : b.name, status: b.status }));
+  if (state.snap.buildings.some((b) => b.kind === 'region')) tabs.splice(2, 0, { id: 'regions', name: 'Regions', status: regionsStatus() });
+  $('#tabs').innerHTML = tabs.map((b) => {
     const t = STATUS_TEXT[b.status] || STATUS_TEXT.grey;
-    return `<button type="button" class="tab" role="tab" data-id="${b.id}" aria-selected="${b.id === state.tab}">${b.id === 'hq' ? 'Overview' : esc(b.name)} <span aria-label="${t.word}">${t.icon}</span></button>`;
+    return `<button type="button" class="tab" role="tab" data-id="${b.id}" aria-selected="${b.id === state.tab}">${esc(b.name)} <span aria-label="${t.word}">${t.icon}</span></button>`;
   }).join('');
   document.querySelectorAll('.tab').forEach((t) => t.addEventListener('click', () => setTab(t.dataset.id)));
   renderTabPanel();
@@ -195,10 +202,24 @@ function srcLine(buildingId, metricId) {
   return m ? `${m.source} · read ${when(m.readAt)} · ${m.scope}` : '';
 }
 
+function renderRegionsPanel(el, T) {
+  el.innerHTML = `<div>${pill(regionsStatus())} <span class="muted small">Renewals by sales territory against the 75% target. Each house in the town is a region, coloured by last month’s final rate.</span></div>`;
+  const last = T.regions.map((r) => ({ ...r }));
+  const under = last.filter((r) => r.last_rate != null && r.last_rate < 75).length;
+  const title = `${under} of ${last.length} regions finished last month under the 75% renewal target`;
+  el.appendChild(barChart({ title, rows: last.filter((r) => r.last_rate != null), labelKey: 'region', valueKey: 'last_rate',
+    fmt: (v) => `${v}%`, source: srcLine(T.regions[0].id, `${T.regions[0].id}_last_rate`).replace(/, Rep .*$/, ', by territory'),
+    columns: [['region', 'Region'], ['last_renewed', 'Renewed', true], ['last_decided', 'Decided', true], ['last_rate', 'Rate %', true], ['this_renewed', 'This month renewed', true], ['this_decided', 'This month decided', true], ['this_open', 'This month open', true], ['this_rate', 'This month rate %', true]] }));
+  el.insertAdjacentHTML('beforeend', '<h4 class="subH">Region by region</h4>');
+  el.appendChild(table(T.regions, [['region', 'Region'], ['status', 'Status', false, (v) => pill(v)], ['last_rate', 'Last month %', true], ['this_rate', 'This month so far %', true], ['this_open', 'Still open', true]]));
+  el.insertAdjacentHTML('beforeend', '<p class="prov">A region is judged only once 5 or more renewals are decided; until then it shows “No data” for that month. Unassigned members are counted club-wide but have no house.</p>');
+}
+
 function renderTabPanel() {
-  const b = state.snap.buildings.find((x) => x.id === state.tab);
   const el = $('#tabPanel');
   const T = state.snap.tables;
+  if (state.tab === 'regions') { renderRegionsPanel(el, T); return; }
+  const b = state.snap.buildings.find((x) => x.id === state.tab);
   el.innerHTML = `<div>${pill(b.status)} <span class="muted small">${esc(b.blurb)}</span></div>` + (b.id === 'hq' ? '' : areaSummary(b));
   const add = (node) => el.appendChild(node);
 
@@ -217,6 +238,7 @@ function renderTabPanel() {
     case 'renewals':
       add(barChart({ title: 'Most of this month’s book is still open', rows: T.renewals.outcomes, labelKey: 'outcome', valueKey: 'members',
         source: srcLine('renewals', 'renewals_book'), columns: [['outcome', 'Outcome'], ['members', 'Members', true], ['usd', 'Plan value ($)', true]] }));
+      if (T.regions) add(table(T.regions, [['region', 'Region'], ['status', 'Status', false, (v) => pill(v)], ['last_rate', 'Last month %', true], ['this_rate', 'This month so far %', true], ['this_open', 'Still open', true]]));
       add(namesBlock('renewals_worth_call', PRIVATE_LISTS.renewals_worth_call.cols, PRIVATE_LISTS.renewals_worth_call.title));
       add(namesBlock('renewals_silent_churn', PRIVATE_LISTS.renewals_silent_churn.cols, PRIVATE_LISTS.renewals_silent_churn.title));
       break;

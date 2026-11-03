@@ -204,3 +204,4 @@ details.prov summary { cursor: pointer; list-style: none; }
 details.prov summary::-webkit-details-marker { display: none; }
 details.prov summary::after { content: ' ⓘ'; }
 details.prov[open] summary { margin-bottom: 2px; }
+.blabel.region { font-size: 10.5px; font-style: italic; padding: 1px 6px; }

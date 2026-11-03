@@ -6,6 +6,7 @@
 
 import { judge, worst } from './rules.js';
 import { SOURCES, metric, pct, sum, monthLabel } from './metric.js';
+import { REGIONS, normalizeRegions, bookRate } from './regions.js';
 import { normalizeEngagement, normalizePulse, normalizeJoins, normalizePipeline, normalizeFathom, normalizeSlack } from './engagement.js';
 
 export { SOURCES } from './metric.js';
@@ -305,10 +306,16 @@ export function buildSnapshot(raws, nowMs) {
   const pipeline = normalizePipeline(r.fcai_pipeline_prospects, nowMs);
   const fathom = normalizeFathom(r.fathom_calls);
   const slack = normalizeSlack(r.slack_channels);
+  const activeByTerritory = Object.fromEntries(Object.entries(r.fcai_community_pulse?.payload?.by_sales_territory || {})
+    .map(([t, v]) => [t, { value: v, raw: r.fcai_community_pulse }]));
+  const regions = normalizeRegions(r.fcai_renewal_book_last, r.fcai_renewal_book_this, activeByTerritory);
+  const bookThis = bookRate(r.fcai_renewal_book_this, 'renewals_book_rate', 'Renewal rate this month');
+  const bookLast = bookRate(r.fcai_renewal_book_last, 'renewals_book_rate_last', 'Renewal rate last month (final)');
 
   const M = {
     ...community.metrics, ...renewals.metrics, ...rd.metrics, ...closers.metrics,
     ...setters.metrics, ...admissions.metrics, ...attribution.metrics, ...events.metrics,
+    renewals_book_rate: bookThis, renewals_book_rate_last: bookLast,
     ...engagement.metrics, ...pulse.metrics, ...joins.metrics, ...pipeline.metrics, ...fathom.metrics, ...slack.metrics,
   };
 
@@ -316,10 +323,10 @@ export function buildSnapshot(raws, nowMs) {
 
   // Which metrics each building shows, and which ones are judged by which rule.
   const spec = {
-    hq: { show: ['active_members', 'renewals_voluntary_rate', 'new_members_closed', 'new_member_cash_usd', 'rd_said_leaving'], judge: [] },
+    hq: { show: ['active_members', 'renewals_book_rate', 'new_members_closed', 'new_member_cash_usd', 'rd_said_leaving'], judge: [] },
     renewals: {
-      show: ['renewals_voluntary_rate', 'renewals_renewed', 'renewals_book', 'renewals_collected_usd', 'renewals_worth_call', 'renewals_worth_call_usd', 'renewals_silent_churn', 'renewals_silent_churn_usd', 'renewals_payment_failures'],
-      judge: [['renewals_voluntary_rate', 'renewals_voluntary_rate'], ['renewals_payment_failures', 'renewals_payment_failures']],
+      show: ['renewals_book_rate', 'renewals_book_rate_last', 'renewals_voluntary_rate', 'renewals_renewed', 'renewals_book', 'renewals_collected_usd', 'renewals_worth_call', 'renewals_worth_call_usd', 'renewals_silent_churn', 'renewals_silent_churn_usd', 'renewals_payment_failures'],
+      judge: [['renewals_book_rate', 'renewal_rate'], ['renewals_book_rate_last', 'renewal_rate'], ['renewals_payment_failures', 'renewals_payment_failures']],
     },
     community: {
       show: ['rd_said_leaving', 'rd_undecided', 'rd_leaving_frustrated', 'pulse_frustrated', 'pulse_disengaging', 'pulse_thriving', 'engagement_score',
@@ -367,7 +374,32 @@ export function buildSnapshot(raws, nowMs) {
     return { id: b.id, name: b.name, short: b.short, kind: b.kind || 'dept', list: b.list ?? null, blurb: b.blurb, owner, status, checks, metrics };
   });
 
+  // One small house per sales territory, coloured by last month's final renewal rate against the 75% target.
+  for (const g of regions) {
+    const checks = [
+      { metricId: g.metrics.last_rate.id, ruleId: 'renewal_rate_region', ...judge(g.metrics.last_rate, 'renewal_rate_region') },
+      { metricId: g.metrics.this_rate.id, ruleId: 'renewal_rate_region', ...judge(g.metrics.this_rate, 'renewal_rate_region') },
+    ];
+    buildings.push({
+      id: g.id, name: g.territory.replace(/^Rep \d+ — /, ''), short: g.short, kind: 'region', list: null,
+      blurb: `Sales territory ${g.territory}: renewals against the 75% target.`,
+      owner: { name: null, why: 'Territory rep (not named in the renewal book)' },
+      status: worst(checks.map((c) => c.status)), checks, metrics: Object.values(g.metrics),
+    });
+  }
+
   const alerts = buildAlerts({ M, buildings, tasks });
+  const below = buildings.filter((b) => b.kind === 'region' && b.status === 'red');
+  if (below.length) {
+    alerts.unshift({
+      id: 'regions_below_target', buildingId: below[0].id, status: 'red',
+      title: `${below.length} of ${REGIONS.length} regions finished last month under 60% renewals (target 75%)`,
+      detail: below.map((b) => `${b.short} ${b.metrics.find((m) => m.id.endsWith('_last_rate')).value}%`).join(' · '),
+      costUsd: null, costLabel: `${M.renewals_book_rate_last?.value ?? '—'}% club-wide last month`,
+      nextStep: 'Each territory rep works this month’s open renewals; start with the regions furthest below target.',
+      owner: 'Territory reps; Chauncey Amaechi for the club', metricId: below[0].metrics[0].id,
+    });
+  }
 
   const sources = Object.entries(SOURCES).map(([id, s]) => {
     const raw = r[id];
@@ -399,6 +431,7 @@ export function buildSnapshot(raws, nowMs) {
       joins: joins.tables,
       pipeline: pipeline.tables,
       calls: fathom.tables,
+      regions: regions.map((g) => ({ id: g.id, ...g.row, status: buildings.find((b) => b.id === g.id)?.status })),
     },
     private: {
       ...renewals.private, ...rd.private, ...closers.private, ...setters.private,

@@ -1,5 +1,5 @@
 {
- "builtAt": "2026-11-03T21:45:00.000Z",
+ "builtAt": "2026-11-03T22:00:00.000Z",
  "question": "Are we growing the club this month?",
  "topNumbers": [
   {
@@ -15,17 +15,17 @@
    "context": "Paid and active today"
   },
   {
-   "id": "renewals_voluntary_rate",
-   "label": "Voluntary renewal rate",
-   "value": 17.6,
+   "id": "renewals_book_rate",
+   "label": "Renewal rate this month",
+   "value": 18.2,
    "unit": "%",
-   "sourceId": "fcai_renewal_diagnosis",
-   "source": "FC AI · renewal book & diagnosis",
-   "readAt": "2026-11-03T21:21:40Z",
-   "scope": "November 2026 renewal book, all territories; renewed ÷ decided, excluding policy exits",
+   "sourceId": "fcai_renewal_book_this",
+   "source": "FC AI · renewal book (this month, by region)",
+   "readAt": "2026-11-03T21:52:00Z",
+   "scope": "November 2026 renewal book, all territories; renewed ÷ (renewed + not renewed)",
    "complete": true,
-   "sample": 34,
-   "context": "6 renewed of 34 decided · 103 still open"
+   "sample": 33,
+   "context": "6 renewed of 33 decided · 103 still open · target 75%"
   },
   {
    "id": "new_members_closed",
@@ -93,17 +93,17 @@
      "context": "Paid and active today"
     },
     {
-     "id": "renewals_voluntary_rate",
-     "label": "Voluntary renewal rate",
-     "value": 17.6,
+     "id": "renewals_book_rate",
+     "label": "Renewal rate this month",
+     "value": 18.2,
      "unit": "%",
-     "sourceId": "fcai_renewal_diagnosis",
-     "source": "FC AI · renewal book & diagnosis",
-     "readAt": "2026-11-03T21:21:40Z",
-     "scope": "November 2026 renewal book, all territories; renewed ÷ decided, excluding policy exits",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, all territories; renewed ÷ (renewed + not renewed)",
      "complete": true,
-     "sample": 34,
-     "context": "6 renewed of 34 decided · 103 still open"
+     "sample": 33,
+     "context": "6 renewed of 33 decided · 103 still open · target 75%"
     },
     {
      "id": "new_members_closed",
@@ -158,10 +158,16 @@
    "status": "red",
    "checks": [
     {
-     "metricId": "renewals_voluntary_rate",
-     "ruleId": "renewals_voluntary_rate",
+     "metricId": "renewals_book_rate",
+     "ruleId": "renewal_rate",
      "status": "red",
-     "reason": "17.6% — green at 70%+, amber at 50%+ (red)"
+     "reason": "18.2% — green at 75%+, amber at 60%+ (red)"
+    },
+    {
+     "metricId": "renewals_book_rate_last",
+     "ruleId": "renewal_rate",
+     "status": "red",
+     "reason": "46.3% — green at 75%+, amber at 60%+ (red)"
     },
     {
      "metricId": "renewals_payment_failures",
@@ -171,6 +177,32 @@
     }
    ],
    "metrics": [
+    {
+     "id": "renewals_book_rate",
+     "label": "Renewal rate this month",
+     "value": 18.2,
+     "unit": "%",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, all territories; renewed ÷ (renewed + not renewed)",
+     "complete": true,
+     "sample": 33,
+     "context": "6 renewed of 33 decided · 103 still open · target 75%"
+    },
+    {
+     "id": "renewals_book_rate_last",
+     "label": "Renewal rate last month (final)",
+     "value": 46.3,
+     "unit": "%",
+     "sourceId": "fcai_renewal_book_last",
+     "source": "FC AI · renewal book (last month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "October 2026 renewal book, all territories; renewed ÷ (renewed + not renewed)",
+     "complete": true,
+     "sample": 108,
+     "context": "50 renewed of 108 decided · 9 still open · target 75%"
+    },
     {
      "id": "renewals_voluntary_rate",
      "label": "Voluntary renewal rate",
@@ -1517,21 +1549,636 @@
      "missingReason": "No accounting or bank connector is connected yet"
     }
    ]
+  },
+  {
+   "id": "r_southeast",
+   "name": "Southeast",
+   "short": "Southeast",
+   "kind": "region",
+   "list": null,
+   "blurb": "Sales territory Rep 1 — Southeast: renewals against the 75% target.",
+   "owner": {
+    "name": null,
+    "why": "Territory rep (not named in the renewal book)"
+   },
+   "status": "amber",
+   "checks": [
+    {
+     "metricId": "r_southeast_last_rate",
+     "ruleId": "renewal_rate_region",
+     "status": "amber",
+     "reason": "66.7% — green at 75%+, amber at 60%+ (amber)"
+    },
+    {
+     "metricId": "r_southeast_this_rate",
+     "ruleId": "renewal_rate_region",
+     "status": "grey",
+     "reason": "Only 3 decided so far — too few to judge (needs 5)"
+    }
+   ],
+   "metrics": [
+    {
+     "id": "r_southeast_last_rate",
+     "label": "October renewal rate (final)",
+     "value": 66.7,
+     "unit": "%",
+     "sourceId": "fcai_renewal_book_last",
+     "source": "FC AI · renewal book (last month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "October 2026 renewal book, Rep 1 — Southeast",
+     "complete": true,
+     "sample": 18,
+     "context": "12 renewed of 18 decided · target 75%"
+    },
+    {
+     "id": "r_southeast_this_rate",
+     "label": "November so far",
+     "value": 100,
+     "unit": "%",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 1 — Southeast",
+     "complete": true,
+     "sample": 3,
+     "context": "3 renewed of 3 decided · 10 still open"
+    },
+    {
+     "id": "r_southeast_this_open",
+     "label": "Still open this month",
+     "value": 10,
+     "unit": "members",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 1 — Southeast",
+     "complete": true
+    },
+    {
+     "id": "r_southeast_this_lost",
+     "label": "Not renewed this month",
+     "value": 0,
+     "unit": "members",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 1 — Southeast",
+     "complete": true
+    },
+    {
+     "id": "r_southeast_active",
+     "label": "Active members",
+     "value": 297,
+     "unit": "members",
+     "sourceId": "fcai_community_pulse",
+     "source": "FC AI · community totals",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Paid-active today, Rep 1 — Southeast",
+     "complete": true
+    }
+   ]
+  },
+  {
+   "id": "r_canada",
+   "name": "Canada",
+   "short": "Canada",
+   "kind": "region",
+   "list": null,
+   "blurb": "Sales territory Rep 2 — Canada: renewals against the 75% target.",
+   "owner": {
+    "name": null,
+    "why": "Territory rep (not named in the renewal book)"
+   },
+   "status": "red",
+   "checks": [
+    {
+     "metricId": "r_canada_last_rate",
+     "ruleId": "renewal_rate_region",
+     "status": "red",
+     "reason": "45.5% — green at 75%+, amber at 60%+ (red)"
+    },
+    {
+     "metricId": "r_canada_this_rate",
+     "ruleId": "renewal_rate_region",
+     "status": "grey",
+     "reason": "Only 4 decided so far — too few to judge (needs 5)"
+    }
+   ],
+   "metrics": [
+    {
+     "id": "r_canada_last_rate",
+     "label": "October renewal rate (final)",
+     "value": 45.5,
+     "unit": "%",
+     "sourceId": "fcai_renewal_book_last",
+     "source": "FC AI · renewal book (last month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "October 2026 renewal book, Rep 2 — Canada",
+     "complete": true,
+     "sample": 22,
+     "context": "10 renewed of 22 decided · target 75%"
+    },
+    {
+     "id": "r_canada_this_rate",
+     "label": "November so far",
+     "value": 0,
+     "unit": "%",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 2 — Canada",
+     "complete": true,
+     "sample": 4,
+     "context": "0 renewed of 4 decided · 20 still open"
+    },
+    {
+     "id": "r_canada_this_open",
+     "label": "Still open this month",
+     "value": 20,
+     "unit": "members",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 2 — Canada",
+     "complete": true
+    },
+    {
+     "id": "r_canada_this_lost",
+     "label": "Not renewed this month",
+     "value": 4,
+     "unit": "members",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 2 — Canada",
+     "complete": true
+    },
+    {
+     "id": "r_canada_active",
+     "label": "Active members",
+     "value": 341,
+     "unit": "members",
+     "sourceId": "fcai_community_pulse",
+     "source": "FC AI · community totals",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Paid-active today, Rep 2 — Canada",
+     "complete": true
+    }
+   ]
+  },
+  {
+   "id": "r_chicago",
+   "name": "Chicago / Virtual / Intl",
+   "short": "Chicago/Intl",
+   "kind": "region",
+   "list": null,
+   "blurb": "Sales territory Rep 3 — Chicago / Virtual / Intl: renewals against the 75% target.",
+   "owner": {
+    "name": null,
+    "why": "Territory rep (not named in the renewal book)"
+   },
+   "status": "red",
+   "checks": [
+    {
+     "metricId": "r_chicago_last_rate",
+     "ruleId": "renewal_rate_region",
+     "status": "red",
+     "reason": "50% — green at 75%+, amber at 60%+ (red)"
+    },
+    {
+     "metricId": "r_chicago_this_rate",
+     "ruleId": "renewal_rate_region",
+     "status": "red",
+     "reason": "12.5% — green at 75%+, amber at 60%+ (red)"
+    }
+   ],
+   "metrics": [
+    {
+     "id": "r_chicago_last_rate",
+     "label": "October renewal rate (final)",
+     "value": 50,
+     "unit": "%",
+     "sourceId": "fcai_renewal_book_last",
+     "source": "FC AI · renewal book (last month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "October 2026 renewal book, Rep 3 — Chicago / Virtual / Intl",
+     "complete": true,
+     "sample": 12,
+     "context": "6 renewed of 12 decided · target 75%"
+    },
+    {
+     "id": "r_chicago_this_rate",
+     "label": "November so far",
+     "value": 12.5,
+     "unit": "%",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 3 — Chicago / Virtual / Intl",
+     "complete": true,
+     "sample": 8,
+     "context": "1 renewed of 8 decided · 10 still open"
+    },
+    {
+     "id": "r_chicago_this_open",
+     "label": "Still open this month",
+     "value": 10,
+     "unit": "members",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 3 — Chicago / Virtual / Intl",
+     "complete": true
+    },
+    {
+     "id": "r_chicago_this_lost",
+     "label": "Not renewed this month",
+     "value": 7,
+     "unit": "members",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 3 — Chicago / Virtual / Intl",
+     "complete": true
+    },
+    {
+     "id": "r_chicago_active",
+     "label": "Active members",
+     "value": 287,
+     "unit": "members",
+     "sourceId": "fcai_community_pulse",
+     "source": "FC AI · community totals",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Paid-active today, Rep 3 — Chicago / Virtual / Intl",
+     "complete": true
+    }
+   ]
+  },
+  {
+   "id": "r_nyc",
+   "name": "NYC / NE / DC",
+   "short": "NYC/NE/DC",
+   "kind": "region",
+   "list": null,
+   "blurb": "Sales territory Rep 4 — NYC / NE / DC: renewals against the 75% target.",
+   "owner": {
+    "name": null,
+    "why": "Territory rep (not named in the renewal book)"
+   },
+   "status": "red",
+   "checks": [
+    {
+     "metricId": "r_nyc_last_rate",
+     "ruleId": "renewal_rate_region",
+     "status": "red",
+     "reason": "57.1% — green at 75%+, amber at 60%+ (red)"
+    },
+    {
+     "metricId": "r_nyc_this_rate",
+     "ruleId": "renewal_rate_region",
+     "status": "red",
+     "reason": "0% — green at 75%+, amber at 60%+ (red)"
+    }
+   ],
+   "metrics": [
+    {
+     "id": "r_nyc_last_rate",
+     "label": "October renewal rate (final)",
+     "value": 57.1,
+     "unit": "%",
+     "sourceId": "fcai_renewal_book_last",
+     "source": "FC AI · renewal book (last month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "October 2026 renewal book, Rep 4 — NYC / NE / DC",
+     "complete": true,
+     "sample": 7,
+     "context": "4 renewed of 7 decided · target 75%"
+    },
+    {
+     "id": "r_nyc_this_rate",
+     "label": "November so far",
+     "value": 0,
+     "unit": "%",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 4 — NYC / NE / DC",
+     "complete": true,
+     "sample": 5,
+     "context": "0 renewed of 5 decided · 14 still open"
+    },
+    {
+     "id": "r_nyc_this_open",
+     "label": "Still open this month",
+     "value": 14,
+     "unit": "members",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 4 — NYC / NE / DC",
+     "complete": true
+    },
+    {
+     "id": "r_nyc_this_lost",
+     "label": "Not renewed this month",
+     "value": 5,
+     "unit": "members",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 4 — NYC / NE / DC",
+     "complete": true
+    },
+    {
+     "id": "r_nyc_active",
+     "label": "Active members",
+     "value": 328,
+     "unit": "members",
+     "sourceId": "fcai_community_pulse",
+     "source": "FC AI · community totals",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Paid-active today, Rep 4 — NYC / NE / DC",
+     "complete": true
+    }
+   ]
+  },
+  {
+   "id": "r_westcoast",
+   "name": "West Coast",
+   "short": "West Coast",
+   "kind": "region",
+   "list": null,
+   "blurb": "Sales territory Rep 5 — West Coast: renewals against the 75% target.",
+   "owner": {
+    "name": null,
+    "why": "Territory rep (not named in the renewal book)"
+   },
+   "status": "red",
+   "checks": [
+    {
+     "metricId": "r_westcoast_last_rate",
+     "ruleId": "renewal_rate_region",
+     "status": "red",
+     "reason": "33.3% — green at 75%+, amber at 60%+ (red)"
+    },
+    {
+     "metricId": "r_westcoast_this_rate",
+     "ruleId": "renewal_rate_region",
+     "status": "red",
+     "reason": "12.5% — green at 75%+, amber at 60%+ (red)"
+    }
+   ],
+   "metrics": [
+    {
+     "id": "r_westcoast_last_rate",
+     "label": "October renewal rate (final)",
+     "value": 33.3,
+     "unit": "%",
+     "sourceId": "fcai_renewal_book_last",
+     "source": "FC AI · renewal book (last month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "October 2026 renewal book, Rep 5 — West Coast",
+     "complete": true,
+     "sample": 15,
+     "context": "5 renewed of 15 decided · target 75%"
+    },
+    {
+     "id": "r_westcoast_this_rate",
+     "label": "November so far",
+     "value": 12.5,
+     "unit": "%",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 5 — West Coast",
+     "complete": true,
+     "sample": 8,
+     "context": "1 renewed of 8 decided · 19 still open"
+    },
+    {
+     "id": "r_westcoast_this_open",
+     "label": "Still open this month",
+     "value": 19,
+     "unit": "members",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 5 — West Coast",
+     "complete": true
+    },
+    {
+     "id": "r_westcoast_this_lost",
+     "label": "Not renewed this month",
+     "value": 7,
+     "unit": "members",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 5 — West Coast",
+     "complete": true
+    },
+    {
+     "id": "r_westcoast_active",
+     "label": "Active members",
+     "value": 342,
+     "unit": "members",
+     "sourceId": "fcai_community_pulse",
+     "source": "FC AI · community totals",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Paid-active today, Rep 5 — West Coast",
+     "complete": true
+    }
+   ]
+  },
+  {
+   "id": "r_texas",
+   "name": "Texas / Mountain",
+   "short": "Texas/Mtn",
+   "kind": "region",
+   "list": null,
+   "blurb": "Sales territory Rep 6 — Texas / Mountain: renewals against the 75% target.",
+   "owner": {
+    "name": null,
+    "why": "Territory rep (not named in the renewal book)"
+   },
+   "status": "red",
+   "checks": [
+    {
+     "metricId": "r_texas_last_rate",
+     "ruleId": "renewal_rate_region",
+     "status": "red",
+     "reason": "53.3% — green at 75%+, amber at 60%+ (red)"
+    },
+    {
+     "metricId": "r_texas_this_rate",
+     "ruleId": "renewal_rate_region",
+     "status": "grey",
+     "reason": "Only 3 decided so far — too few to judge (needs 5)"
+    }
+   ],
+   "metrics": [
+    {
+     "id": "r_texas_last_rate",
+     "label": "October renewal rate (final)",
+     "value": 53.3,
+     "unit": "%",
+     "sourceId": "fcai_renewal_book_last",
+     "source": "FC AI · renewal book (last month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "October 2026 renewal book, Rep 6 — Texas / Mountain",
+     "complete": true,
+     "sample": 15,
+     "context": "8 renewed of 15 decided · target 75%"
+    },
+    {
+     "id": "r_texas_this_rate",
+     "label": "November so far",
+     "value": 0,
+     "unit": "%",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 6 — Texas / Mountain",
+     "complete": true,
+     "sample": 3,
+     "context": "0 renewed of 3 decided · 16 still open"
+    },
+    {
+     "id": "r_texas_this_open",
+     "label": "Still open this month",
+     "value": 16,
+     "unit": "members",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 6 — Texas / Mountain",
+     "complete": true
+    },
+    {
+     "id": "r_texas_this_lost",
+     "label": "Not renewed this month",
+     "value": 3,
+     "unit": "members",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 6 — Texas / Mountain",
+     "complete": true
+    },
+    {
+     "id": "r_texas_active",
+     "label": "Active members",
+     "value": 293,
+     "unit": "members",
+     "sourceId": "fcai_community_pulse",
+     "source": "FC AI · community totals",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Paid-active today, Rep 6 — Texas / Mountain",
+     "complete": true
+    }
+   ]
+  },
+  {
+   "id": "r_atlanta",
+   "name": "Atlanta",
+   "short": "Atlanta",
+   "kind": "region",
+   "list": null,
+   "blurb": "Sales territory Rep 7 — Atlanta: renewals against the 75% target.",
+   "owner": {
+    "name": null,
+    "why": "Territory rep (not named in the renewal book)"
+   },
+   "status": "red",
+   "checks": [
+    {
+     "metricId": "r_atlanta_last_rate",
+     "ruleId": "renewal_rate_region",
+     "status": "red",
+     "reason": "29.4% — green at 75%+, amber at 60%+ (red)"
+    },
+    {
+     "metricId": "r_atlanta_this_rate",
+     "ruleId": "renewal_rate_region",
+     "status": "grey",
+     "reason": "Only 1 decided so far — too few to judge (needs 5)"
+    }
+   ],
+   "metrics": [
+    {
+     "id": "r_atlanta_last_rate",
+     "label": "October renewal rate (final)",
+     "value": 29.4,
+     "unit": "%",
+     "sourceId": "fcai_renewal_book_last",
+     "source": "FC AI · renewal book (last month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "October 2026 renewal book, Rep 7 — Atlanta",
+     "complete": true,
+     "sample": 17,
+     "context": "5 renewed of 17 decided · target 75%"
+    },
+    {
+     "id": "r_atlanta_this_rate",
+     "label": "November so far",
+     "value": 100,
+     "unit": "%",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 7 — Atlanta",
+     "complete": true,
+     "sample": 1,
+     "context": "1 renewed of 1 decided · 6 still open"
+    },
+    {
+     "id": "r_atlanta_this_open",
+     "label": "Still open this month",
+     "value": 6,
+     "unit": "members",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 7 — Atlanta",
+     "complete": true
+    },
+    {
+     "id": "r_atlanta_this_lost",
+     "label": "Not renewed this month",
+     "value": 0,
+     "unit": "members",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "FC AI · renewal book (this month, by region)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Rep 7 — Atlanta",
+     "complete": true
+    },
+    {
+     "id": "r_atlanta_active",
+     "label": "Active members",
+     "value": 211,
+     "unit": "members",
+     "sourceId": "fcai_community_pulse",
+     "source": "FC AI · community totals",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Paid-active today, Rep 7 — Atlanta",
+     "complete": true
+    }
+   ]
   }
  ],
  "alerts": [
   {
-   "id": "renewals_worth_call",
-   "buildingId": "renewals",
+   "id": "regions_below_target",
+   "buildingId": "r_canada",
    "status": "red",
-   "title": "67 open renewals are engaged and worth a call",
-   "detail": "Voluntary renewal rate so far is 17.6% with 103 still open.",
-   "costUsd": 496985,
-   "costLabel": "$496,985 plan value open",
-   "nextStep": "Work the “worth a call” list this week, highest plan value first.",
-   "owner": "Chauncey Amaechi",
-   "metricId": "renewals_worth_call",
-   "privateList": "renewals_worth_call"
+   "title": "6 of 7 regions finished last month under 60% renewals (target 75%)",
+   "detail": "Canada 45.5% · Chicago/Intl 50% · NYC/NE/DC 57.1% · West Coast 33.3% · Texas/Mtn 53.3% · Atlanta 29.4%",
+   "costUsd": null,
+   "costLabel": "46.3% club-wide last month",
+   "nextStep": "Each territory rep works this month’s open renewals; start with the regions furthest below target.",
+   "owner": "Territory reps; Chauncey Amaechi for the club",
+   "metricId": "r_canada_last_rate"
   },
   {
    "id": "rd_leaving",
@@ -1558,6 +2205,19 @@
    "owner": "Dawson Turkovich",
    "metricId": "overdue_Admissions",
    "privateList": "overdue_tasks:Admissions"
+  },
+  {
+   "id": "renewals_worth_call",
+   "buildingId": "renewals",
+   "status": "amber",
+   "title": "67 open renewals are engaged and worth a call",
+   "detail": "Voluntary renewal rate so far is 17.6% with 103 still open.",
+   "costUsd": 496985,
+   "costLabel": "$496,985 plan value open",
+   "nextStep": "Work the “worth a call” list this week, highest plan value first.",
+   "owner": "Chauncey Amaechi",
+   "metricId": "renewals_worth_call",
+   "privateList": "renewals_worth_call"
   },
   {
    "id": "renewals_silent",
@@ -1781,6 +2441,24 @@
    "ok": true,
    "error": null,
    "note": "welcome-channel read stopped at its first page (the connector returned the same page again for the next cursor), so new-member intros are 'at least 32'"
+  },
+  {
+   "id": "fcai_renewal_book_this",
+   "name": "FC AI · renewal book (this month, by region)",
+   "freshnessHours": 24,
+   "readAt": "2026-11-03T21:52:00Z",
+   "ok": true,
+   "error": null,
+   "note": null
+  },
+  {
+   "id": "fcai_renewal_book_last",
+   "name": "FC AI · renewal book (last month, by region)",
+   "freshnessHours": 720,
+   "readAt": "2026-11-03T21:52:00Z",
+   "ok": true,
+   "error": null,
+   "note": null
   }
  ],
  "tables": {
@@ -2531,6 +3209,92 @@
      "calls": 4
     }
    ]
-  }
+  },
+  "regions": [
+   {
+    "id": "r_southeast",
+    "region": "Southeast",
+    "last_renewed": 12,
+    "last_decided": 18,
+    "last_rate": 66.7,
+    "this_renewed": 3,
+    "this_decided": 3,
+    "this_open": 10,
+    "this_rate": 100,
+    "status": "amber"
+   },
+   {
+    "id": "r_canada",
+    "region": "Canada",
+    "last_renewed": 10,
+    "last_decided": 22,
+    "last_rate": 45.5,
+    "this_renewed": 0,
+    "this_decided": 4,
+    "this_open": 20,
+    "this_rate": 0,
+    "status": "red"
+   },
+   {
+    "id": "r_chicago",
+    "region": "Chicago/Intl",
+    "last_renewed": 6,
+    "last_decided": 12,
+    "last_rate": 50,
+    "this_renewed": 1,
+    "this_decided": 8,
+    "this_open": 10,
+    "this_rate": 12.5,
+    "status": "red"
+   },
+   {
+    "id": "r_nyc",
+    "region": "NYC/NE/DC",
+    "last_renewed": 4,
+    "last_decided": 7,
+    "last_rate": 57.1,
+    "this_renewed": 0,
+    "this_decided": 5,
+    "this_open": 14,
+    "this_rate": 0,
+    "status": "red"
+   },
+   {
+    "id": "r_westcoast",
+    "region": "West Coast",
+    "last_renewed": 5,
+    "last_decided": 15,
+    "last_rate": 33.3,
+    "this_renewed": 1,
+    "this_decided": 8,
+    "this_open": 19,
+    "this_rate": 12.5,
+    "status": "red"
+   },
+   {
+    "id": "r_texas",
+    "region": "Texas/Mtn",
+    "last_renewed": 8,
+    "last_decided": 15,
+    "last_rate": 53.3,
+    "this_renewed": 0,
+    "this_decided": 3,
+    "this_open": 16,
+    "this_rate": 0,
+    "status": "red"
+   },
+   {
+    "id": "r_atlanta",
+    "region": "Atlanta",
+    "last_renewed": 5,
+    "last_decided": 17,
+    "last_rate": 29.4,
+    "this_renewed": 1,
+    "this_decided": 1,
+    "this_open": 6,
+    "this_rate": 100,
+    "status": "red"
+   }
+  ]
  }
 }

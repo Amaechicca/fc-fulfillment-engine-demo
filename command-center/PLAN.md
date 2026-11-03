@@ -52,7 +52,7 @@ All in `js/data/rules.js`. Grey = no data, an incomplete read, or too small a sa
 
 | Rule | Green | Amber | Red |
 |---|---|---|---|
-| Voluntary renewal rate (needs 20+ decided) | ≥ 70% | ≥ 50% | < 50% |
+| **Renewal rate, club and each region** (renewed ÷ renewed + not renewed; club needs 20+ decided, a region 5+) | ≥ 75% **(your target)** | ≥ 60% (assumed) | < 60% |
 | Renewal payment failures | 0 | ≤ 2 | > 2 |
 | Told an RD they’re leaving (60 d) | ≤ 10 | ≤ 25 | > 25 |
 | Closer median close rate (held → paid) | ≥ 20% | ≥ 15% | < 15% |
@@ -97,10 +97,18 @@ A building takes its worst rule. Alerts list every red/amber item, red first, th
 | 3 · Actions with a preview | assign ClickUp task, draft Slack message, block calendar time; each shows exactly what goes out, confirm click, log | every action has preview + confirm + log. **Gate: hand-off rules.** |
 | 4 · Delegation loop | tasks to owners in Slack; town tracks assigned → accepted → done → checked | you can see who owes what without asking. |
 
-## Open questions (answers change the design)
+## Regions
 
-1. What is the five-second question? I used “Are we growing the club this month?”
-2. Monthly targets: new members, new cash, renewal rate. With these, the rules become “on pace to target” instead of my guesses.
-3. Are the thresholds above right, especially renewals (70/50) and RD “leaving” (10/25)?
-4. Who should see named lists (members, reps, comp-related tasks)? Today they’re hidden by default and never committed.
-5. For Phase 2, where should alerts go: Slack DM to you, a private channel, or email?
+Each sales territory is a small house on the outer ring of the town, coloured by **last month's final renewal rate** against 75%. This month's rate so far is shown beside it and is judged once 5+ renewals in that region are decided. Source: the renewal team's own book (`get_renewal_book`), split by territory.
+
+## Payments check (the $1.73M)
+
+- No Commas or Whop connector is available here. The HQ dashboard (which reads both) is blocked by this environment's network rules and needs a staff Google login.
+- FC AI's payment records summed by channel give $963,910 from 110 closes for October. That counts only people whose intro was booked in October, so it can't confirm or refute the $1,725,010 (all cash dated in October, including payment-plan installments, 197 deals).
+- **Still to do:** compare October new-member cash on the HQ dashboard (or a Commas + Whop export) with $1,725,010.
+
+## Open questions
+
+1. Targets for new members and new cash per month (renewals: 75% per region, done).
+2. Is the 60% line for "red" right, or should anything under 75% be red?
+3. Which private Slack channel should alerts go to (Phase 2)?

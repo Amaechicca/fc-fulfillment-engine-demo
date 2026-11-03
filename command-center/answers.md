@@ -6,12 +6,12 @@ Drafted by Claude on 2026-11-03 from what the connected systems show (FC AI, Cli
 ## The business and you
 1. **What we sell:** Founders Club membership for founders. Sale path: lead (paid ads, cold email, LinkedIn, referral) → setter books an **intro call** → **interview** with a closer → paid membership (new sale or payment plan) → yearly **renewal**, worked by RDs/community.
 2. **Brands:** Founders Club only. _ASSUMED_ one view, all territories together, filterable by territory later.
-3. **Who looks:** _ASSUMED_ leadership sees everything; department leads see everything except named member and per-rep lists, which sit behind “Hide names”.
+3. **Who looks:** internal staff. Named lists (members, reps) are for staff only: they stay off the shared repository and behind “Hide names”.
 4. **Three decisions + the number for each:** _ASSUMED_
    - Who do we call to save renewals this week → open renewals worth a call + plan value.
    - Is the front end (setters/closers) healthy → show rate, close rate, cash per interview.
    - Where to put marketing money → bookings and closes by channel, cost per close.
-5. **Five-second question:** _ASSUMED_ “Are we growing the club this month?”
+5. **Five-second question:** “Are we growing the club this month?” (confirmed).
 
 ## Systems and data
 6. **Systems:** FC AI (members, renewals, RD calls, sales panels, attribution, event feedback, pipeline — built on GHL, payments, the app, Fathom, Slack). ClickUp (department projects and tasks). Slack (RD SOS, welcome channel) and Fathom (recorded calls) are read directly too. Gmail and Google Calendar are connected but personal, so they aren't used. GHL and payments are reached only through FC AI; accounting isn't reachable at all.
@@ -22,7 +22,7 @@ Drafted by Claude on 2026-11-03 from what the connected systems show (FC AI, Cli
 
 ## What to measure
 11. **Money:** _ASSUMED_ new-member cash (closer panel) and renewal dollars collected (renewal book). Cash basis. No bank, receivables or payables yet.
-12. **Sales:** lead = intro booking; appointment = interview; sale = first payment; cancellation = no-show/cancel on the interview. **Monthly targets: not known — please give them.**
+12. **Sales:** lead = intro booking; appointment = interview; sale = first payment; cancellation = no-show/cancel on the interview. **Renewal target: 75%, per region.** New-member and new-cash targets: not set yet.
 13. **Delivery:** for members, renewal outcome stages (renewed / left with reason / left silently / open worth a call / open quiet). Things get stuck in “open”.
 14. **People:** owners taken from ClickUp (who is assigned most tasks in each department list). “Doing well” = the rules in PLAN.md.
 15. **Marketing:** paid Facebook and Google, cold email senders, LinkedIn outbound, referrals, SDR. Judged on bookings, closes and cost per close.
@@ -36,7 +36,7 @@ Drafted by Claude on 2026-11-03 from what the connected systems show (FC AI, Cli
 21. **Device:** _ASSUMED_ phone first.
 
 ## Actions and alerts
-22. **Alerts:** _ASSUMED_ Slack DM, at most once a day, only when something turns red (Phase 2).
+22. **Alerts:** probably a private Slack channel (to be decided), only when something turns red (Phase 2).
 23. **Actions wanted:** _ASSUMED_ assign a ClickUp task, draft a Slack message to an owner, block calendar time (Phase 3).
 24. **Approval:** _ASSUMED_ you approve every action after seeing a preview.
 25. **Hand out work today:** ClickUp + Slack.
