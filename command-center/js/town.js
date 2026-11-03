@@ -60,6 +60,12 @@ export function createTown({ container, canvas, labelsEl, buildings, onSelect, r
 
   const plaza = new THREE.Mesh(new THREE.CylinderGeometry(11, 11, 0.3, 40), mat(P.plaza));
   plaza.position.y = 0.15; plaza.receiveShadow = true; scene.add(plaza);
+  // a fountain on the plaza, in front of HQ
+  const fountain = new THREE.Group();
+  fountain.add(new THREE.Mesh(new THREE.CylinderGeometry(2.2, 2.4, 0.6, 16), mat(P.wall2)));
+  const pool = new THREE.Mesh(new THREE.CylinderGeometry(1.9, 1.9, 0.62, 16), mat(P.water, { roughness: 0.2 })); pool.position.y = 0.02; fountain.add(pool);
+  const spout = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.35, 1.4, 8), mat(P.wall)); spout.position.y = 0.9; fountain.add(spout);
+  fountain.position.set(5.2, 0.3, 6.4); fountain.traverse((m) => { if (m.isMesh) { m.castShadow = true; m.receiveShadow = true; } }); scene.add(fountain);
   const ringRoad = new THREE.Mesh(new THREE.RingGeometry(11, 13.4, 64), mat(P.road));
   ringRoad.rotation.x = -Math.PI / 2; ringRoad.position.y = 0.06; ringRoad.receiveShadow = true; scene.add(ringRoad);
 
@@ -131,6 +137,44 @@ export function createTown({ container, canvas, labelsEl, buildings, onSelect, r
     for (let y = from; y < h - 0.4; y += step) g.add(box(w + 0.06, 0.45, d + 0.06, m, 0, y));
   }
 
+  function palm(g, x, z, s = 1) {
+    const trunk = cyl(0.12 * s, 0.2 * s, 3.2 * s, 5, mat(P.trunk), x, 1.6 * s, z); trunk.rotation.z = 0.12; g.add(trunk);
+    for (let i = 0; i < 5; i++) {
+      const leaf = box(0.3 * s, 0.08, 1.9 * s, mat(P.leaf2), x, 3.25 * s, z);
+      leaf.rotation.set(0.35, (i / 5) * Math.PI * 2, 0); leaf.translateZ(0.85 * s); g.add(leaf);
+    }
+  }
+  function pine(g, x, z, s = 1) {
+    g.add(cyl(0.12 * s, 0.16 * s, 0.8 * s, 5, mat(P.trunk), x, 0.4 * s, z));
+    for (let k = 0; k < 3; k++) { const c = new THREE.Mesh(new THREE.ConeGeometry((1.1 - k * 0.28) * s, 1.3 * s, 6), mat(0x2b6a3a)); c.position.set(x, (1.1 + k * 0.7) * s, z); g.add(c); }
+  }
+  function cactus(g, x, z) {
+    const c = mat(0x4f8a3f);
+    g.add(cyl(0.25, 0.28, 2, 6, c, x, 1, z));
+    const arm = cyl(0.16, 0.16, 0.8, 6, c, x + 0.45, 1.3, z); g.add(arm); g.add(cyl(0.16, 0.16, 0.7, 6, c, x + 0.6, 1.75, z));
+  }
+  // A crisp label painted onto a canvas, for signs and the FC seal.
+  function signTexture(text, bg, fg, round = false, emoji = false) {
+    const c = document.createElement('canvas'); c.width = round ? 256 : 512; c.height = round ? 256 : (emoji ? 280 : 96);
+    const x = c.getContext('2d');
+    x.fillStyle = bg;
+    if (round) { x.beginPath(); x.arc(128, 128, 124, 0, Math.PI * 2); x.fill(); x.strokeStyle = fg; x.lineWidth = 6; x.beginPath(); x.arc(128, 128, 108, 0, Math.PI * 2); x.stroke(); }
+    else x.fillRect(0, 0, c.width, c.height);
+    if (emoji) { x.fillStyle = fg; x.fillRect(0, 0, 128, c.height); x.fillRect(c.width - 128, 0, 128, c.height); }
+    x.fillStyle = fg; x.textAlign = 'center'; x.textBaseline = 'middle';
+    x.font = round ? 'bold 110px Georgia, serif' : emoji ? '170px sans-serif' : 'bold 58px system-ui, sans-serif';
+    x.fillText(text, c.width / 2, c.height / 2 + (round ? 6 : 2));
+    const t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t;
+  }
+
+  function mapleFlag() { // drawn, so it doesn't depend on an emoji font
+    const c = document.createElement('canvas'); c.width = 240; c.height = 128; const x = c.getContext('2d');
+    x.fillStyle = '#fff'; x.fillRect(0, 0, 240, 128); x.fillStyle = '#d52b1e'; x.fillRect(0, 0, 60, 128); x.fillRect(180, 0, 60, 128);
+    const pts = [[120, 18], [128, 38], [140, 32], [136, 58], [154, 46], [158, 56], [172, 52], [164, 70], [174, 76], [148, 92], [152, 102], [124, 98], [124, 116], [116, 116], [116, 98], [88, 102], [92, 92], [66, 76], [76, 70], [68, 52], [82, 56], [86, 46], [104, 58], [100, 32], [112, 38]];
+    x.beginPath(); pts.forEach(([px, py], i) => (i ? x.lineTo(px, py) : x.moveTo(px, py))); x.closePath(); x.fill();
+    return new THREE.CanvasTexture(c);
+  }
+
   // Each returns [group, height]. Shapes follow the job: bank for cash, warehouse for delivery, tower for sales…
   const SHAPES = {
     hq(g) {
@@ -138,7 +182,16 @@ export function createTown({ container, canvas, labelsEl, buildings, onSelect, r
       g.add(box(6, 2, 6, mat(P.wall2)));
       g.add(box(4.8, 12, 4.8, glass, 0, 8)); windowBands(g, 4.8, 4.8, 14, 3, 1.4, mat(P.white));
       g.add(box(3.4, 3, 3.4, glass, 0, 15.5)); g.add(cyl(0.12, 0.12, 4, 6, mat(P.steel), 0, 19));
-      g.add(cyl(0.45, 0.45, 0.45, 8, mat(STATUS_HEX.red, { emissive: 0x551111 }), 0, 21.2));
+      g.add(cyl(0.45, 0.45, 0.45, 8, mat(0x92bf9a, { emissive: 0x24502f }), 0, 21.2));
+      // the Founders Club seal on all four sides of the crown
+      const seal = new THREE.MeshBasicMaterial({ map: signTexture('FC', '#1a3a26', '#e4eee7', true) });
+      for (let i = 0; i < 4; i++) {
+        const s = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 2.6), seal);
+        const a = (i * Math.PI) / 2; s.position.set(Math.sin(a) * 1.72, 15.5, Math.cos(a) * 1.72); s.rotation.y = a; g.add(s);
+      }
+      // a banner across the lobby
+      const banner = new THREE.Mesh(new THREE.PlaneGeometry(5.6, 1), new THREE.MeshBasicMaterial({ map: signTexture('FOUNDERS CLUB', '#1a3a26', '#f2c84b') }));
+      banner.position.set(0, 1.2, 3.02); g.add(banner);
       return 21.5;
     },
     bank(g) { // Renewals: cash coming back in
@@ -233,7 +286,86 @@ export function createTown({ container, canvas, labelsEl, buildings, onSelect, r
       g.add(cyl(0.07, 0.07, 6, 5, mat(P.steel), 3.4, 3, 1.8)); g.add(box(1.2, 0.7, 0.05, mat(0x2f6b4a), 4, 5.6, 1.8));
       return 6.2;
     },
-    house(g, variant = 0) { // a region's main house
+    // ---- one landmark per sales region ----
+    r_southeast(g) { // beach house on stilts, palms, lifeguard stand
+      for (const [x, z] of [[-1.2, -1], [1.2, -1], [-1.2, 1], [1.2, 1]]) g.add(cyl(0.12, 0.12, 1.4, 5, mat(P.white), x, 0.7, z));
+      g.add(box(3.4, 2.2, 3, mat(0xf4b6c2), 0, 2.5)); g.add(box(3.4, 0.2, 3.6, mat(0xe8d9b5), 0, 1.45, 0.3));
+      const roof = new THREE.Mesh(new THREE.ConeGeometry(2.8, 1.4, 4), mat(0x5fc1c9)); roof.rotation.y = Math.PI / 4; roof.position.y = 4.3; g.add(roof);
+      g.add(box(4.6, 0.12, 2.6, mat(0xf1dfa8), 0, 0.06, 3.4)); // sand
+      palm(g, -3, 2.4, 1.1); palm(g, 3.2, 1.6, 0.9);
+      const stand = new THREE.Group(); stand.add(box(0.8, 0.8, 0.8, mat(0xd04a4a), 0, 1.6)); stand.add(cyl(0.06, 0.06, 1.2, 4, mat(P.white), 0, 0.6));
+      stand.position.set(2.6, 0, 3.6); g.add(stand);
+      return 4.9;
+    },
+    r_canada(g) { // log cabin, pines, maple-leaf flag
+      const log = mat(0x8a5a36);
+      for (let i = 0; i < 5; i++) { const l = cyl(0.26, 0.26, 3.8, 6, log, 0, 0.26 + i * 0.48, 0); l.rotation.z = Math.PI / 2; g.add(l); }
+      g.add(box(3.6, 2.4, 2.8, mat(0x7a4e2e), 0, 1.2, 0));
+      const roof = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 2.6, 1.6, 4), mat(0x3d4a3a)); roof.rotation.y = Math.PI / 4; roof.scale.set(1.25, 1, 0.9); roof.position.y = 3.2; g.add(roof);
+      g.add(box(0.5, 1.6, 0.5, mat(0x8f8a84), 1.1, 3.6, -0.5)); // chimney
+      for (const [x, z, s] of [[-3.2, -1, 1.1], [3.3, -1.4, 1], [-2.8, 2.2, 0.8]]) pine(g, x, z, s);
+      g.add(cyl(0.06, 0.06, 4.4, 5, mat(P.steel), 2.6, 2.2, 2));
+      const flag = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.8), new THREE.MeshBasicMaterial({ map: mapleFlag(), side: THREE.DoubleSide }));
+      flag.position.set(3.38, 4, 2); g.add(flag);
+      return 4.6;
+    },
+    r_chicago(g) { // dark skyscraper with twin antennas, a globe for virtual & international
+      const dark = mat(0x2b2f36);
+      g.add(box(2.4, 7, 2.4, dark, -0.6, 3.5)); g.add(box(1.8, 3, 1.8, dark, -0.6, 8.5)); windowBands(g, 2.4, 2.4, 7, 1, 1, mat(0xf2d27a));
+      g.add(cyl(0.07, 0.07, 2.4, 4, mat(P.white), -1.1, 11.2)); g.add(cyl(0.07, 0.07, 2.4, 4, mat(P.white), -0.1, 11.2));
+      g.add(box(1.6, 3.4, 1.6, mat(0x55606d), 1.6, 1.7, 0.6));
+      const globe = new THREE.Mesh(new THREE.IcosahedronGeometry(1.1, 1), mat(0x3aa3db)); globe.position.set(2.6, 1.6, 2.6); g.add(globe);
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(1.35, 0.07, 4, 24), mat(P.gold)); ring.position.copy(globe.position); ring.rotation.x = 1.2; g.add(ring);
+      g.add(cyl(0.3, 0.5, 0.5, 6, mat(P.steel), 2.6, 0.25, 2.6));
+      return 12.4;
+    },
+    r_nyc(g) { // brownstones, a domed hall for DC, a yellow cab
+      const brown = mat(0x7b4a37);
+      for (let i = 0; i < 3; i++) {
+        g.add(box(1.4, 3.4 + (i % 2) * 0.5, 2.4, brown, -2.6 + i * 1.45, (3.4 + (i % 2) * 0.5) / 2, -0.6));
+        g.add(box(0.6, 0.5, 0.6, mat(0x9b6a55), -2.6 + i * 1.45, 0.25, 0.85));
+      }
+      g.add(box(2.6, 1.6, 2.2, mat(P.white), 2.2, 0.8, -0.4));
+      for (let i = 0; i < 4; i++) g.add(cyl(0.12, 0.12, 1.6, 5, mat(P.white), 1.25 + i * 0.62, 0.8, 0.85));
+      const dome = new THREE.Mesh(new THREE.SphereGeometry(1, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2), mat(0xe9e5dc)); dome.position.set(2.2, 1.6, -0.4); g.add(dome);
+      g.add(cyl(0.08, 0.08, 0.7, 4, mat(P.white), 2.2, 2.9, -0.4));
+      g.add(box(1, 0.5, 1.8, mat(0xf2c400), 0.2, 0.45, 2.8)); g.add(box(0.85, 0.4, 0.9, mat(0xdbe9f5), 0.2, 0.9, 2.7));
+      return 4.2;
+    },
+    r_westcoast(g) { // orange suspension bridge, palms, surf
+      const orange = mat(0xc8502b);
+      for (const x of [-2.4, 2.4]) { g.add(box(0.45, 5.6, 0.45, orange, x, 2.8, -0.4)); g.add(box(1.1, 0.3, 0.6, orange, x, 4.6, -0.4)); }
+      g.add(box(7.4, 0.3, 1.2, orange, 0, 1.5, -0.4));
+      for (const side of [-0.65, -0.15]) { // the main cables: anchor, over each tower, sag in the middle
+        const curve = new THREE.CatmullRomCurve3([[-3.7, 1.7], [-2.4, 5.5], [-1.2, 3.2], [0, 2.2], [1.2, 3.2], [2.4, 5.5], [3.7, 1.7]].map(([x, y]) => new THREE.Vector3(x, y, side)));
+        g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(curve.getPoints(40)), new THREE.LineBasicMaterial({ color: 0xc8502b })));
+      }
+      g.add(box(8, 0.06, 2.4, mat(0x3aa3db), 0, 0.04, -0.4)); // the bay under it
+      palm(g, -3.4, 2.6, 1); palm(g, 3.4, 2.4, 1.1);
+      return 5.7;
+    },
+    r_texas(g) { // red barn, water tower, snowy peak, cactus
+      g.add(box(3, 2.2, 2.6, mat(0xa83a2c), -0.8, 1.1, 0));
+      const roof = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 3.04, 4, 1), mat(0x4b4b4b)); roof.rotation.z = Math.PI / 2; roof.rotation.y = Math.PI / 2; roof.scale.set(1, 1, 0.6); roof.position.set(-0.8, 2.3, 0); g.add(roof);
+      g.add(box(1.2, 1.4, 0.06, mat(P.white), -0.8, 0.7, 1.32));
+      for (const [x, z] of [[1.6, -1.6], [2.8, -1.6], [1.6, -0.4], [2.8, -0.4]]) g.add(cyl(0.07, 0.07, 3, 4, mat(P.steel), x, 1.5, z));
+      g.add(cyl(0.95, 0.95, 1.2, 10, mat(0xd8d8d8), 2.2, 3.6, -1));
+      const tank = new THREE.Mesh(new THREE.ConeGeometry(1, 0.6, 10), mat(0x9a9a9a)); tank.position.set(2.2, 4.5, -1); g.add(tank);
+      const peak = new THREE.Mesh(new THREE.ConeGeometry(2.2, 4, 5), mat(0x6f6a7a)); peak.position.set(-3.2, 2, -2.6); g.add(peak);
+      const snow = new THREE.Mesh(new THREE.ConeGeometry(0.95, 1.2, 5), mat(P.white)); snow.position.set(-3.2, 3.4, -2.6); g.add(snow);
+      cactus(g, 2.6, 2.6);
+      return 4.8;
+    },
+    r_atlanta(g) { // southern porch house with a giant peach
+      g.add(box(3.6, 2.6, 2.8, mat(0xf3e6cf), 0, 1.3, -0.4));
+      g.add(box(4.2, 0.2, 1.4, mat(P.white), 0, 2.6, 1.6));
+      for (let i = 0; i < 4; i++) g.add(cyl(0.11, 0.11, 2.5, 5, mat(P.white), -1.8 + i * 1.2, 1.25, 2.2));
+      const roof = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 3, 1.6, 4), mat(0x3e5f86)); roof.rotation.y = Math.PI / 4; roof.scale.set(1.25, 1, 0.9); roof.position.y = 3.4; g.add(roof);
+      const peach = new THREE.Mesh(new THREE.SphereGeometry(1.15, 12, 9), mat(0xf6a26b)); peach.scale.set(1, 0.95, 1); peach.position.set(3.2, 1.2, 2.2); g.add(peach);
+      const leaf = new THREE.Mesh(new THREE.ConeGeometry(0.25, 0.8, 4), mat(0x3f8f4c)); leaf.rotation.z = 1.1; leaf.position.set(3.55, 2.35, 2.2); g.add(leaf);
+      return 4.3;
+    },
+    house(g, variant = 0) { // a plain house (fallback)
       const walls = [P.wall, 0xf0dcc3, 0xdfe7ee][variant % 3];
       g.add(box(3.2, 2.4, 3, mat(walls)));
       const roof = new THREE.Mesh(new THREE.ConeGeometry(2.6, 1.8, 4), mat(P.roof)); roof.rotation.y = Math.PI / 4; roof.position.y = 3.3; g.add(roof);
@@ -277,10 +409,10 @@ export function createTown({ container, canvas, labelsEl, buildings, onSelect, r
     const body = new THREE.Group();
     let h;
     if (b.kind === 'region') {
-      h = SHAPES.house(body, nodes.length);
-      // two smaller neighbour houses and a fence make it read as a neighbourhood
-      [[-3.6, 1.2], [3.4, 1.6]].forEach(([dx, dz], k) => {
-        const n = new THREE.Group(); SHAPES.house(n, k + 1); n.scale.setScalar(0.62); n.position.set(dx, 0, dz); root.add(n);
+      h = (SHAPES[b.id] || SHAPES.house)(body, nodes.length);
+      // a couple of small neighbour houses make it read as a neighbourhood
+      [[-4.4, -2.6], [4.4, -2.8]].forEach(([dx, dz], k) => {
+        const n = new THREE.Group(); SHAPES.house(n, k + 1); n.scale.setScalar(0.5); n.position.set(dx, 0, dz); root.add(n);
         n.traverse((m) => { if (m.isMesh) m.castShadow = true; });
       });
     } else {
@@ -378,11 +510,13 @@ export function createTown({ container, canvas, labelsEl, buildings, onSelect, r
   const v = new THREE.Vector3();
   let filter = 'all', selected = null;
   function placeTags() {
-    const w = container.clientWidth - insets.right, h = container.clientHeight - insets.bottom;
+    const fullW = container.clientWidth, fullH = container.clientHeight;
+    // tags may only use the part of the screen the info panel leaves free
+    const w = fullW - insets.right, h = fullH - insets.bottom;
     const pad = 6, legendH = insets.bottom ? 0 : 40;
     const items = nodes.map((n) => {
       v.copy(n.anchor).project(camera);
-      return { n, x: ((v.x + 1) / 2) * w, y: ((1 - v.y) / 2) * h, z: v.z };
+      return { n, x: ((v.x + 1) / 2) * fullW, y: ((1 - v.y) / 2) * fullH, z: v.z };
     });
     const visible = (n) => filter === 'all' || n.b.status === 'red' || n.b.status === 'amber' || n.b.id === selected;
     // most important first: selected, red, amber, then nearest
@@ -415,7 +549,7 @@ export function createTown({ container, canvas, labelsEl, buildings, onSelect, r
     }
     for (const s of signLabels) {
       v.copy(s.pos).project(camera);
-      const x = ((v.x + 1) / 2) * w, y = ((1 - v.y) / 2) * h;
+      const x = ((v.x + 1) / 2) * fullW, y = ((1 - v.y) / 2) * fullH;
       const ok = v.z < 1 && x > 30 && x < w - 30 && y > 20 && y < h - legendH && filter === 'all';
       s.el.hidden = !ok;
       if (ok) s.el.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px) translate(-50%, -100%)`;

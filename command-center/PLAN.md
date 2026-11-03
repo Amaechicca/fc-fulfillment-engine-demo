@@ -103,6 +103,14 @@ Built to the "Goal and Prompt" brief:
 - **Look:** low-poly, game-style town with a camera tilted about 40°, sunlight and soft shadows, roads, trees, a river and cars. Light and dark mode.
 - **Layout:** HQ on a central plaza. The sale road runs **Lead → Appointment → Sale → Delivery → Paid** (Marketing → Setters → Closers → Fulfillment → Payments), then on to the Renewals bank. The other departments ring the back of the plaza, and the sales regions are neighbourhoods farther out.
 - **Shapes match the job:** bank (Renewals), sales tower (Closers), call centre with dish (Setters), billboard (Marketing), event tent, delivery warehouse, factory (Ops), office (Admin), data centre (AI), clubhouse (Community), a see-through MOCK vault (Payments), houses (regions).
+- **Founders Club touches:** HQ carries the FC seal and a Founders Club banner, with a fountain on the plaza. Each sales region has its own landmark:
+  - Southeast: beach house on stilts with palms and a lifeguard stand
+  - Canada: log cabin with pines and a maple-leaf flag
+  - Chicago/Intl: dark skyscraper with twin antennas and a globe
+  - NYC/NE/DC: brownstones, a domed hall and a yellow cab
+  - West Coast: orange suspension bridge with palms
+  - Texas/Mountain: red barn, water tower, snowy peak and cactus
+  - Atlanta: porch house with a giant peach
 - **Status:** red / amber / green / grey ring, always with an icon. Only red pulses.
 - **Height:** shows volume on a capped scale (open tasks, renewals due, active members), explained in the legend.
 - **Tags:** each building has a floating tag with its name, one key number and a flag count. Tags never overlap or run off the edge; when there's no room they shrink to a status pin. On a phone, only areas that need action get full tags.
