@@ -353,7 +353,7 @@ async function boot() {
   $('#fullscreen').addEventListener('click', () => {
     const t = $('#town');
     if (document.fullscreenElement) document.exitFullscreen();
-    else (t.requestFullscreen || t.webkitRequestFullscreen)?.call(t);
+    else Promise.resolve((t.requestFullscreen || t.webkitRequestFullscreen)?.call(t)).catch(() => {}); // not available on some phones
   });
 }
 

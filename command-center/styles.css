@@ -62,11 +62,12 @@ a { color: var(--series-1); }
 .muted { color: var(--muted); }
 .small { font-size: 12px; font-weight: 400; }
 
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 31; background: var(--brand); }
 main { max-width: 1180px; margin: 0 auto; padding: 0 16px 32px; }
 
 /* header */
 .top {
-  position: sticky; top: 0; z-index: 30; display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; display: flex; align-items: center; justify-content: space-between;
   gap: 12px; padding: 10px 16px; background: var(--brand); color: var(--brand-ink);
 }
 .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
