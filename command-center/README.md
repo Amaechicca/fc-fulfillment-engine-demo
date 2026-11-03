@@ -20,7 +20,7 @@ The page reads `data/snapshot.json`; it never calls a live system. To refresh, a
 
 > Re-read, read-only: FC AI (community pulse, this month’s renewal diagnosis, RD book risk 60 days, last month’s closer and setter panels, month-to-date admissions diagnosis, last month’s attribution, event feedback since Sep 1, the member engagement / pulse / joins-by-month queries, interview pipeline prospects since Oct 1); ClickUp “Projects By Department” tasks; Fathom calls for the last two days by type; Slack #team-rd-sos (30 days) and #0-welcome-introductions (7 days). Save each as `data/raw/<source id>.json` in the same shape, then run `node scripts/build-snapshot.mjs` and `npm test`.
 
-Source ids are listed in `js/data/snapshot.js` → `SOURCES`. A missing raw file shows as a failed source in the banner, and its numbers show as blank and grey, never guessed.
+Source ids are listed in `js/data/metric.js` → `SOURCES`. A missing raw file shows as a failed source in the banner, and its numbers show as blank and grey, never guessed.
 
 ## Where each number comes from
 
@@ -37,7 +37,7 @@ Every number on the page shows its source, when it was read and its scope (tap �
 | Path | What |
 |---|---|
 | `js/data/rules.js` | red/amber/green thresholds (one place to change) |
-| `js/data/snapshot.js` | cleaning, calculating, judging, alerts (pure, tested) |
+| `js/data/snapshot.js`, `js/data/engagement.js`, `js/data/metric.js` | cleaning, calculating, judging, alerts (pure, tested) |
 | `scripts/build-snapshot.mjs` | raw reads → snapshot files |
 | `js/town.js` | the 3D town (view only) |
 | `js/app.js`, `js/charts.js` | page, alerts, tabs, charts with table view |
