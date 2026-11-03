@@ -16,6 +16,8 @@ export const SOURCES = {
   fcai_pipeline_prospects: { name: 'FC AI · interview pipeline (GHL outcomes)', freshnessHours: 24 },
   fathom_calls: { name: 'Fathom · recorded calls', freshnessHours: 24 },
   slack_channels: { name: 'Slack · RD SOS & welcome channels', freshnessHours: 24 },
+  fcai_mastermind_groups: { name: 'FC AI · mastermind groups', freshnessHours: 24 },
+  clickup_events: { name: 'ClickUp · events table (Master Table)', freshnessHours: 24 },
   fcai_renewal_book_this: { name: 'HQ dashboard · renewal book, this month by region (via FC AI)', freshnessHours: 24 },
   fcai_renewal_book_last: { name: 'HQ dashboard · renewal book, last month by region (via FC AI)', freshnessHours: 720 },
 };

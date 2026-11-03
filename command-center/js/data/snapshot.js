@@ -6,8 +6,8 @@
 
 import { judge, worst } from './rules.js';
 import { SOURCES, metric, pct, sum, monthLabel } from './metric.js';
-import { REGIONS, normalizeRegions, bookRate } from './regions.js';
-import { normalizeEngagement, normalizePulse, normalizeJoins, normalizePipeline, normalizeFathom, normalizeSlack } from './engagement.js';
+import { REGIONS, normalizeRegions, bookRate, normalizeUpcomingEvents } from './regions.js';
+import { normalizeEngagement, normalizePulse, normalizeJoins, normalizePipeline, normalizeFathom, normalizeSlack, normalizeMasterminds } from './engagement.js';
 
 export { SOURCES } from './metric.js';
 
@@ -275,6 +275,7 @@ export const BUILDINGS = [
   { id: 'admissions', name: 'Admissions (Closers)', short: 'Closers', list: 'Admissions', blurb: 'Interviews → paid members.' },
   { id: 'setters', name: 'Setters (Front End)', short: 'Setters', list: 'Growth', blurb: 'Intro calls booked and shown.' },
   { id: 'marketing', name: 'Marketing & Growth', short: 'Marketing', list: 'Marketing & Product', blurb: 'Where intro bookings come from and what they cost.' },
+  { id: 'masterminds', name: 'Mastermind Clubhouse', short: 'Masterminds', ownerOverride: { name: null, why: 'No mastermind list in ClickUp yet' }, blurb: 'Every mastermind group, in person and virtual, and how the sessions land.' },
   { id: 'events', name: 'Events & Partnerships', short: 'Events', list: 'Events & Partnerships', blurb: 'How events land with members.' },
   { id: 'fulfillment', name: 'Member Fulfillment', short: 'Fulfillment', list: 'Member Fulfillment Queue', blurb: 'Post-call follow-through for members.' },
   { id: 'operations', name: 'Operations', short: 'Ops', list: 'Operations', blurb: 'Tools, vendors, systems.' },
@@ -315,14 +316,16 @@ export function buildSnapshot(raws, nowMs) {
   const slack = normalizeSlack(r.slack_channels);
   const activeByTerritory = Object.fromEntries(Object.entries(r.fcai_community_pulse?.payload?.by_sales_territory || {})
     .map(([t, v]) => [t, { value: v, raw: r.fcai_community_pulse }]));
-  const regions = normalizeRegions(r.fcai_renewal_book_last, r.fcai_renewal_book_this, activeByTerritory);
+  const upcoming = normalizeUpcomingEvents(r.clickup_events, nowMs);
+  const masterminds = normalizeMasterminds(r.fcai_mastermind_groups, r.fcai_event_feedback);
+  const regions = normalizeRegions(r.fcai_renewal_book_last, r.fcai_renewal_book_this, activeByTerritory, r.fcai_rd_book_risk, upcoming.events);
   const bookThis = bookRate(r.fcai_renewal_book_this, 'renewals_book_rate', 'Renewal rate this month');
   const bookLast = bookRate(r.fcai_renewal_book_last, 'renewals_book_rate_last', 'Renewal rate last month (final)');
 
   const M = {
     ...community.metrics, ...renewals.metrics, ...rd.metrics, ...closers.metrics,
     ...setters.metrics, ...admissions.metrics, ...attribution.metrics, ...events.metrics,
-    renewals_book_rate: bookThis, renewals_book_rate_last: bookLast,
+    renewals_book_rate: bookThis, renewals_book_rate_last: bookLast, ...upcoming.metrics, ...masterminds.metrics,
     ...engagement.metrics, ...pulse.metrics, ...joins.metrics, ...pipeline.metrics, ...fathom.metrics, ...slack.metrics,
   };
 
@@ -347,7 +350,8 @@ export function buildSnapshot(raws, nowMs) {
     },
     setters: { show: ['setter_intro_show', 'setter_intro_to_close', 'setter_on_call_dq', 'setter_cash_per_intro', 'setters_below_45_show', 'calls_intro_2d'], judge: [['setter_intro_show', 'setter_intro_show']] },
     marketing: { show: ['intro_bookings', 'unknown_source_share', 'fb_spend_usd', 'fb_cost_per_close', 'linkedin_qualified'], judge: [['unknown_source_share', 'unknown_source_share']] },
-    events: { show: ['event_nps', 'event_responses'], judge: [['event_nps', 'event_nps']] },
+    events: { show: ['event_nps', 'events_next7', 'events_this_month', 'event_responses'], judge: [['event_nps', 'event_nps']] },
+    masterminds: { show: ['mm_groups', 'mastermind_seated_pct', 'mm_nps'], judge: [['mm_nps', 'event_nps']] },
     fulfillment: { show: ['joins_this_month', 'calls_onboarding_2d', 'welcome_intros_7d', 'member_support_moved'], judge: [] },
     operations: { show: [], judge: [] },
     admin: { show: [], judge: [] },
@@ -391,8 +395,9 @@ export function buildSnapshot(raws, nowMs) {
       { metricId: g.metrics.this_rate.id, ruleId: 'renewal_rate_region', ...judge(g.metrics.this_rate, 'renewal_rate_region') },
     ];
     buildings.push({
-      id: g.id, name: g.territory.replace(/^Rep \d+ — /, ''), short: g.short, kind: 'region', list: null,
-      blurb: `Sales territory ${g.territory}: renewals against the 75% target.`,
+      id: g.id, name: g.rep ? `${g.name} (${g.rep})` : g.name, short: g.short, kind: 'region', list: null, rep: g.rep,
+      blurb: g.rep ? `${g.rep} · ${g.name}: renewals against the 75% target.` : 'Members with no rep assigned yet.',
+      events: g.events, pennant: g.events.some((e) => e.soon),
       owner: { name: null, why: 'Territory rep (not named in the renewal book)' },
       status: worst(checks.map((c) => c.status)), checks, metrics: Object.values(g.metrics),
     });
@@ -455,6 +460,8 @@ export function buildSnapshot(raws, nowMs) {
       pipeline: pipeline.tables,
       calls: fathom.tables,
       regions: regions.map((g) => ({ id: g.id, ...g.row, status: buildings.find((b) => b.id === g.id)?.status })),
+      masterminds: masterminds.tables,
+      upcoming: upcoming.events.map(({ name, date, seat, soon }) => ({ name, date, seat, soon })),
     },
     private: {
       ...renewals.private, ...rd.private, ...closers.private, ...setters.private,
@@ -470,7 +477,7 @@ export function buildSnapshot(raws, nowMs) {
 const KEY = {
   hq: ['active_members', 'members'], renewals: ['renewals_book_rate', 'renewed this month'], community: ['rd_said_leaving', 'said they’re leaving'],
   admissions: ['new_members_closed', 'closed last month'], setters: ['setter_intro_show', 'intro show rate'], marketing: ['intro_bookings', 'intros booked'],
-  events: ['event_nps', 'event NPS'], fulfillment: ['joins_this_month', 'new members this month'],
+  events: ['event_nps', 'event NPS'], fulfillment: ['joins_this_month', 'new members this month'], masterminds: ['mm_groups', 'groups meeting'],
 };
 // Height = how much is going on, on a capped scale (the legend explains it).
 export const VOLUME_CAPS = { tasks: 40, renewals: 150, members: 400 };
@@ -482,6 +489,7 @@ export function decorateForTown(buildings, alerts, M, tasks) {
     let key = null;
     if (KEY[b.id]) key = { metricId: KEY[b.id][0], caption: KEY[b.id][1] };
     else if (b.list) key = { metricId: `overdue_${b.list}`, caption: 'overdue tasks' };
+    else if (b.id === 'r_unassigned') key = { metricId: 'r_unassigned_active', caption: 'members with no rep' };
     else if (b.kind === 'region') {
       const cur = b.metrics.find((m) => m.id.endsWith('_this_rate'));
       key = (cur?.sample ?? 0) >= 5
@@ -489,6 +497,7 @@ export function decorateForTown(buildings, alerts, M, tasks) {
         : { metricId: b.metrics.find((m) => m.id.endsWith('_last_rate')).id, caption: 'renewed last month' };
     }
     b.key = key;
+    if (b.id === 'events') { b.events = []; b.pennant = (M.events_next7?.value ?? 0) > 0; }
     if (b.list && tasks.byList[b.list]) b.volume = { value: tasks.byList[b.list].open, cap: VOLUME_CAPS.tasks, unit: 'open tasks' };
     else if (b.id === 'renewals' && M.renewals_book?.value != null) b.volume = { value: M.renewals_book.value, cap: VOLUME_CAPS.renewals, unit: 'renewals due this month' };
     else if (b.kind === 'region') {

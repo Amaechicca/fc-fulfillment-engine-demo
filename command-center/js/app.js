@@ -121,7 +121,24 @@ function townView(b) {
   let keyCaption = b.key?.caption ?? '';
   if (b.kind === 'placeholder') { keyText = 'not connected'; keyCaption = ''; }
   if (b.id === 'cash') { keyText = 'no source yet'; keyCaption = ''; }
-  return { id: b.id, name: b.name, short: b.short || b.name, kind: b.kind, status: b.status, keyText, keyCaption, flags: b.flags, volume: b.volume };
+  // next event: for a region, its own next one; for the Events tent, the count this week
+  let eventText = null;
+  const fmtDay = (iso) => new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+  if (b.kind === 'region' && b.events?.length) eventText = `Event ${fmtDay(b.events[0].date)}`;
+  if (b.id === 'events') {
+    const soon = state.snap.tables.upcoming?.filter((e) => e.soon).length ?? 0;
+    eventText = soon ? `${soon} event${soon === 1 ? '' : 's'} this week` : null;
+  }
+  const short = b.rep ? `${b.short || b.name} · ${b.rep}` : (b.short || b.name);
+  return { id: b.id, name: b.name, short, kind: b.kind, status: b.status, keyText, keyCaption, flags: b.flags, volume: b.volume, pennant: Boolean(b.pennant), eventText };
+}
+
+function eventsBlock(b) {
+  const list = b.id === 'events' ? state.snap.tables.upcoming || [] : b.events || [];
+  if (!list.length) return '';
+  const fmt = (iso) => new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
+  return `<h4 class="subH">Coming up</h4><ul class="evtList">${list.map((e) => `<li class="${e.soon ? 'soon' : ''}"><b>${esc(fmt(e.date))}</b> ${esc(e.name)}${e.soon ? ' <span class="pill amber">▲ this week</span>' : ''}</li>`).join('')}</ul>
+    <p class="prov">From the ClickUp events table (Master Table). Pennants go up on the town when an event is less than 7 days away.</p>`;
 }
 
 const STATE_ORDER = [['red', 'Act now'], ['amber', 'Watch'], ['green', 'On track'], ['grey', 'No data']];
@@ -165,6 +182,8 @@ function select(id) {
       <button type="button" class="closeBtn" aria-label="Close">✕</button>
     </div>
     ${b.id === 'hq' ? '<p class="owner">The five numbers at the top of the page.</p><div class="mgrid">' + state.snap.topNumbers.map(metricCard).join('') + '</div>' : areaSummary(b)}
+    ${eventsBlock(b)}
+    ${b.id === 'masterminds' && state.snap.tables.masterminds?.programs ? `<h4 class="subH">Groups by format</h4><ul class="evtList">${state.snap.tables.masterminds.programs.map((p) => `<li><b>${esc(p.program)}</b> ${p.groups} groups · ${p.seats} seats</li>`).join('')}</ul>` : ''}
     <h4 class="subH">Needs action</h4>
     ${alerts.length ? `<ol class="alerts">${alerts.map(alertItem).join('')}</ol>` : '<p class="empty">Nothing red or amber here.</p>'}
     <p><button type="button" class="linkBtn" id="openTab">Open the ${b.kind === 'region' ? 'Regions' : esc(b.name)} tab ↓</button></p>`;

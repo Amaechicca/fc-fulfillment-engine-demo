@@ -117,6 +117,12 @@ Built to the "Goal and Prompt" brief:
 - **Interaction:** tap a building and the camera flies to it, with a panel showing numbers, needs-action items, owner and sources (bottom sheet on phones). Filters: All / Needs action. Every building is also a button in a plain list. Drag to turn, pinch to zoom, double-tap to reset.
 - **Performance:** respects reduced motion and pauses rendering off screen.
 
+## Nov 3 additions
+
+- **Regions renamed** to the RD seats: Rep 1 South Florida, Rep 2 Toronto, Rep 3 Midwest & MidAtlantic, Rep 4 New York, Rep 5 West Coast, Rep 6 Mountain West, Rep 7 South East, plus **Unassigned** (an open lot with a "Rep wanted" sign, showing the 37 members with no rep). The renewal book still labels them by their old names (for example "Rep 1 — Southeast"); the town maps them by rep number. Each region now also shows how many of its members told their RD they're leaving.
+- **Mastermind Clubhouse:** a timber lodge with round tables on the porch. It shows 196 active groups (102 in person, 42 Thursday virtual, 36 Tuesday virtual, 16 evening), 58.9% of members seated, and the mastermind NPS (59, judged with the event NPS rule). Source: FC AI.
+- **Event pennants:** bunting goes up on a region, and on the Events tent, when an event in that region is less than 7 days away. Events come from ClickUp's Master Table (status "live"), tied to a region by city. Today: Boston (New York), Tampa (South East) and Austin (Mountain West) on Nov 6. The Nov 13 events show on the tags but get no pennants yet.
+
 ## Red means "act today" (rule change, Nov 3)
 
 - A month that is over (October's final renewal rate) can make a building **amber, never red**.

@@ -127,3 +127,23 @@ export function normalizeSlack(raw) {
     },
   };
 }
+
+/** Mastermind groups and how mastermind events land, for the clubhouse. */
+export function normalizeMasterminds(groupsRaw, feedbackRaw) {
+  const p = groupsRaw?.payload;
+  const LABEL = { in_person: 'In person', digital_thu3: 'Virtual · 3rd Thursday', digital_tue2: 'Virtual · 2nd Tuesday', evening: 'Evening' };
+  const out = { metrics: {}, tables: {} };
+  if (p) {
+    const groups = p.programs.reduce((a, x) => a + x.groups, 0);
+    out.metrics.mm_groups = metric('mm_groups', 'Active mastermind groups', groups, groupsRaw, { unit: 'groups', scope: 'Groups with at least one active member seated', context: `${p.programs.reduce((a, x) => a + x.seats, 0).toLocaleString('en-US')} seats filled` });
+    out.tables.programs = p.programs.map((x) => ({ program: LABEL[x.program] || x.program, groups: x.groups, seats: x.seats }));
+  }
+  const f = feedbackRaw?.payload;
+  if (f) {
+    const mm = f.aggregates.filter((a) => a.kind === 'Mastermind');
+    const n = mm.reduce((a, x) => a + x.responses, 0);
+    const nps = n ? Math.round(((mm.reduce((a, x) => a + x.promoters, 0) - mm.reduce((a, x) => a + x.detractors, 0)) / n) * 100) : null;
+    out.metrics.mm_nps = metric('mm_nps', 'Mastermind NPS', nps, feedbackRaw, { unit: 'pts', scope: `Mastermind surveys since ${feedbackRaw.args.since}; ${n} responses` });
+  }
+  return out;
+}

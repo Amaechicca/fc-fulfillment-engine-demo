@@ -288,3 +288,9 @@ details.prov[open] summary { margin-bottom: 2px; }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 .town { scroll-margin-top: 64px; }
 @media (max-width: 639px) { .legend .legendNote { display: none; } }
+
+.tagEvt { font-size: 10px; font-weight: 700; color: #f2c84b; letter-spacing: .02em; }
+.tag.pin .tagEvt { display: none; }
+.evtList { list-style: none; margin: 0 0 6px; padding: 0; display: grid; gap: 4px; font-size: 13px; }
+.evtList li { padding: 5px 8px; border: 1px solid var(--hair); border-radius: 8px; }
+.evtList li.soon { border-color: var(--warning); }

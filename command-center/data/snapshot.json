@@ -1,5 +1,5 @@
 {
- "builtAt": "2026-11-03T22:30:00.000Z",
+ "builtAt": "2026-11-03T22:45:00.000Z",
  "question": "Are we growing the club this month?",
  "topNumbers": [
   {
@@ -1133,6 +1133,73 @@
    }
   },
   {
+   "id": "masterminds",
+   "name": "Mastermind Clubhouse",
+   "short": "Masterminds",
+   "kind": "dept",
+   "list": null,
+   "blurb": "Every mastermind group, in person and virtual, and how the sessions land.",
+   "owner": {
+    "name": null,
+    "why": "No mastermind list in ClickUp yet"
+   },
+   "status": "green",
+   "checks": [
+    {
+     "metricId": "mm_nps",
+     "ruleId": "event_nps",
+     "status": "green",
+     "reason": "59 — green at 50+, amber at 30+ (green)"
+    }
+   ],
+   "metrics": [
+    {
+     "id": "mm_groups",
+     "label": "Active mastermind groups",
+     "value": 196,
+     "unit": "groups",
+     "sourceId": "fcai_mastermind_groups",
+     "source": "FC AI · mastermind groups",
+     "readAt": "2026-11-03T22:40:00Z",
+     "scope": "Groups with at least one active member seated",
+     "complete": true,
+     "context": "1,438 seats filled"
+    },
+    {
+     "id": "mastermind_seated_pct",
+     "label": "In a mastermind group",
+     "value": 58.9,
+     "unit": "%",
+     "sourceId": "fcai_member_engagement",
+     "source": "FC AI · member engagement (GHL, Slack, app)",
+     "readAt": "2026-11-03T21:38:29Z",
+     "scope": "Active members today; active seat",
+     "complete": true,
+     "context": "1,258 members"
+    },
+    {
+     "id": "mm_nps",
+     "label": "Mastermind NPS",
+     "value": 59,
+     "unit": "pts",
+     "sourceId": "fcai_event_feedback",
+     "source": "FC AI · event feedback",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Mastermind surveys since 2026-09-01; 96 responses",
+     "complete": true
+    }
+   ],
+   "flags": {
+    "count": 0,
+    "status": null
+   },
+   "key": {
+    "metricId": "mm_groups",
+    "caption": "groups meeting"
+   },
+   "volume": null
+  },
+  {
    "id": "events",
    "name": "Events & Partnerships",
    "short": "Events",
@@ -1174,6 +1241,29 @@
      "source": "FC AI · event feedback",
      "readAt": "2026-11-03T21:21:40Z",
      "scope": "Post-event surveys since 2026-09-01, all cities; 234 responses",
+     "complete": true
+    },
+    {
+     "id": "events_next7",
+     "label": "Events in the next 7 days",
+     "value": 3,
+     "unit": "events",
+     "sourceId": "clickup_events",
+     "source": "ClickUp · events table (Master Table)",
+     "readAt": "2026-11-03T22:40:00Z",
+     "scope": "ClickUp events table (Master Table), status live",
+     "complete": true,
+     "context": "Boston · Tampa · Austin"
+    },
+    {
+     "id": "events_this_month",
+     "label": "Events still to come this month",
+     "value": 11,
+     "unit": "events",
+     "sourceId": "clickup_events",
+     "source": "ClickUp · events table (Master Table)",
+     "readAt": "2026-11-03T22:40:00Z",
+     "scope": "ClickUp events table (Master Table), status live",
      "complete": true
     },
     {
@@ -1240,6 +1330,8 @@
     "metricId": "event_nps",
     "caption": "event NPS"
    },
+   "events": [],
+   "pennant": true,
    "volume": {
     "value": 8,
     "cap": 40,
@@ -1778,12 +1870,38 @@
    "volume": null
   },
   {
-   "id": "r_southeast",
-   "name": "Southeast",
-   "short": "Southeast",
+   "id": "r_southflorida",
+   "name": "South Florida (Rep 1)",
+   "short": "South Florida",
    "kind": "region",
    "list": null,
-   "blurb": "Sales territory Rep 1 — Southeast: renewals against the 75% target.",
+   "rep": "Rep 1",
+   "blurb": "Rep 1 · South Florida: renewals against the 75% target.",
+   "events": [
+    {
+     "id": "86e3a0k8j",
+     "name": "Miami In-Person Mastermind",
+     "due_ms": 1794553200000,
+     "status": "live",
+     "url": "https://app.clickup.com/t/86e3a0k8j",
+     "city": "miami",
+     "seat": "South Florida",
+     "date": "2026-11-13",
+     "soon": false
+    },
+    {
+     "id": "86e3a0j7n",
+     "name": "Boca Raton In-Person Mastermind",
+     "due_ms": 1794553200000,
+     "status": "live",
+     "url": "https://app.clickup.com/t/86e3a0j7n",
+     "city": "boca raton",
+     "seat": "South Florida",
+     "date": "2026-11-13",
+     "soon": false
+    }
+   ],
+   "pennant": false,
    "owner": {
     "name": null,
     "why": "Territory rep (not named in the renewal book)"
@@ -1791,13 +1909,13 @@
    "status": "amber",
    "checks": [
     {
-     "metricId": "r_southeast_last_rate",
+     "metricId": "r_southflorida_last_rate",
      "ruleId": "renewal_rate_last",
      "status": "amber",
      "reason": "66.7% — green at 75%+, amber at 0%+ (amber)"
     },
     {
-     "metricId": "r_southeast_this_rate",
+     "metricId": "r_southflorida_this_rate",
      "ruleId": "renewal_rate_region",
      "status": "grey",
      "reason": "Only 3 decided so far — too few to judge (needs 10)"
@@ -1805,62 +1923,73 @@
    ],
    "metrics": [
     {
-     "id": "r_southeast_last_rate",
+     "id": "r_southflorida_last_rate",
      "label": "October renewal rate (final)",
      "value": 66.7,
      "unit": "%",
      "sourceId": "fcai_renewal_book_last",
      "source": "HQ dashboard · renewal book, last month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "October 2026 renewal book, Rep 1 — Southeast",
+     "scope": "October 2026 renewal book, Rep 1 · South Florida",
      "complete": true,
      "sample": 18,
      "context": "12 renewed of 18 decided · target 75%"
     },
     {
-     "id": "r_southeast_this_rate",
+     "id": "r_southflorida_this_rate",
      "label": "November so far",
      "value": 100,
      "unit": "%",
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 1 — Southeast",
+     "scope": "November 2026 renewal book, Rep 1 · South Florida",
      "complete": true,
      "sample": 3,
      "context": "3 renewed of 3 decided · 10 still open"
     },
     {
-     "id": "r_southeast_this_open",
+     "id": "r_southflorida_this_open",
      "label": "Still open this month",
      "value": 10,
      "unit": "members",
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 1 — Southeast",
+     "scope": "November 2026 renewal book, Rep 1 · South Florida",
      "complete": true
     },
     {
-     "id": "r_southeast_this_lost",
+     "id": "r_southflorida_this_lost",
      "label": "Not renewed this month",
      "value": 0,
      "unit": "members",
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 1 — Southeast",
+     "scope": "November 2026 renewal book, Rep 1 · South Florida",
      "complete": true
     },
     {
-     "id": "r_southeast_active",
+     "id": "r_southflorida_said_leaving",
+     "label": "Told their RD they’re leaving",
+     "value": 1,
+     "unit": "members",
+     "sourceId": "fcai_rd_book_risk",
+     "source": "FC AI · RD check-in risk",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "RD check-in calls since 2026-09-04, South Florida seat",
+     "complete": true
+    },
+    {
+     "id": "r_southflorida_active",
      "label": "Active members",
      "value": 297,
      "unit": "members",
      "sourceId": "fcai_community_pulse",
      "source": "FC AI · community totals",
      "readAt": "2026-11-03T21:21:40Z",
-     "scope": "Paid-active today, Rep 1 — Southeast",
+     "scope": "Paid-active today, Rep 1 · South Florida",
      "complete": true
     }
    ],
@@ -1869,7 +1998,7 @@
     "status": "amber"
    },
    "key": {
-    "metricId": "r_southeast_last_rate",
+    "metricId": "r_southflorida_last_rate",
     "caption": "renewed last month"
    },
    "volume": {
@@ -1879,12 +2008,38 @@
    }
   },
   {
-   "id": "r_canada",
-   "name": "Canada",
-   "short": "Canada",
+   "id": "r_toronto",
+   "name": "Toronto (Rep 2)",
+   "short": "Toronto",
    "kind": "region",
    "list": null,
-   "blurb": "Sales territory Rep 2 — Canada: renewals against the 75% target.",
+   "rep": "Rep 2",
+   "blurb": "Rep 2 · Toronto: renewals against the 75% target.",
+   "events": [
+    {
+     "id": "86e3a0jdx",
+     "name": "Toronto In-Person Mastermind",
+     "due_ms": 1794553200000,
+     "status": "live",
+     "url": "https://app.clickup.com/t/86e3a0jdx",
+     "city": "toronto",
+     "seat": "Toronto",
+     "date": "2026-11-13",
+     "soon": false
+    },
+    {
+     "id": "86e3a0e9t",
+     "name": "Vancouver In-Person Mastermind",
+     "due_ms": 1794553200000,
+     "status": "live",
+     "url": "https://app.clickup.com/t/86e3a0e9t",
+     "city": "vancouver",
+     "seat": "Toronto",
+     "date": "2026-11-13",
+     "soon": false
+    }
+   ],
+   "pennant": false,
    "owner": {
     "name": null,
     "why": "Territory rep (not named in the renewal book)"
@@ -1892,13 +2047,13 @@
    "status": "amber",
    "checks": [
     {
-     "metricId": "r_canada_last_rate",
+     "metricId": "r_toronto_last_rate",
      "ruleId": "renewal_rate_last",
      "status": "amber",
      "reason": "45.5% — green at 75%+, amber at 0%+ (amber)"
     },
     {
-     "metricId": "r_canada_this_rate",
+     "metricId": "r_toronto_this_rate",
      "ruleId": "renewal_rate_region",
      "status": "grey",
      "reason": "Only 4 decided so far — too few to judge (needs 10)"
@@ -1906,62 +2061,73 @@
    ],
    "metrics": [
     {
-     "id": "r_canada_last_rate",
+     "id": "r_toronto_last_rate",
      "label": "October renewal rate (final)",
      "value": 45.5,
      "unit": "%",
      "sourceId": "fcai_renewal_book_last",
      "source": "HQ dashboard · renewal book, last month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "October 2026 renewal book, Rep 2 — Canada",
+     "scope": "October 2026 renewal book, Rep 2 · Toronto",
      "complete": true,
      "sample": 22,
      "context": "10 renewed of 22 decided · target 75%"
     },
     {
-     "id": "r_canada_this_rate",
+     "id": "r_toronto_this_rate",
      "label": "November so far",
      "value": 0,
      "unit": "%",
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 2 — Canada",
+     "scope": "November 2026 renewal book, Rep 2 · Toronto",
      "complete": true,
      "sample": 4,
      "context": "0 renewed of 4 decided · 20 still open"
     },
     {
-     "id": "r_canada_this_open",
+     "id": "r_toronto_this_open",
      "label": "Still open this month",
      "value": 20,
      "unit": "members",
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 2 — Canada",
+     "scope": "November 2026 renewal book, Rep 2 · Toronto",
      "complete": true
     },
     {
-     "id": "r_canada_this_lost",
+     "id": "r_toronto_this_lost",
      "label": "Not renewed this month",
      "value": 4,
      "unit": "members",
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 2 — Canada",
+     "scope": "November 2026 renewal book, Rep 2 · Toronto",
      "complete": true
     },
     {
-     "id": "r_canada_active",
+     "id": "r_toronto_said_leaving",
+     "label": "Told their RD they’re leaving",
+     "value": 6,
+     "unit": "members",
+     "sourceId": "fcai_rd_book_risk",
+     "source": "FC AI · RD check-in risk",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "RD check-in calls since 2026-09-04, Toronto seat",
+     "complete": true
+    },
+    {
+     "id": "r_toronto_active",
      "label": "Active members",
      "value": 341,
      "unit": "members",
      "sourceId": "fcai_community_pulse",
      "source": "FC AI · community totals",
      "readAt": "2026-11-03T21:21:40Z",
-     "scope": "Paid-active today, Rep 2 — Canada",
+     "scope": "Paid-active today, Rep 2 · Toronto",
      "complete": true
     }
    ],
@@ -1970,7 +2136,7 @@
     "status": null
    },
    "key": {
-    "metricId": "r_canada_last_rate",
+    "metricId": "r_toronto_last_rate",
     "caption": "renewed last month"
    },
    "volume": {
@@ -1980,12 +2146,27 @@
    }
   },
   {
-   "id": "r_chicago",
-   "name": "Chicago / Virtual / Intl",
-   "short": "Chicago/Intl",
+   "id": "r_midwest",
+   "name": "Midwest & MidAtlantic (Rep 3)",
+   "short": "Midwest & MidAtl",
    "kind": "region",
    "list": null,
-   "blurb": "Sales territory Rep 3 — Chicago / Virtual / Intl: renewals against the 75% target.",
+   "rep": "Rep 3",
+   "blurb": "Rep 3 · Midwest & MidAtlantic: renewals against the 75% target.",
+   "events": [
+    {
+     "id": "86e3a0jnk",
+     "name": "Chicago In-Person Mastermind",
+     "due_ms": 1794553200000,
+     "status": "live",
+     "url": "https://app.clickup.com/t/86e3a0jnk",
+     "city": "chicago",
+     "seat": "MidWest & MidAtlantic",
+     "date": "2026-11-13",
+     "soon": false
+    }
+   ],
+   "pennant": false,
    "owner": {
     "name": null,
     "why": "Territory rep (not named in the renewal book)"
@@ -1993,13 +2174,13 @@
    "status": "amber",
    "checks": [
     {
-     "metricId": "r_chicago_last_rate",
+     "metricId": "r_midwest_last_rate",
      "ruleId": "renewal_rate_last",
      "status": "amber",
      "reason": "50% — green at 75%+, amber at 0%+ (amber)"
     },
     {
-     "metricId": "r_chicago_this_rate",
+     "metricId": "r_midwest_this_rate",
      "ruleId": "renewal_rate_region",
      "status": "grey",
      "reason": "Only 8 decided so far — too few to judge (needs 10)"
@@ -2007,62 +2188,73 @@
    ],
    "metrics": [
     {
-     "id": "r_chicago_last_rate",
+     "id": "r_midwest_last_rate",
      "label": "October renewal rate (final)",
      "value": 50,
      "unit": "%",
      "sourceId": "fcai_renewal_book_last",
      "source": "HQ dashboard · renewal book, last month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "October 2026 renewal book, Rep 3 — Chicago / Virtual / Intl",
+     "scope": "October 2026 renewal book, Rep 3 · Midwest & MidAtlantic",
      "complete": true,
      "sample": 12,
      "context": "6 renewed of 12 decided · target 75%"
     },
     {
-     "id": "r_chicago_this_rate",
+     "id": "r_midwest_this_rate",
      "label": "November so far",
      "value": 12.5,
      "unit": "%",
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 3 — Chicago / Virtual / Intl",
+     "scope": "November 2026 renewal book, Rep 3 · Midwest & MidAtlantic",
      "complete": true,
      "sample": 8,
      "context": "1 renewed of 8 decided · 10 still open"
     },
     {
-     "id": "r_chicago_this_open",
+     "id": "r_midwest_this_open",
      "label": "Still open this month",
      "value": 10,
      "unit": "members",
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 3 — Chicago / Virtual / Intl",
+     "scope": "November 2026 renewal book, Rep 3 · Midwest & MidAtlantic",
      "complete": true
     },
     {
-     "id": "r_chicago_this_lost",
+     "id": "r_midwest_this_lost",
      "label": "Not renewed this month",
      "value": 7,
      "unit": "members",
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 3 — Chicago / Virtual / Intl",
+     "scope": "November 2026 renewal book, Rep 3 · Midwest & MidAtlantic",
      "complete": true
     },
     {
-     "id": "r_chicago_active",
+     "id": "r_midwest_said_leaving",
+     "label": "Told their RD they’re leaving",
+     "value": 4,
+     "unit": "members",
+     "sourceId": "fcai_rd_book_risk",
+     "source": "FC AI · RD check-in risk",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "RD check-in calls since 2026-09-04, MidWest & MidAtlantic seat",
+     "complete": true
+    },
+    {
+     "id": "r_midwest_active",
      "label": "Active members",
      "value": 287,
      "unit": "members",
      "sourceId": "fcai_community_pulse",
      "source": "FC AI · community totals",
      "readAt": "2026-11-03T21:21:40Z",
-     "scope": "Paid-active today, Rep 3 — Chicago / Virtual / Intl",
+     "scope": "Paid-active today, Rep 3 · Midwest & MidAtlantic",
      "complete": true
     }
    ],
@@ -2071,7 +2263,7 @@
     "status": null
    },
    "key": {
-    "metricId": "r_chicago_this_rate",
+    "metricId": "r_midwest_this_rate",
     "caption": "renewed this month"
    },
    "volume": {
@@ -2081,12 +2273,38 @@
    }
   },
   {
-   "id": "r_nyc",
-   "name": "NYC / NE / DC",
-   "short": "NYC/NE/DC",
+   "id": "r_newyork",
+   "name": "New York (Rep 4)",
+   "short": "New York",
    "kind": "region",
    "list": null,
-   "blurb": "Sales territory Rep 4 — NYC / NE / DC: renewals against the 75% target.",
+   "rep": "Rep 4",
+   "blurb": "Rep 4 · New York: renewals against the 75% target.",
+   "events": [
+    {
+     "id": "86e3a0dpq",
+     "name": "Boston In-Person Mastermind",
+     "due_ms": 1793948400000,
+     "status": "live",
+     "url": "https://app.clickup.com/t/86e3a0dpq",
+     "city": "boston",
+     "seat": "New York",
+     "date": "2026-11-06",
+     "soon": true
+    },
+    {
+     "id": "86e3a0k4d",
+     "name": "NYC In-Person Mastermind",
+     "due_ms": 1794553200000,
+     "status": "live",
+     "url": "https://app.clickup.com/t/86e3a0k4d",
+     "city": "nyc",
+     "seat": "New York",
+     "date": "2026-11-13",
+     "soon": false
+    }
+   ],
+   "pennant": true,
    "owner": {
     "name": null,
     "why": "Territory rep (not named in the renewal book)"
@@ -2094,13 +2312,13 @@
    "status": "amber",
    "checks": [
     {
-     "metricId": "r_nyc_last_rate",
+     "metricId": "r_newyork_last_rate",
      "ruleId": "renewal_rate_last",
      "status": "amber",
      "reason": "57.1% — green at 75%+, amber at 0%+ (amber)"
     },
     {
-     "metricId": "r_nyc_this_rate",
+     "metricId": "r_newyork_this_rate",
      "ruleId": "renewal_rate_region",
      "status": "grey",
      "reason": "Only 5 decided so far — too few to judge (needs 10)"
@@ -2108,62 +2326,73 @@
    ],
    "metrics": [
     {
-     "id": "r_nyc_last_rate",
+     "id": "r_newyork_last_rate",
      "label": "October renewal rate (final)",
      "value": 57.1,
      "unit": "%",
      "sourceId": "fcai_renewal_book_last",
      "source": "HQ dashboard · renewal book, last month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "October 2026 renewal book, Rep 4 — NYC / NE / DC",
+     "scope": "October 2026 renewal book, Rep 4 · New York",
      "complete": true,
      "sample": 7,
      "context": "4 renewed of 7 decided · target 75%"
     },
     {
-     "id": "r_nyc_this_rate",
+     "id": "r_newyork_this_rate",
      "label": "November so far",
      "value": 0,
      "unit": "%",
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 4 — NYC / NE / DC",
+     "scope": "November 2026 renewal book, Rep 4 · New York",
      "complete": true,
      "sample": 5,
      "context": "0 renewed of 5 decided · 14 still open"
     },
     {
-     "id": "r_nyc_this_open",
+     "id": "r_newyork_this_open",
      "label": "Still open this month",
      "value": 14,
      "unit": "members",
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 4 — NYC / NE / DC",
+     "scope": "November 2026 renewal book, Rep 4 · New York",
      "complete": true
     },
     {
-     "id": "r_nyc_this_lost",
+     "id": "r_newyork_this_lost",
      "label": "Not renewed this month",
      "value": 5,
      "unit": "members",
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 4 — NYC / NE / DC",
+     "scope": "November 2026 renewal book, Rep 4 · New York",
      "complete": true
     },
     {
-     "id": "r_nyc_active",
+     "id": "r_newyork_said_leaving",
+     "label": "Told their RD they’re leaving",
+     "value": 2,
+     "unit": "members",
+     "sourceId": "fcai_rd_book_risk",
+     "source": "FC AI · RD check-in risk",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "RD check-in calls since 2026-09-04, New York seat",
+     "complete": true
+    },
+    {
+     "id": "r_newyork_active",
      "label": "Active members",
      "value": 328,
      "unit": "members",
      "sourceId": "fcai_community_pulse",
      "source": "FC AI · community totals",
      "readAt": "2026-11-03T21:21:40Z",
-     "scope": "Paid-active today, Rep 4 — NYC / NE / DC",
+     "scope": "Paid-active today, Rep 4 · New York",
      "complete": true
     }
    ],
@@ -2172,7 +2401,7 @@
     "status": null
    },
    "key": {
-    "metricId": "r_nyc_this_rate",
+    "metricId": "r_newyork_this_rate",
     "caption": "renewed this month"
    },
    "volume": {
@@ -2183,11 +2412,37 @@
   },
   {
    "id": "r_westcoast",
-   "name": "West Coast",
+   "name": "West Coast (Rep 5)",
    "short": "West Coast",
    "kind": "region",
    "list": null,
-   "blurb": "Sales territory Rep 5 — West Coast: renewals against the 75% target.",
+   "rep": "Rep 5",
+   "blurb": "Rep 5 · West Coast: renewals against the 75% target.",
+   "events": [
+    {
+     "id": "86e39whgd",
+     "name": "Los Angeles In-Person Mastermind",
+     "due_ms": 1794553200000,
+     "status": "live",
+     "url": "https://app.clickup.com/t/86e39whgd",
+     "city": "los angeles",
+     "seat": "West Coast",
+     "date": "2026-11-13",
+     "soon": false
+    },
+    {
+     "id": "86e2vgxvz",
+     "name": "Orange County In-Person Mastermind",
+     "due_ms": 1794553200000,
+     "status": "live",
+     "url": "https://app.clickup.com/t/86e2vgxvz",
+     "city": "orange county",
+     "seat": "West Coast",
+     "date": "2026-11-13",
+     "soon": false
+    }
+   ],
+   "pennant": false,
    "owner": {
     "name": null,
     "why": "Territory rep (not named in the renewal book)"
@@ -2216,7 +2471,7 @@
      "sourceId": "fcai_renewal_book_last",
      "source": "HQ dashboard · renewal book, last month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "October 2026 renewal book, Rep 5 — West Coast",
+     "scope": "October 2026 renewal book, Rep 5 · West Coast",
      "complete": true,
      "sample": 15,
      "context": "5 renewed of 15 decided · target 75%"
@@ -2229,7 +2484,7 @@
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 5 — West Coast",
+     "scope": "November 2026 renewal book, Rep 5 · West Coast",
      "complete": true,
      "sample": 8,
      "context": "1 renewed of 8 decided · 19 still open"
@@ -2242,7 +2497,7 @@
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 5 — West Coast",
+     "scope": "November 2026 renewal book, Rep 5 · West Coast",
      "complete": true
     },
     {
@@ -2253,7 +2508,18 @@
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 5 — West Coast",
+     "scope": "November 2026 renewal book, Rep 5 · West Coast",
+     "complete": true
+    },
+    {
+     "id": "r_westcoast_said_leaving",
+     "label": "Told their RD they’re leaving",
+     "value": 6,
+     "unit": "members",
+     "sourceId": "fcai_rd_book_risk",
+     "source": "FC AI · RD check-in risk",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "RD check-in calls since 2026-09-04, West Coast seat",
      "complete": true
     },
     {
@@ -2264,7 +2530,7 @@
      "sourceId": "fcai_community_pulse",
      "source": "FC AI · community totals",
      "readAt": "2026-11-03T21:21:40Z",
-     "scope": "Paid-active today, Rep 5 — West Coast",
+     "scope": "Paid-active today, Rep 5 · West Coast",
      "complete": true
     }
    ],
@@ -2283,12 +2549,27 @@
    }
   },
   {
-   "id": "r_texas",
-   "name": "Texas / Mountain",
-   "short": "Texas/Mtn",
+   "id": "r_mountainwest",
+   "name": "Mountain West (Rep 6)",
+   "short": "Mountain West",
    "kind": "region",
    "list": null,
-   "blurb": "Sales territory Rep 6 — Texas / Mountain: renewals against the 75% target.",
+   "rep": "Rep 6",
+   "blurb": "Rep 6 · Mountain West: renewals against the 75% target.",
+   "events": [
+    {
+     "id": "86e2vgxqd",
+     "name": "Austin In-Person Mastermind",
+     "due_ms": 1793948400000,
+     "status": "live",
+     "url": "https://app.clickup.com/t/86e2vgxqd",
+     "city": "austin",
+     "seat": "Mountain West",
+     "date": "2026-11-06",
+     "soon": true
+    }
+   ],
+   "pennant": true,
    "owner": {
     "name": null,
     "why": "Territory rep (not named in the renewal book)"
@@ -2296,13 +2577,13 @@
    "status": "amber",
    "checks": [
     {
-     "metricId": "r_texas_last_rate",
+     "metricId": "r_mountainwest_last_rate",
      "ruleId": "renewal_rate_last",
      "status": "amber",
      "reason": "53.3% — green at 75%+, amber at 0%+ (amber)"
     },
     {
-     "metricId": "r_texas_this_rate",
+     "metricId": "r_mountainwest_this_rate",
      "ruleId": "renewal_rate_region",
      "status": "grey",
      "reason": "Only 3 decided so far — too few to judge (needs 10)"
@@ -2310,62 +2591,73 @@
    ],
    "metrics": [
     {
-     "id": "r_texas_last_rate",
+     "id": "r_mountainwest_last_rate",
      "label": "October renewal rate (final)",
      "value": 53.3,
      "unit": "%",
      "sourceId": "fcai_renewal_book_last",
      "source": "HQ dashboard · renewal book, last month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "October 2026 renewal book, Rep 6 — Texas / Mountain",
+     "scope": "October 2026 renewal book, Rep 6 · Mountain West",
      "complete": true,
      "sample": 15,
      "context": "8 renewed of 15 decided · target 75%"
     },
     {
-     "id": "r_texas_this_rate",
+     "id": "r_mountainwest_this_rate",
      "label": "November so far",
      "value": 0,
      "unit": "%",
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 6 — Texas / Mountain",
+     "scope": "November 2026 renewal book, Rep 6 · Mountain West",
      "complete": true,
      "sample": 3,
      "context": "0 renewed of 3 decided · 16 still open"
     },
     {
-     "id": "r_texas_this_open",
+     "id": "r_mountainwest_this_open",
      "label": "Still open this month",
      "value": 16,
      "unit": "members",
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 6 — Texas / Mountain",
+     "scope": "November 2026 renewal book, Rep 6 · Mountain West",
      "complete": true
     },
     {
-     "id": "r_texas_this_lost",
+     "id": "r_mountainwest_this_lost",
      "label": "Not renewed this month",
      "value": 3,
      "unit": "members",
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 6 — Texas / Mountain",
+     "scope": "November 2026 renewal book, Rep 6 · Mountain West",
      "complete": true
     },
     {
-     "id": "r_texas_active",
+     "id": "r_mountainwest_said_leaving",
+     "label": "Told their RD they’re leaving",
+     "value": 3,
+     "unit": "members",
+     "sourceId": "fcai_rd_book_risk",
+     "source": "FC AI · RD check-in risk",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "RD check-in calls since 2026-09-04, Mountain West seat",
+     "complete": true
+    },
+    {
+     "id": "r_mountainwest_active",
      "label": "Active members",
      "value": 293,
      "unit": "members",
      "sourceId": "fcai_community_pulse",
      "source": "FC AI · community totals",
      "readAt": "2026-11-03T21:21:40Z",
-     "scope": "Paid-active today, Rep 6 — Texas / Mountain",
+     "scope": "Paid-active today, Rep 6 · Mountain West",
      "complete": true
     }
    ],
@@ -2374,7 +2666,7 @@
     "status": null
    },
    "key": {
-    "metricId": "r_texas_last_rate",
+    "metricId": "r_mountainwest_last_rate",
     "caption": "renewed last month"
    },
    "volume": {
@@ -2384,12 +2676,27 @@
    }
   },
   {
-   "id": "r_atlanta",
-   "name": "Atlanta",
-   "short": "Atlanta",
+   "id": "r_southeast",
+   "name": "South East (Rep 7)",
+   "short": "South East",
    "kind": "region",
    "list": null,
-   "blurb": "Sales territory Rep 7 — Atlanta: renewals against the 75% target.",
+   "rep": "Rep 7",
+   "blurb": "Rep 7 · South East: renewals against the 75% target.",
+   "events": [
+    {
+     "id": "86e3a0dja",
+     "name": "Tampa In-Person Mastermind",
+     "due_ms": 1793948400000,
+     "status": "live",
+     "url": "https://app.clickup.com/t/86e3a0dja",
+     "city": "tampa",
+     "seat": "South East",
+     "date": "2026-11-06",
+     "soon": true
+    }
+   ],
+   "pennant": true,
    "owner": {
     "name": null,
     "why": "Territory rep (not named in the renewal book)"
@@ -2397,13 +2704,13 @@
    "status": "amber",
    "checks": [
     {
-     "metricId": "r_atlanta_last_rate",
+     "metricId": "r_southeast_last_rate",
      "ruleId": "renewal_rate_last",
      "status": "amber",
      "reason": "29.4% — green at 75%+, amber at 0%+ (amber)"
     },
     {
-     "metricId": "r_atlanta_this_rate",
+     "metricId": "r_southeast_this_rate",
      "ruleId": "renewal_rate_region",
      "status": "grey",
      "reason": "Only 1 decided so far — too few to judge (needs 10)"
@@ -2411,62 +2718,73 @@
    ],
    "metrics": [
     {
-     "id": "r_atlanta_last_rate",
+     "id": "r_southeast_last_rate",
      "label": "October renewal rate (final)",
      "value": 29.4,
      "unit": "%",
      "sourceId": "fcai_renewal_book_last",
      "source": "HQ dashboard · renewal book, last month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "October 2026 renewal book, Rep 7 — Atlanta",
+     "scope": "October 2026 renewal book, Rep 7 · South East",
      "complete": true,
      "sample": 17,
      "context": "5 renewed of 17 decided · target 75%"
     },
     {
-     "id": "r_atlanta_this_rate",
+     "id": "r_southeast_this_rate",
      "label": "November so far",
      "value": 100,
      "unit": "%",
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 7 — Atlanta",
+     "scope": "November 2026 renewal book, Rep 7 · South East",
      "complete": true,
      "sample": 1,
      "context": "1 renewed of 1 decided · 6 still open"
     },
     {
-     "id": "r_atlanta_this_open",
+     "id": "r_southeast_this_open",
      "label": "Still open this month",
      "value": 6,
      "unit": "members",
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 7 — Atlanta",
+     "scope": "November 2026 renewal book, Rep 7 · South East",
      "complete": true
     },
     {
-     "id": "r_atlanta_this_lost",
+     "id": "r_southeast_this_lost",
      "label": "Not renewed this month",
      "value": 0,
      "unit": "members",
      "sourceId": "fcai_renewal_book_this",
      "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
      "readAt": "2026-11-03T21:52:00Z",
-     "scope": "November 2026 renewal book, Rep 7 — Atlanta",
+     "scope": "November 2026 renewal book, Rep 7 · South East",
      "complete": true
     },
     {
-     "id": "r_atlanta_active",
+     "id": "r_southeast_said_leaving",
+     "label": "Told their RD they’re leaving",
+     "value": 4,
+     "unit": "members",
+     "sourceId": "fcai_rd_book_risk",
+     "source": "FC AI · RD check-in risk",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "RD check-in calls since 2026-09-04, South East seat",
+     "complete": true
+    },
+    {
+     "id": "r_southeast_active",
      "label": "Active members",
      "value": 211,
      "unit": "members",
      "sourceId": "fcai_community_pulse",
      "source": "FC AI · community totals",
      "readAt": "2026-11-03T21:21:40Z",
-     "scope": "Paid-active today, Rep 7 — Atlanta",
+     "scope": "Paid-active today, Rep 7 · South East",
      "complete": true
     }
    ],
@@ -2475,11 +2793,127 @@
     "status": null
    },
    "key": {
-    "metricId": "r_atlanta_last_rate",
+    "metricId": "r_southeast_last_rate",
     "caption": "renewed last month"
    },
    "volume": {
     "value": 211,
+    "cap": 400,
+    "unit": "active members"
+   }
+  },
+  {
+   "id": "r_unassigned",
+   "name": "Unassigned",
+   "short": "Unassigned",
+   "kind": "region",
+   "list": null,
+   "rep": "",
+   "blurb": "Members with no rep assigned yet.",
+   "events": [],
+   "pennant": false,
+   "owner": {
+    "name": null,
+    "why": "Territory rep (not named in the renewal book)"
+   },
+   "status": "grey",
+   "checks": [
+    {
+     "metricId": "r_unassigned_last_rate",
+     "ruleId": "renewal_rate_last",
+     "status": "grey",
+     "reason": "Only 2 decided so far — too few to judge (needs 5)"
+    },
+    {
+     "metricId": "r_unassigned_this_rate",
+     "ruleId": "renewal_rate_region",
+     "status": "grey",
+     "reason": "Only 1 decided so far — too few to judge (needs 10)"
+    }
+   ],
+   "metrics": [
+    {
+     "id": "r_unassigned_last_rate",
+     "label": "October renewal rate (final)",
+     "value": 0,
+     "unit": "%",
+     "sourceId": "fcai_renewal_book_last",
+     "source": "HQ dashboard · renewal book, last month by region (via FC AI)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "October 2026 renewal book, Unassigned",
+     "complete": true,
+     "sample": 2,
+     "context": "0 renewed of 2 decided · target 75%"
+    },
+    {
+     "id": "r_unassigned_this_rate",
+     "label": "November so far",
+     "value": 0,
+     "unit": "%",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Unassigned",
+     "complete": true,
+     "sample": 1,
+     "context": "0 renewed of 1 decided · 8 still open"
+    },
+    {
+     "id": "r_unassigned_this_open",
+     "label": "Still open this month",
+     "value": 8,
+     "unit": "members",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Unassigned",
+     "complete": true
+    },
+    {
+     "id": "r_unassigned_this_lost",
+     "label": "Not renewed this month",
+     "value": 1,
+     "unit": "members",
+     "sourceId": "fcai_renewal_book_this",
+     "source": "HQ dashboard · renewal book, this month by region (via FC AI)",
+     "readAt": "2026-11-03T21:52:00Z",
+     "scope": "November 2026 renewal book, Unassigned",
+     "complete": true
+    },
+    {
+     "id": "r_unassigned_said_leaving",
+     "label": "Told their RD they’re leaving",
+     "value": null,
+     "unit": "members",
+     "sourceId": "fcai_rd_book_risk",
+     "source": "FC AI · RD check-in risk",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "",
+     "complete": true,
+     "missingReason": "No RD seat for unassigned members"
+    },
+    {
+     "id": "r_unassigned_active",
+     "label": "Active members",
+     "value": 37,
+     "unit": "members",
+     "sourceId": "fcai_community_pulse",
+     "source": "FC AI · community totals",
+     "readAt": "2026-11-03T21:21:40Z",
+     "scope": "Paid-active today, Unassigned",
+     "complete": true
+    }
+   ],
+   "flags": {
+    "count": 0,
+    "status": null
+   },
+   "key": {
+    "metricId": "r_unassigned_active",
+    "caption": "members with no rep"
+   },
+   "volume": {
+    "value": 37,
     "cap": 400,
     "unit": "active members"
    }
@@ -2613,15 +3047,15 @@
   },
   {
    "id": "regions_missed_last_month",
-   "buildingId": "r_southeast",
+   "buildingId": "r_southflorida",
    "status": "amber",
-   "title": "7 of 7 regions finished last month under the 75% renewal target",
-   "detail": "Southeast 66.7% · Canada 45.5% · Chicago/Intl 50% · NYC/NE/DC 57.1% · West Coast 33.3% · Texas/Mtn 53.3% · Atlanta 29.4%",
+   "title": "7 of 8 regions finished last month under the 75% renewal target",
+   "detail": "South Florida 66.7% · Toronto 45.5% · Midwest & MidAtl 50% · New York 57.1% · West Coast 33.3% · Mountain West 53.3% · South East 29.4%",
    "costUsd": null,
    "costLabel": "46.3% club-wide last month",
    "nextStep": "Each territory rep works this month’s open renewals, furthest-behind regions first.",
    "owner": "Territory reps; Chauncey Amaechi for the club",
-   "metricId": "r_southeast_last_rate"
+   "metricId": "r_southflorida_last_rate"
   }
  ],
  "sources": [
@@ -2759,6 +3193,24 @@
    "ok": true,
    "error": null,
    "note": "welcome-channel read stopped at its first page (the connector returned the same page again for the next cursor), so new-member intros are 'at least 32'"
+  },
+  {
+   "id": "fcai_mastermind_groups",
+   "name": "FC AI · mastermind groups",
+   "freshnessHours": 24,
+   "readAt": "2026-11-03T22:40:00Z",
+   "ok": true,
+   "error": null,
+   "note": null
+  },
+  {
+   "id": "clickup_events",
+   "name": "ClickUp · events table (Master Table)",
+   "freshnessHours": 24,
+   "readAt": "2026-11-03T22:40:00Z",
+   "ok": true,
+   "error": null,
+   "note": "events = tasks with status 'live' in the Master Table; one non-event task ('Venue location due') was left out. Annual Events Calendar had nothing due in November."
   },
   {
    "id": "fcai_renewal_book_this",
@@ -3530,8 +3982,8 @@
   },
   "regions": [
    {
-    "id": "r_southeast",
-    "region": "Southeast",
+    "id": "r_southflorida",
+    "region": "South Florida (Rep 1)",
     "last_renewed": 12,
     "last_decided": 18,
     "last_rate": 66.7,
@@ -3542,8 +3994,8 @@
     "status": "amber"
    },
    {
-    "id": "r_canada",
-    "region": "Canada",
+    "id": "r_toronto",
+    "region": "Toronto (Rep 2)",
     "last_renewed": 10,
     "last_decided": 22,
     "last_rate": 45.5,
@@ -3554,8 +4006,8 @@
     "status": "amber"
    },
    {
-    "id": "r_chicago",
-    "region": "Chicago/Intl",
+    "id": "r_midwest",
+    "region": "Midwest & MidAtlantic (Rep 3)",
     "last_renewed": 6,
     "last_decided": 12,
     "last_rate": 50,
@@ -3566,8 +4018,8 @@
     "status": "amber"
    },
    {
-    "id": "r_nyc",
-    "region": "NYC/NE/DC",
+    "id": "r_newyork",
+    "region": "New York (Rep 4)",
     "last_renewed": 4,
     "last_decided": 7,
     "last_rate": 57.1,
@@ -3579,7 +4031,7 @@
    },
    {
     "id": "r_westcoast",
-    "region": "West Coast",
+    "region": "West Coast (Rep 5)",
     "last_renewed": 5,
     "last_decided": 15,
     "last_rate": 33.3,
@@ -3590,8 +4042,8 @@
     "status": "amber"
    },
    {
-    "id": "r_texas",
-    "region": "Texas/Mtn",
+    "id": "r_mountainwest",
+    "region": "Mountain West (Rep 6)",
     "last_renewed": 8,
     "last_decided": 15,
     "last_rate": 53.3,
@@ -3602,8 +4054,8 @@
     "status": "amber"
    },
    {
-    "id": "r_atlanta",
-    "region": "Atlanta",
+    "id": "r_southeast",
+    "region": "South East (Rep 7)",
     "last_renewed": 5,
     "last_decided": 17,
     "last_rate": 29.4,
@@ -3612,6 +4064,110 @@
     "this_open": 6,
     "this_rate": 100,
     "status": "amber"
+   },
+   {
+    "id": "r_unassigned",
+    "region": "Unassigned",
+    "last_renewed": 0,
+    "last_decided": 2,
+    "last_rate": 0,
+    "this_renewed": 0,
+    "this_decided": 1,
+    "this_open": 8,
+    "this_rate": 0,
+    "status": "grey"
+   }
+  ],
+  "masterminds": {
+   "programs": [
+    {
+     "program": "In person",
+     "groups": 102,
+     "seats": 696
+    },
+    {
+     "program": "Virtual · 3rd Thursday",
+     "groups": 42,
+     "seats": 330
+    },
+    {
+     "program": "Virtual · 2nd Tuesday",
+     "groups": 36,
+     "seats": 281
+    },
+    {
+     "program": "Evening",
+     "groups": 16,
+     "seats": 131
+    }
+   ]
+  },
+  "upcoming": [
+   {
+    "name": "Boston In-Person Mastermind",
+    "date": "2026-11-06",
+    "seat": "New York",
+    "soon": true
+   },
+   {
+    "name": "Tampa In-Person Mastermind",
+    "date": "2026-11-06",
+    "seat": "South East",
+    "soon": true
+   },
+   {
+    "name": "Austin In-Person Mastermind",
+    "date": "2026-11-06",
+    "seat": "Mountain West",
+    "soon": true
+   },
+   {
+    "name": "Miami In-Person Mastermind",
+    "date": "2026-11-13",
+    "seat": "South Florida",
+    "soon": false
+   },
+   {
+    "name": "NYC In-Person Mastermind",
+    "date": "2026-11-13",
+    "seat": "New York",
+    "soon": false
+   },
+   {
+    "name": "Chicago In-Person Mastermind",
+    "date": "2026-11-13",
+    "seat": "MidWest & MidAtlantic",
+    "soon": false
+   },
+   {
+    "name": "Toronto In-Person Mastermind",
+    "date": "2026-11-13",
+    "seat": "Toronto",
+    "soon": false
+   },
+   {
+    "name": "Boca Raton In-Person Mastermind",
+    "date": "2026-11-13",
+    "seat": "South Florida",
+    "soon": false
+   },
+   {
+    "name": "Vancouver In-Person Mastermind",
+    "date": "2026-11-13",
+    "seat": "Toronto",
+    "soon": false
+   },
+   {
+    "name": "Los Angeles In-Person Mastermind",
+    "date": "2026-11-13",
+    "seat": "West Coast",
+    "soon": false
+   },
+   {
+    "name": "Orange County In-Person Mastermind",
+    "date": "2026-11-13",
+    "seat": "West Coast",
+    "soon": false
    }
   ]
  }
