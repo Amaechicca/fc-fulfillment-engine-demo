@@ -12,9 +12,13 @@ const race = renewalRace(d.renewal);
 if (!race) { console.log('No renewal data in the data file.'); process.exit(0); }
 const pct = (v) => (v === null ? 'no decided renewals yet' : `${v}%`);
 const date = (iso) => (iso ? `${new Date(iso).toISOString().replace('T', ' ').slice(0, 16)} UTC` : 'no date');
-const row = (title, p) => [
+// A current period marked earlySample:true never gets an "Above the goal" verdict here: the rate is
+// printed unchanged, but the verdict line is neutral until the period has more than an early sample.
+const EARLY_NEUTRAL = 'Early sample - not a verdict on the 75% goal';
+const verdictText = (p, isCurrent) => (isCurrent && p.earlySample && p.verdict.state === 'above' ? EARLY_NEUTRAL : p.verdict.text);
+const row = (title, p, isCurrent = false) => [
   `${title}: ${pct(p.rate)}  (${p.renewed} of ${p.decided} decided · ${p.label}${p.earlySample ? ' · tiny early sample' : ''})`,
-  `  Verdict: ${p.verdict.text}`,
+  `  Verdict: ${verdictText(p, isCurrent)}`,
   `  ${p.churned} churned${p.open !== undefined ? `, ${p.open} still open` : ''}`,
   `  Source: ${p.source} · as of ${date(p.asOf)}`,
 ];
@@ -25,7 +29,7 @@ const out = [
   '',
   `Goal: above ${race.target}% renewal rate (exactly ${race.target}% is not above).`,
   '',
-  ...row('Current period (decided rate)', c),
+  ...row('Current period (decided rate)', c, true),
   c.needToFinish === null ? '' : c.reachable
     ? `  To finish the period above ${race.target}%: renew ${c.needToFinish} of the ${c.open} still open.`
     : `  Even renewing all ${c.open} still open would not finish the period above ${race.target}%.`,
